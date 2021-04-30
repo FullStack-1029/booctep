@@ -1,0 +1,153 @@
+{% load static %}
+{% load i18n   %}
+<!-- Start Carousel -->
+
+
+
+
+
+    {% if stu_courses %}
+<div class="top">
+    <div class="container">
+        <h2 style="margin-bottom: 10px">{% trans 'Welcome Back' %},&nbsp;<span style="font-weight: bold;">{{user.first_name}}&nbsp;{{user.last_name}}</span> continue learning</h2>
+<!--        {% if user.group_id == 3 %}-->
+<!--        <a href="/{{lang}}teacher/courses" style="color:rgb(217, 251, 255) ">{% trans 'Move to My courses' %}</a>-->
+<!--        {% else %}-->
+<!--        <a href="/{{lang}}courses" style="color:rgb(217, 251, 255) ">{% trans 'Move to My courses' %}</a>-->
+<!--        {% endif %}-->
+        <a href="/{{lang}}courses" style="color:rgb(217, 251, 255);">{% trans 'Move to My courses' %}</a>
+
+        <div id="slider" class="slider" style="margin-top:15px">
+            <div class="wrapper-1">
+              <div id="slides" class="slides">
+
+{#{% for course in stu_courses %}#}
+{#                      <span class="slide">#}
+{#                    <img src="{%static 'assets/img/become.jpg' %}"  alt="">#}
+{##}
+{#                    <div class="schedule-header">#}
+{##}
+{#                        <video height="200" poster="{% static 'assets/img/setting.jpg' %}" id="player" playsinline controls style="width: 100%;">#}
+{#                            <source src="{% static 'assets/img/vid/html.mp4' %}" type="video/webm" />#}
+{#                            <source src="/static{{latest_video_url}}" type="video/webm" />#}
+{##}
+{#                            <!-- Captions are optional -->#}
+{#                            <track kind="captions" label="English captions" src="/path/to/captions.vtt" srclang="en" default />#}
+{#                        </video>#}
+{#                    </div>#}
+{##}
+{#                    <div class="slide-footer">#}
+{#                        <span class="survey-progress">#}
+{#                            <span class="survey-progress-bg">#}
+{#                              <span class="survey-progress-fg" style="width: 88%;"></span>#}
+{#                            </span>#}
+{##}
+{#                            <span class="survey-progress-labels">#}
+{#                              <span class="survey-progress-label">#}
+{#                                {% trans '88%' %}#}
+{#                              </span>#}
+{##}
+{#                              <span class="survey-completes">#}
+{#                                {% trans '490 / 500' %}#}
+{#                              </span>#}
+{#                            </span>#}
+{#                            <a href="video.0/dist/playground.html" class="">{% trans 'Continue' %} <i class="fa fa-arrow-right"></i></a>#}
+{#                          </span>#}
+{#                    </div>#}
+{#                </span>#}
+{#                  {% endfor %}#}
+
+                  {% for course in stu_courses %}
+                <span class="slide">
+                    <img src="{%static 'assets/img/watch.svg' %}" alt="">
+                    <div class="slide-footer">
+                        <span class="survey-progress">
+                            <span class="survey-progress-labels">
+                              <span class="survey-completes">
+{#                                {% trans '490 / 500' %}#}
+                                {{ '1' }} / {{ course.videoCnt }}
+                              </span>
+                            </span>
+                            <a href="/video/playground/{{ course.course_id_id }}" class="">{% trans 'Continue' %} <i class="fa fa-arrow-right"></i></a>
+                          </span>
+
+                    </div>
+                </span>
+                  {% endfor %}
+{#                <span class="slide">#}
+{#                    <img src="{%static 'assets/img/watch.svg' %}" alt="">#}
+{##}
+{#                    <div class="slide-footer">#}
+{#                        <span class="survey-progress">#}
+{#                            <span class="survey-progress-bg">#}
+{#                              <span class="survey-progress-fg" style="width: 88%;"></span>#}
+{#                            </span>#}
+{##}
+{#                            <span class="survey-progress-labels">#}
+{#                              <span class="survey-progress-label">#}
+{#                                {% trans '88%' %}#}
+{#                              </span>#}
+{##}
+{#                              <span class="survey-completes">#}
+{#                                {% trans '490 / 500' %}#}
+{#                              </span>#}
+{##}
+{##}
+{#                            </span>#}
+{#                            <a href="#" class="">{% trans 'Continue' %} <i class="fa fa-arrow-right"></i></a>#}
+{#                          </span>#}
+{##}
+{#                    </div>#}
+{#                </span>#}
+{#                <span class="slide">#}
+{#                    <img src="{%static 'assets/img/watch.svg' %}" alt="">#}
+{##}
+{#                    <div class="slide-footer">#}
+{#                        <span class="survey-progress">#}
+{#                            <span class="survey-progress-bg">#}
+{#                              <span class="survey-progress-fg" style="width: 88%;"></span>#}
+{#                            </span>#}
+{##}
+{#                            <span class="survey-progress-labels">#}
+{#                              <span class="survey-progress-label">#}
+{#                                {% trans '88%' %}#}
+{#                              </span>#}
+{##}
+{#                              <span class="survey-completes">#}
+{#                                {% trans '490 / 500' %}#}
+{#                              </span>#}
+{##}
+{#                            </span>#}
+{#                            <a href="#" class="">{% trans 'Continue' %} <i class="fa fa-arrow-right"></i></a>#}
+{#                          </span>#}
+{##}
+{#                    </div>#}
+{#                </span>#}
+
+
+              </div>
+            </div>
+            <a id="prev" class="control-1 prev"></a>
+            <a id="next" class="control-1 next"></a>
+          </div>
+
+
+{% else %}
+<div class="top" style="height:40%">
+    <div class="container">
+        <h2 style="margin-bottom: 10px">{% trans 'Welcome' %},&nbsp;<span style="font-weight: bold;">{{user.first_name}}&nbsp;{{user.last_name}}</span> Ready to learn?</h2>
+<!--        {% if user.group_id == 3 %}-->
+<!--        <a href="/{{lang}}teacher/courses" style="color:rgb(217, 251, 255) ">{% trans 'Move to My courses' %}</a>-->
+<!--        {% else %}-->
+<!--        <a href="/{{lang}}courses" style="color:rgb(217, 251, 255) ">{% trans 'Move to My courses' %}</a>-->
+<!--        {% endif %}-->
+
+
+<!-- End Carousel -->
+
+        {% endif %}
+
+
+
+    </div>
+</div>

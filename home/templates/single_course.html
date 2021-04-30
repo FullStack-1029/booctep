@@ -1,0 +1,2552 @@
+
+{% extends "base.html" %} {% load static %} {% load i18n %}  {% load home_extras %} {% block head %}
+
+<meta property="og:url"                content="https://pencilerkali.com/" />
+<meta property="og:type"               content="article" />
+<meta property="og:title"              content="{{course.name}}" />
+<meta property="og:description"        content="{{course.description}}" />
+<meta property="og:image"              content="/static{{ course.header_img }}" />
+
+
+<meta name="twitter:title" content="{{course.name}}">
+<meta name="twitter:description" content="{{course.description}}">
+<meta name="twitter:image" content="/static{{ course.header_img }}">
+<meta name="twitter:card" content="summary_large_image">
+
+
+<style>
+    .schedule video {
+        width: 100% !important;
+    }
+
+    .plyr--video {
+        width: 100%;
+    }
+
+.modal-open {
+ overflow: hidden;
+}
+
+
+.ellipsisco {
+
+    max-height: 3em;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    position:relative;
+}
+.ellipsisco::after {
+
+    content:'...';
+    position:absolute;
+    bottom:0;
+    right:0;
+    /*box-shadow:0 0 5px red*/
+}
+
+
+
+.modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: @zindex-modal;
+    display: none;
+    overflow: hidden;
+    -webkit-overflow-scrolling: touch;
+
+    outline: 0;
+
+ &.fade .modal-dialog {
+   .translate(0, -25%);
+   .transition-transform(~"0.3s ease-out");
+ }
+ &.in .modal-dialog { .translate(0, 0); }
+}
+.modal-open .modal {
+ overflow-x: hidden;
+ overflow-y: auto;
+}
+
+
+.modal-dialog {
+ position: relative;
+ width: auto;
+ margin: 10px;
+}
+
+
+.modal-content {
+ position: relative;
+ background-color: @modal-content-bg;
+ background-clip: padding-box;
+ border: 1px solid @modal-content-fallback-border-color; //old browsers fallback (ie8 etc)
+ border: 1px solid @modal-content-border-color;
+ border-radius: @border-radius-large;
+ .box-shadow(0 3px 9px rgba(0, 0, 0, .5));
+ outline: 0;
+}
+.modal-backdrop {
+ position: fixed;
+ top: 0;
+ right: 0;
+ bottom: 0;
+ left: 0;
+ z-index: @zindex-modal-background;
+ background-color: @modal-backdrop-bg;
+
+ &.fade { .opacity(0); }
+ &.in { .opacity(@modal-backdrop-opacity); }
+}
+
+
+.modal-header {
+ padding: @modal-title-padding;
+ border-bottom: 1px solid @modal-header-border-color;
+ &:extend(.clearfix all);
+}
+
+.modal-header .close {
+ margin-top: -2px;
+}
+
+
+.modal-title {
+ margin: 0;
+ line-height: @modal-title-line-height;
+}
+
+.modal-body {
+ position: relative;
+ padding: @modal-inner-padding;
+}
+
+.modal-footer {
+ padding: @modal-inner-padding;
+ text-align: right;
+ border-top: 1px solid @modal-footer-border-color;
+ &:extend(.clearfix all);
+
+
+ .btn + .btn {
+   margin-bottom: 0;
+   margin-left: 5px;
+ }
+
+ .btn-group .btn + .btn {
+   margin-left: -1px;
+ }
+
+ .btn-block + .btn-block {
+   margin-left: 0;
+ }
+}
+
+
+.modal-scrollbar-measure {
+ position: absolute;
+ top: -9999px;
+ width: 50px;
+ height: 50px;
+ overflow: scroll;
+}
+
+.sharecourseimage{
+
+  width: 100%;
+  height: 100%;
+}
+
+@media (min-width: @screen-sm-min) {
+
+ .modal-dialog {
+   width: @modal-md;
+   margin: 30px auto;
+ }
+ .modal-content {
+   .box-shadow(0 5px 15px rgba(0, 0, 0, .5));
+ }
+
+
+ .modal-sm { width: @modal-sm; }
+}
+
+@media (min-width: @screen-md-min) {
+ .modal-lg { width: @modal-lg; }
+}
+
+textarea {
+    text-align: left;
+}
+
+</style>
+
+
+
+
+<style>
+    .loading::after {
+        display: block;
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        transform: translateX(-100%);
+        background: -webkit-gradient(linear, left top, right top, from(transparent), color-stop(rgba(255, 255, 255, 0.2)), to(transparent));
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        /* Adding animation */
+        animation: loading 1s infinite;
+    }
+    /* Loading Animation */
+
+    @keyframes loading {
+        100% {
+            transform: translateX(100%);
+        }
+    }
+
+
+
+    .dancin-bc{
+    background: white !important;
+    height: 100%;
+    width: 100%;
+
+    }
+    .dancing-lao {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+.dancing-lao:after {
+  display: block;
+  width: 150px;
+  height: 2px;
+  margin-top: 10px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  background: rgb(43, 148, 209);
+  content: "";
+  -webkit-animation: 1s border infinite;
+          animation: 1s border infinite;
+  -webkit-animation-timing-function: cubic-bezier(0.92, 0.18, 0.04, 0.92);
+          animation-timing-function: cubic-bezier(0.92, 0.18, 0.04, 0.92);
+}
+.dancing-lao .left-dots {
+  position: absolute;
+  bottom: 20%;
+  left: 20%;
+}
+.dancing-lao .right-dots {
+  position: absolute;
+  bottom: 20%;
+  right: 20%;
+  -webkit-transform: scale(-1, 1);
+          transform: scale(-1, 1);
+}
+.dancing-lao .dot {
+  display: inline-block;
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgb(43, 148, 209);
+  opacity: 0;
+}
+.dancing-lao .dot-1 {
+  -webkit-animation: 1s dot infinite;
+          animation: 1s dot infinite;
+  -webkit-animation-delay: .5s;
+          animation-delay: .5s;
+}
+.dancing-lao .dot-2 {
+  -webkit-animation: 1s dot-2 infinite;
+          animation: 1s dot-2 infinite;
+  -webkit-animation-delay: .5s;
+          animation-delay: .5s;
+}
+.dancing-lao .circle-dot {
+  display: inline-block;
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 2px solid rgb(43, 148, 209);
+  -webkit-animation: 1s cirle-dot infinite;
+          animation: 1s cirle-dot infinite;
+  -webkit-animation-delay: .5s;
+          animation-delay: .5s;
+  opacity: 0;
+}
+.dancing-lao img {
+  display: block;
+  margin: auto;
+  width: 90px;
+  height: 80px;
+  margin-bottom: 20px;
+  -webkit-animation: 1s dance infinite;
+          animation: 1s dance infinite;
+  -webkit-animation-timing-function: cubic-bezier(0.92, 0.18, 0.04, 0.92);
+          animation-timing-function: cubic-bezier(0.92, 0.18, 0.04, 0.92);
+  -webkit-animation-direction: alternate;
+          animation-direction: alternate;
+}
+
+@-webkit-keyframes dance {
+  0% {
+    -webkit-transform: translate3d(-10px, -100px, 0) rotate(-15deg) scaleY(1.1);
+            transform: translate3d(-10px, -100px, 0) rotate(-15deg) scaleY(1.1);
+  }
+  50% {
+    -webkit-transform: translate3d(0, 8px, 0) scaleY(0.85);
+            transform: translate3d(0, 8px, 0) scaleY(0.85);
+  }
+  100% {
+    -webkit-transform: translate3d(10px, -100px, 0) rotate(15deg) scaleY(1.1);
+            transform: translate3d(10px, -100px, 0) rotate(15deg) scaleY(1.1);
+  }
+}
+
+@keyframes dance {
+  0% {
+    -webkit-transform: translate3d(-10px, -100px, 0) rotate(-15deg) scaleY(1.1);
+            transform: translate3d(-10px, -100px, 0) rotate(-15deg) scaleY(1.1);
+  }
+  50% {
+    -webkit-transform: translate3d(0, 8px, 0) scaleY(0.85);
+            transform: translate3d(0, 8px, 0) scaleY(0.85);
+  }
+  100% {
+    -webkit-transform: translate3d(10px, -100px, 0) rotate(15deg) scaleY(1.1);
+            transform: translate3d(10px, -100px, 0) rotate(15deg) scaleY(1.1);
+  }
+}
+@-webkit-keyframes border {
+  0% {
+    -webkit-transform: scaleX(1);
+            transform: scaleX(1);
+    opacity: 0.5;
+  }
+  50% {
+    -webkit-transform: scaleX(0.6);
+            transform: scaleX(0.6);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scaleX(1);
+            transform: scaleX(1);
+    opacity: 0.5;
+  }
+}
+@keyframes border {
+  0% {
+    -webkit-transform: scaleX(1);
+            transform: scaleX(1);
+    opacity: 0.5;
+  }
+  50% {
+    -webkit-transform: scaleX(0.6);
+            transform: scaleX(0.6);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scaleX(1);
+            transform: scaleX(1);
+    opacity: 0.5;
+  }
+}
+@-webkit-keyframes dot {
+  0% {
+    opacity: 0;
+  }
+  1% {
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+  }
+  50% {
+    -webkit-transform: scale(1) translate3d(-50px, -70px, 0);
+            transform: scale(1) translate3d(-50px, -70px, 0);
+    opacity: .8;
+  }
+  100% {
+    -webkit-transform: scale(1) translate3d(-50px, -70px, 0);
+            transform: scale(1) translate3d(-50px, -70px, 0);
+    opacity: 0;
+  }
+}
+@keyframes dot {
+  0% {
+    opacity: 0;
+  }
+  1% {
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+  }
+  50% {
+    -webkit-transform: scale(1) translate3d(-50px, -70px, 0);
+            transform: scale(1) translate3d(-50px, -70px, 0);
+    opacity: .8;
+  }
+  100% {
+    -webkit-transform: scale(1) translate3d(-50px, -70px, 0);
+            transform: scale(1) translate3d(-50px, -70px, 0);
+    opacity: 0;
+  }
+}
+@-webkit-keyframes dot-2 {
+  0% {
+    opacity: 0;
+  }
+  1% {
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+  }
+  70% {
+    -webkit-transform: scale(0.7) translate3d(-50px, -50px, 0);
+            transform: scale(0.7) translate3d(-50px, -50px, 0);
+    opacity: .8;
+  }
+  100% {
+    -webkit-transform: scale(0.7) translate3d(-50px, -50px, 0);
+            transform: scale(0.7) translate3d(-50px, -50px, 0);
+    opacity: 0;
+  }
+}
+@keyframes dot-2 {
+  0% {
+    opacity: 0;
+  }
+  1% {
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+  }
+  70% {
+    -webkit-transform: scale(0.7) translate3d(-50px, -50px, 0);
+            transform: scale(0.7) translate3d(-50px, -50px, 0);
+    opacity: .8;
+  }
+  100% {
+    -webkit-transform: scale(0.7) translate3d(-50px, -50px, 0);
+            transform: scale(0.7) translate3d(-50px, -50px, 0);
+    opacity: 0;
+  }
+}
+@-webkit-keyframes cirle-dot {
+  0% {
+    opacity: 0;
+  }
+  1% {
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+  }
+  80% {
+    -webkit-transform: scale(1) translate3d(-80px, -40px, 0);
+            transform: scale(1) translate3d(-80px, -40px, 0);
+    opacity: .8;
+  }
+  100% {
+    -webkit-transform: scale(1) translate3d(-80px, -40px, 0);
+            transform: scale(1) translate3d(-80px, -40px, 0);
+    opacity: 0;
+  }
+}
+@keyframes cirle-dot {
+  0% {
+    opacity: 0;
+  }
+  1% {
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+  }
+  80% {
+    -webkit-transform: scale(1) translate3d(-80px, -40px, 0);
+            transform: scale(1) translate3d(-80px, -40px, 0);
+    opacity: .8;
+  }
+  100% {
+    -webkit-transform: scale(1) translate3d(-80px, -40px, 0);
+            transform: scale(1) translate3d(-80px, -40px, 0);
+    opacity: 0;
+  }
+}
+
+</style>
+
+
+
+
+{% endblock %} {% block content %}
+
+
+
+
+<div id="fb-root"></div>
+<!-- <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v9.0" nonce="Hu8bQAnm"></script> -->
+
+<script>(function(d, s, id) {
+var js, fjs = d.getElementsByTagName(s)[0];
+if (d.getElementById(id)) return;
+js = d.createElement(s); js.id = id;
+js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script src="https://platform.linkedin.com/in.js" type="text/javascript">lang: en_US</script>
+<script type="IN/Share" data-url="http://localhost:8000/en/single_course/49/"></script>
+
+
+<section class="hero is-small is-bold hero-single-course" style="background-image: linear-gradient(to bottom, rgba(245, 246, 252, 0.52), rgba(0, 120, 198, 0.93)), url('/static{{ course.header_img }}') !important;">
+    <input type="hidden" id="pageId" value="{{ id }}"/>
+    <input type="hidden" id="user_id" value="{{ user_id }}"/>
+    <div class="hero-body">
+        <div class="container">
+            <div class="content-hero-single-course">
+                <h1 style="margin-top: 0px;color: black;font-size: 31px;font-weight: 500;margin-bottom: 10px;">
+                    {{ course.name }}
+                </h1>
+                <p style="color: black;font-size: medium;margin-bottom: 20px;">{{ course.description }}</p>
+
+                <p style="color: white;font-size: medium;">
+                    <span class="fa fa-star" style="font-size: 25px;color: rgb(245, 200, 0);">
+                    </span> {{ course.rating }}
+                    <span class="fa fa-users" style="font-size: 25px;color: rgb(203, 233, 241);margin-left: 20px;">
+                    </span> {{ course.students }}
+                </p>
+                <div class="content-hero-single-course-left">
+                    {% if course.price > 0 %}
+                    <a onclick="addFav()" id="follow-pop" class="button pop-button has-tooltip" data-title="Relationship"><p style="color: rgb(82, 82, 82);">Add to Fav <i class="fa fa-heart"></i></p></a>
+
+
+                    {% endif %}
+                    <img src="/static{{ user_info.image }}" alt="">
+                    <h3 style="color: white;">{% trans 'Created by' %}: {{ user_info.first_name }} {{ user_info.last_name }}</h3>
+
+                </div>
+                <span class="tag is-danger" style="margin-top:10px;padding:15px;background: linear-gradient(90deg, rgba(47,66,228,1) 0%, rgba(47,164,224,1) 100%);border:1px solid #3546d2">Advanced</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Overview and course curriulum -->
+<div id="shop-page" class="shop-wrapper">
+
+            <div class="products-navigation" style="display: none;">
+    </div>
+
+    <div class="shop-header shop-header-is-dark ">
+        <div class="container ">
+
+            <div class="store-tabs ">
+                <a data-tab="products-tab " class="tab-control is-active ">Overview</a>
+                <a data-tab="brands-tab" class="tab-control">Curriculum</a>
+                <div class="store-naver "></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="store-sections ">
+        <div class="container">
+            <!--Products-->
+
+            <div id="products-tab" class="store-tab-pane is-active" >
+                <div class="container">
+                    <div class="shop-wrapper">
+                        <div class="cart-container">
+                            <div class="cart-content">
+                                <div class="columns  is-multiline">
+                                    <div class="column is-8 ">
+                                        <!-- html/partials/widgets/schedule/schedule-widget.html -->
+                                        <div class="schedule schedule-dark " style="margin-top: -3px; ">
+                                            <div class="schedule-day-container hidden ">
+                                                <div class="day-header day-header--large ">
+                                                    <div class="day-header-bg "></div>
+                                                    <div class="day-header-close ">
+                                                        <i data-feather="x "></i>
+                                                    </div>
+                                                    <div class="day-header-content ">
+                                                        <div class="day-header-title ">
+                                                            <div class="day-header-title-day ">24</div>
+                                                            <div class="day-header-title-month ">October</div>
+                                                        </div>
+                                                        <div class="day-header-event ">Workout Session</div>
+                                                    </div>
+                                                </div>
+                                                <div class="day-content has-slimscroll ">
+
+                                                    <!-- Event 1 details -->
+                                                    <!-- html/partials/widgets/schedule/event-details/event-1.html -->
+                                                    <div id="event-1 " class="event-details-wrap ">
+                                                        <div class="meta-block ">
+                                                            <i class="mdi mdi-lock "></i>
+                                                            <div class="meta ">
+                                                                <span>Private</span>
+                                                                <span>This is a private event</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="meta-block ">
+                                                            <i class="mdi mdi-map-marker "></i>
+                                                            <div class="meta ">
+                                                                <span>Where</span>
+                                                                <span>@ Mom and Dad's house</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="meta-block ">
+                                                            <i class="mdi mdi-progress-clock "></i>
+                                                            <div class="meta ">
+                                                                <span>When</span>
+                                                                <span>02:00pm - 03:30pm</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="participants-wrap ">
+                                                            <label>4 Participants</label>
+                                                            <div class="participants ">
+                                                                <img src="https://via.placeholder.com/300x300 " data-demo-src="{% static 'assets/img/avatars/jenna.png' %} " alt=" " data-user-popover="0 ">
+                                                                <img src="https://via.placeholder.com/300x300 " data-demo-src="{% static 'assets/img/avatars/nelly.png' %} " alt=" " data-user-popover="9 ">
+                                                                <img src="https://via.placeholder.com/300x300 " data-demo-src="{% static 'assets/img/avatars/stella.jpg' %} " alt=" " data-user-popover="2 ">
+                                                                <img src="https://via.placeholder.com/300x300 " data-demo-src="{% static 'assets/img/avatars/milly.jpg' %} " alt=" " data-user-popover="7 ">
+                                                            </div>
+                                                        </div>
+                                                        <div class="event-description ">
+                                                            <label>Description</label>
+                                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci blanditiis commodi accusamus dolores itaque repudiandae.</p>
+                                                        </div>
+                                                        <hr>
+                                                        <div class="button-wrap ">
+                                                            <a class="button is-bold ">Participating</a>
+                                                            <a class="button is-bold ">Details</a>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Event 2 details -->
+                                                    <!-- html/partials/widgets/schedule/event-details/event-2.html -->
+                                                    <div id="event-2 " class="event-details-wrap ">
+                                                        <div class="meta-block ">
+                                                            <i class="mdi mdi-lock "></i>
+                                                            <div class="meta ">
+                                                                <span>Private</span>
+                                                                <span>This is a private event</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="meta-block ">
+                                                            <i class="mdi mdi-map-marker "></i>
+                                                            <div class="meta ">
+                                                                <span>Where</span>
+                                                                <span>@ <a class="is-inverted ">Wayne's Coffeeshop</a>, LA</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="meta-block ">
+                                                            <i class="mdi mdi-progress-clock "></i>
+                                                            <div class="meta ">
+                                                                <span>When</span>
+                                                                <span>11:00am - 12:30pm</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="participants-wrap ">
+                                                            <label>3 Participants</label>
+                                                            <div class="participants ">
+                                                                <img src="https://via.placeholder.com/300x300 " data-demo-src="{% static 'assets/img/avatars/jenna.png' %} " alt=" " data-user-popover="0 ">
+                                                                <img src="https://via.placeholder.com/300x300 " data-demo-src="{% static 'assets/img/avatars/edward.jpeg' %}" alt="" data-user-popover="4">
+                                                                <img src="https://via.placeholder.com/300x300" data-demo-src="{% static 'assets/img/avatars/rolf.jpg ' %}" alt="" data-user-popover="13">
+                                                            </div>
+                                                        </div>
+                                                        <div class="event-description">
+                                                            <label>Description</label>
+                                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci blanditiis commodi accusamus dolores itaque repudiandae.</p>
+                                                        </div>
+                                                        <hr>
+                                                        <div class="button-wrap">
+                                                            <a class="button is-bold">Participating</a>
+                                                            <a class="button is-bold">Details</a>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Event 3 details -->
+                                                    <!-- html/partials/widgets/schedule/event-details/event-3.html -->
+                                                    <div id="event-3" class="event-details-wrap">
+                                                        <div class="meta-block">
+                                                            <i class="mdi mdi-earth"></i>
+                                                            <div class="meta">
+                                                                <span>Public</span>
+                                                                <span>This is a public event</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="meta-block">
+                                                            <i class="mdi mdi-map-marker"></i>
+                                                            <div class="meta">
+                                                                <span>Where</span>
+                                                                <span>@ Frank's appartment</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="meta-block">
+                                                            <i class="mdi mdi-progress-clock"></i>
+                                                            <div class="meta">
+                                                                <span>When</span>
+                                                                <span>08:00pm - 02:00am</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="participants-wrap">
+                                                            <label>29 Participants</label>
+                                                            <div class="participants">
+                                                                <img src="https://via.placeholder.com/300x300" data-demo-src="{% static 'assets/img/avatars/jenna.png' %}" alt="" data-user-popover="0">
+                                                                <img src="https://via.placeholder.com/300x300" data-demo-src="{% static 'assets/img/avatars/elise.jpg' %}" alt="" data-user-popover="6">
+                                                                <img src="https://via.placeholder.com/300x300" data-demo-src="{% static 'assets/img/avatars/daniel.jpg' %}" alt="" data-user-popover="3">
+                                                                <img src="https://via.placeholder.com/300x300" data-demo-src="{% static 'assets/img/avatars/rolf.jpg' %}" alt="" data-user-popover="13">
+                                                                <img src="https://via.placeholder.com/300x300" data-demo-src="{% static 'assets/img/avatars/milly.jpg' %}" alt="" data-user-popover="7">
+                                                                <div class="is-more">+24</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="event-description">
+                                                            <label>Description</label>
+                                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci blanditiis commodi accusamus dolores itaque repudiandae.</p>
+                                                        </div>
+                                                        <hr>
+                                                        <div class="button-wrap">
+                                                            <a class="button is-bold">Participating</a>
+                                                            <a class="button is-bold">Details</a>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Event 4 details -->
+                                                    <!-- html/partials/widgets/schedule/event-details/event-4.html -->
+                                                    <div id="event-4" class="event-details-wrap">
+                                                        <div class="meta-block">
+                                                            <i class="mdi mdi-lock"></i>
+                                                            <div class="meta">
+                                                                <span>Private</span>
+                                                                <span>This is a private event</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="meta-block">
+                                                            <i class="mdi mdi-map-marker"></i>
+                                                            <div class="meta">
+                                                                <span>Where</span>
+                                                                <span>@ <a class="is-inverted">Gold Gym</a>, LA</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="meta-block">
+                                                            <i class="mdi mdi-progress-clock"></i>
+                                                            <div class="meta">
+                                                                <span>When</span>
+                                                                <span>05:00pm - 07:00pm</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="participants-wrap">
+                                                            <label>2 Participants</label>
+                                                            <div class="participants">
+                                                                <img src="https://via.placeholder.com/300x300" data-demo-src="{% static 'assets/img/avatars/jenna.png' %}" alt="" data-user-popover="0">
+                                                                <img src="https://via.placeholder.com/300x300" data-demo-src="{% static 'assets/img/avatars/lana.jpeg' %}" alt="" data-user-popover="10">
+                                                            </div>
+                                                        </div>
+                                                        <div class="event-description">
+                                                            <label>Description</label>
+                                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci blanditiis commodi accusamus dolores itaque repudiandae.</p>
+                                                        </div>
+                                                        <hr>
+                                                        <div class="button-wrap">
+                                                            <a class="button is-bold">Participating</a>
+                                                            <a class="button is-bold">Details</a>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Event 5 details -->
+                                                    <!-- html/partials/widgets/schedule/event-details/event-5.html -->
+                                                    <div id="event-5" class="event-details-wrap">
+                                                        <div class="meta-block">
+                                                            <i class="mdi mdi-lock"></i>
+                                                            <div class="meta">
+                                                                <span>Private</span>
+                                                                <span>This is a private event</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="meta-block">
+                                                            <i class="mdi mdi-map-marker"></i>
+                                                            <div class="meta">
+                                                                <span>Where</span>
+                                                                <span>@ <a class="is-inverted">Massive Dynamics Office</a>, LA</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="meta-block">
+                                                            <i class="mdi mdi-progress-clock"></i>
+                                                            <div class="meta">
+                                                                <span>When</span>
+                                                                <span>08:30am - 10:00am</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="participants-wrap">
+                                                            <label>29 Participants</label>
+                                                            <div class="participants">
+                                                                <img src="https://via.placeholder.com/300x300" data-demo-src="{% static 'assets/img/avatars/jenna.png' %}" alt="" data-user-popover="0">
+                                                                <img src="https://via.placeholder.com/300x300" data-demo-src="{% static 'assets/img/avatars/dan.jpg' %}" alt="" data-user-popover="1">
+                                                                <img src="https://via.placeholder.com/300x300" data-demo-src="{% static 'assets/img/avatars/edward.jpeg' %}" alt="" data-user-popover="5">
+                                                                <img src="https://via.placeholder.com/300x300" data-demo-src="{% static 'assets/img/avatars/mike.jpg' %}" alt="" data-user-popover="12">
+                                                                <img src="https://via.placeholder.com/300x300" data-demo-src="{% static 'assets/img/avatars/gaelle.jpeg' %}" alt="" data-user-popover="11">
+                                                                <div class="is-more">+4</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="event-description">
+                                                            <label>Description</label>
+                                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci blanditiis commodi accusamus dolores itaque repudiandae.</p>
+                                                        </div>
+                                                        <hr>
+                                                        <div class="button-wrap">
+                                                            <a class="button is-bold">Participating</a>
+                                                            <a class="button is-bold">Details</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="schedule-header">
+
+                                                <video poster="{% static 'assets/img/setting.jpg' %}" id="player" playsinline controls style="width: 100%;">
+                                                    <source src="../../../../static{{ first_video.url }}" type="video/webm" />
+                                                    <!-- Captions are optional -->
+                                                    <track kind="captions" label="English captions" src="/path/to/captions.vtt" srclang="en" default />
+                                                </video>
+
+                                            </div>
+
+                                            <div class="schedule-header w-100">
+
+                                                <div class="videos-wrapper has-player" style="width: 100%;">
+
+                                                    <div class="video-side">
+                                                        <div class="meta-box meta-box-dark video-meta">
+                                                            <h1 style="font-weight: 500;">{{ course.name }}</h1>
+                                                        </div>
+                                                    </div>
+                                                    <hr style="margin-left:3%" />
+
+                                                    <div class="video-subtitle">
+                                                        <div class="meta-box meta-box-dark video-description">
+
+                                                            <div class="additional-description content" style="display:block !important;margin-top:-35px">
+                                                                <h4 style="">Description</h4>
+                                                                <p>
+                                                                    {{ course.description }}
+                                                                </p>
+                                                                <p>
+
+                                                                <h4 style="margin-top:35px">What you need to take this course?</h4>
+                                                                <p>
+                                                                    {{ course.requirements }}
+                                                                </p>
+
+                                                                <h4 style="margin-top:35px">What you will learn?</h4>
+                                                                <p>
+                                                                    {{ course.gains }}
+                                                                </p>
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                        <section>
+                                            <div class="store-sections">
+                                                <div class="container ">
+
+                                                   <div class="categories-header categories-header-dark">
+
+                                                    <h2>Students Reviews <span class="fa fa-star" style="color: #ebc800;"></span></h2>
+
+
+                                                   </div>
+
+                                                    <div class="videos-wrapper has-player">
+
+                                                        <div class="comments-wrap comments-wrap-dark">
+
+                                                    {% if course_list  %}
+
+                                                        {% for i in course_list %}
+
+                                                            <div class="media is-comment">
+                                                                <div class="media-left">
+                                                                    <div class="avatar-wrap is-smaller is-rounded">
+                                                                        <img src="{% static i.user_img %}" data-demo-src="{% static 'assets/images/avatars/dan.jpg' %}" data-user-popover="1" alt="">
+                                                                        <div class="badge">
+                                                                            <i data-feather="check"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="media-content">
+                                                                    <div class="comment-meta">
+                                                                        <h4><a>{{i.user_name}}</a> &nbsp <small>{{i.date}}</small>
+
+
+                                                                        </h4>
+                                                                        <p>{{i.user_comment}}</p>
+                                                                    </div>
+                                                                    <div class="comment-stats-wrap">
+                                                                        <div class="comment-stats">
+                                                                            <div class="stat is-likes">
+                                                                                <i data-feather="thumbs-up"></i>
+                                                                                <!-- <span>23</span> -->
+                                                                            </div>
+                                                                            <div class="stat is-dislikes">
+                                                                                <i data-feather="thumbs-down"></i>
+                                                                                <!-- <span>3</span> -->
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="comment-actions">
+                                                                            <a class="comment-action is-like">
+                                                                                <i data-feather="thumbs-up"></i>
+                                                                            </a>
+                                                                            <a class="comment-action is-dislike">
+                                                                                <i data-feather="thumbs-down"></i>
+                                                                            </a>
+                                                                            <a class="comment-action is-reply">
+                                                                                <i data-feather="message-circle"></i>
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        {% endfor %}
+                                                    {% else %}
+
+                                                    <p> Comments Not Found <p>
+
+                                                    {% endif %}
+
+                                                            <!-- Comment -->
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+
+                                        <section>
+                                            <div class="store-sections sectionstore">
+                                                <div class="container " style="width: 100%;">
+                                                    <div class="categories-header">
+                                                        <h2>Similar courses</h2>
+                                                    </div>
+                                                    <!--Products-->
+                                                    <div id="products-tab" class="store-tab-pane is-active">
+                                                      <div class="columns is-multiline">
+
+                                                        {% for course in similar_courses %}
+
+                                                        <div class="column is-one-third is-one-third-widescreen is-one-third-desktop is-half-tablet is-full-mobile coursecard" data-cat-id="{{ course.scat_id }}" data-rating= "{{ course.rating }}" data-ts= "{{ course.stuCnt }}">
+                                                               <div class="product-card  product-card-dark" data-name="{{ course.name }}" data-price="44.00" data-colors="true" data-variants="true" data-path="{% static 'assets/img/products/1' %}">
+                                                                  <a href="/single_course/{{ course.link }}" class="product-image">
+                                                                     <div class="image-grid-wrap">
+                                                                        <div class="image-grid">
+                                                                           <!--Grid Row-->
+                                                                           <!--Grid Row-->
+                                                                           <div class="image-row">
+                                                                              <!--Photo-->
+                                                                              <div class="flex-1 has-background-image show-image" data-background="{%static course.cover_img %}" data-demo-background="{%static 'assets/img/courses/pc.jpg' %}"
+                                                                                 style="display: none;">
+                                                                  <a href="/single_course/{{ course.link }}">
+                                                                  <div class="overlay"></div>
+                                                                  </a>
+                                                                  <div class="image-owner">
+                                                                  <div class="name">
+                                                                  {% if course.rating == 0.0 %}
+                                                                  <span class="fa fa-star"
+                                                                     style="color: rgb(255, 255, 255);"></span>
+                                                                  <span class="fa fa-star"
+                                                                     style="color: rgb(255, 255, 255);"></span>
+                                                                  <span class="fa fa-star"
+                                                                     style="color: rgb(255, 255, 255);"></span>
+                                                                  <span class="fa fa-star"
+                                                                     style="color: rgb(255, 255, 255);"></span>
+                                                                  <span class="fa fa-star"
+                                                                     style="color: rgb(255, 255, 255);"></span>
+                                                                  {% if course.rating == 5.0 %}
+                                                                  <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">5</span>
+                                                                  {% elif course.rating == 4.0 %}
+                                                                  <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">4</span>
+                                                                  {% elif course.rating == 3.0 %}
+                                                                  <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">3</span>
+                                                                  {% elif course.rating == 2.0 %}
+                                                                  <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">2</span>
+                                                                  {% elif course.rating == 1.0 %}
+                                                                  <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">1</span>
+                                                                  {% else %}
+                                                                  <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">{{ course.rating }} <small
+                                                                     style="color:white"> ( 390,900 )</small></span>
+                                                                  {% endif %}
+                                                                  {% elif course.rating <= 1.0 %}
+                                                                  <span class="fa fa-star"
+                                                                     style="color: rgb(255, 238, 80);"></span>
+                                                                  <span class="fa fa-star"
+                                                                     style="color: rgb(255, 255, 255);"></span>
+                                                                  <span class="fa fa-star"
+                                                                     style="color: rgb(255, 255, 255);"></span>
+                                                                  <span class="fa fa-star"
+                                                                     style="color: rgb(255, 255, 255);"></span>
+                                                                  <span class="fa fa-star"
+                                                                     style="color: rgb(255, 255, 255);"></span>
+                                                                  {% if course.rating == 5.0 %}
+                                                                  <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">5</span>
+                                                                  {% elif course.rating == 4.0 %}
+                                                                  <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">4</span>
+                                                                  {% elif course.rating == 3.0 %}
+                                                                  <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">3</span>
+                                                                  {% elif course.rating == 2.0 %}
+                                                                  <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">2</span>
+                                                                  {% elif course.rating == 1.0 %}
+                                                                  <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">1</span>
+                                                                  {% elif course.rating == 0.0 %}
+                                                                  <span style="font-size: medium; color: rgb(255, 255, 255);font-weight: 700;margin-left: 5px;">0</span>
+                                                                  {% else %}
+                                                                  <span style="font-size: medium; color:rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">{{ course.rating }} <small
+                                                                     style="color:white"> ( 390,900 )</small></span>
+                                                                  {% endif %}
+                                                                  {% elif course.rating <= 2.0 %}
+                                                                  <span class="fa fa-star"
+                                                                     style="color: rgb(255, 238, 80);"></span>
+                                                                  <span class="fa fa-star"
+                                                                     style="color: rgb(255, 238, 80);"></span>
+                                                                  <span class="fa fa-star"
+                                                                     style="color: rgb(255, 255, 255);"></span>
+                                                                  <span class="fa fa-star"
+                                                                     style="color: rgb(255, 255, 255);"></span>
+                                                                  <span class="fa fa-star"
+                                                                     style="color: rgb(255, 255, 255);"></span>
+                                                                  {% if course.rating == 5.0 %}
+                                                                  <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">5</span>
+                                                                  {% elif course.rating == 4.0 %}
+                                                                  <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">4</span>
+                                                                  {% elif course.rating == 3.0 %}
+                                                                  <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">3</span>
+                                                                  {% elif course.rating == 2.0 %}
+                                                                  <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">2</span>
+                                                                  {% elif course.rating == 1.0 %}
+                                                                  <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">1</span>
+                                                                  {% else %}
+                                                                  <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">{{ course.rating }} <small
+                                                                     style="color:white"> ( 390,900 )</small></span>
+                                                                  {% endif %}
+                                                                  {% elif course.rating <= 3.0 %}
+                                                                  <span class="fa fa-star"
+                                                                     style="color: rgb(255, 238, 80);"></span>
+                                                                  <span class="fa fa-star"
+                                                                     style="color: rgb(255, 238, 80);"></span>
+                                                                  <span class="fa fa-star"
+                                                                     style="color: rgb(255, 238, 80);"></span>
+                                                                  <span class="fa fa-star"
+                                                                     style="color: rgb(255, 255, 255);"></span>
+                                                                  <span class="fa fa-star"
+                                                                     style="color: rgb(255, 255, 255);"></span>
+                                                                  {% if course.rating == 5.0 %}
+                                                                  <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">5</span>
+                                                                  {% elif course.rating == 4.0 %}
+                                                                  <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">4</span>
+                                                                  {% elif course.rating == 3.0 %}
+                                                                  <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">3</span>
+                                                                  {% elif course.rating == 2.0 %}
+                                                                  <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">2</span>
+                                                                  {% elif course.rating == 1.0 %}
+                                                                  <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">1</span>
+                                                                  {% else %}
+                                                                  <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">{{ course.rating }} <small
+                                                                     style="color:white"> ( 390,900 )</small></span>
+                                                                  {% endif %}
+                                                                  {% elif course.rating <= 4.0 %}
+                                                                  <div class="in-blk">
+                                                                  <div class="goldstardiv">
+                                                                  <span class="fa fa-star"></span>
+                                                                  <span class="fa fa-star"></span>
+                                                                  <span class="fa fa-star"></span>
+                                                                  </div>
+                                                                  <div class="goldstardiv">
+                                                                  <span class="fa fa-star"
+                                                                     style="margin-left:3px !important"></span>
+                                                                  <div class="halfstar">
+                                                                  <span class="fa fa-star"></span>
+                                                                  </div>
+                                                                  </div>
+                                                                  <div class="goldstardiv goldstardiv2">
+                                                                  <span class="fa fa-star" style="color:white"></span>
+                                                                  </div>
+                                                                  {% if course.rating == 5.0 %}
+                                                                  <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">5</span>
+                                                                  {% elif course.rating == 4.0 %}
+                                                                  <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">4</span>
+                                                                  {% elif course.rating == 3.0 %}
+                                                                  <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">3</span>
+                                                                  {% elif course.rating == 2.0 %}
+                                                                  <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">2</span>
+                                                                  {% elif course.rating == 1.0 %}
+                                                                  <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">1</span>
+                                                                  {% else %}
+                                                                  <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">{{ course.rating }} <small
+                                                                     style="color:white"> ( 390,900 )</small></span>
+                                                                  {% endif %}
+                                                                  </div>
+                                                                  {% else %}
+                                                                  <span class="fa fa-star"
+                                                                     style="color: rgb(255, 238, 80);"></span>
+                                                                  <span class="fa fa-star"
+                                                                     style="color: rgb(255, 238, 80);"></span>
+                                                                  <span class="fa fa-star"
+                                                                     style="color: rgb(255, 238, 80);"></span>
+                                                                  <span class="fa fa-star"
+                                                                     style="color: rgb(255, 238, 80);"></span>
+                                                                  <span class="fa fa-star"
+                                                                     style="color: rgb(255, 238, 80);"></span>
+                                                                  {% if course.rating == 5.0 %}
+                                                                  <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">5</span>
+                                                                  {% elif course.rating == 4.0 %}
+                                                                  <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">4</span>
+                                                                  {% elif course.rating == 3.0 %}
+                                                                  <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">3</span>
+                                                                  {% elif course.rating == 2.0 %}
+                                                                  <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">2</span>
+                                                                  {% elif course.rating == 1.0 %}
+                                                                  <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">1</span>
+                                                                  {% else %}
+                                                                  <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">{{ course.rating }} <small
+                                                                     style="color:white"> ( 390,900 )</small></span>
+                                                                  {% endif %}
+                                                                  {% endif %}
+                                                                  </div>
+                                                                  </div>
+                                                                  {% if course.price > 0 %}
+                                                                  {% if course.id in alreadyinFav %}
+                                                                  <div class="photo-like pop-button has-tooltip is-shifted is-active favbutton" id="invite-pop" data-id="{{ course.id }}">
+                                                                  <a href="# " class="inner " data-title="Relationship"
+                                                                     data-type="addFav" data-id=""  >
+                                                                  <svg xmlns="http://www.w3.org/2000/svg"
+                                                                     xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                                     aria-hidden="true" focusable="false" width="1em"
+                                                                     height="1em"
+                                                                     style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);"
+                                                                     preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
+                                                                  <g fill="red" stroke="red" stroke-width="2"
+                                                                     stroke-linecap="round" stroke-linejoin="round">
+                                                                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78l1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                                                  </g>
+                                                                  </svg>
+                                                                  </a>
+                                                                  </div>
+                                                                  {% else %}
+                                                                  <div class="photo-like pop-button has-tooltip favbutton" id="invite-pop" data-id="{{ course.id }}">
+                                                                  <a href="# " class="inner " data-title="Relationship"
+                                                                     data-type="addFav" data-id=""  >
+                                                                  <svg xmlns="http://www.w3.org/2000/svg"
+                                                                     xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                                     aria-hidden="true" focusable="false" width="1em"
+                                                                     height="1em"
+                                                                     style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);"
+                                                                     preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
+                                                                  <g fill="none" stroke="#626262" stroke-width="2"
+                                                                     stroke-linecap="round" stroke-linejoin="round">
+                                                                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78l1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                                                  </g>
+                                                                  </svg>
+                                                                  </a>
+                                                                  </div>
+                                                                  {% endif %}
+                                                                  {% if course.id in alreadyinCart %}
+                                                                  <a id="follow-pop" class="photo-time pop-button has-tooltip is-shifted is-active"
+                                                                     data-title="Relationship" data-id="{{ course.id }}">
+                                                                  <i class="fa fa-shopping-cart"
+                                                                     style="font-size: 22px;color: blue;"></i>
+                                                                  </a>
+                                                                  {% else %}
+                                                                  <a id="follow-pop" class="photo-time pop-button has-tooltip"
+                                                                     data-title="Relationship" data-id="{{ course.id }}">
+                                                                  <i class="fa fa-shopping-cart"
+                                                                     style="font-size: 22px;color: #fff;"></i>
+                                                                  </a>
+                                                                  {% endif %}
+                                                                  {% else %}
+                                                                  <div class="photo-like pop-button has-tooltip favbutton"
+                                                                     style="left:10px !important" data-title="Relationship"
+                                                                     id="invite-pop" data-type="addFav" onclick="addFav({{course.id}})">
+                                                                  <a href="# " class="inner ">
+                                                                  <svg xmlns="http://www.w3.org/2000/svg"
+                                                                     xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                                     aria-hidden="true" focusable="false" width="1em"
+                                                                     height="1em"
+                                                                     style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);"
+                                                                     preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
+                                                                  <g fill="none" stroke="#626262" stroke-width="2"
+                                                                     stroke-linecap="round" stroke-linejoin="round">
+                                                                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78l1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                                                  </g>
+                                                                  </svg>
+                                                                  </a>
+                                                                  </div>
+                                                                  {% endif %}
+                                                                  </div>
+                                                                  </div>
+                                                                  </div>
+                                                                  </div>
+                                                                  </a>
+                                                                  <div class="product-skeleton">
+                                                                     <div class="pd_title loading"></div>
+                                                                     <div class="pd_description">
+                                                                        <div class="pd_description1 loading"></div>
+                                                                        <div class="pd_description2 loading"></div>
+                                                                     </div>
+                                                                     <div class="pd_review" style="display: flex;">
+                                                                        <div class="pd_users loading"></div>
+                                                                        <div class="pd_videos loading"></div>
+                                                                     </div>
+                                                                     <div class="pd_footer" style="display: flex;">
+                                                                        <div class="pd_price loading"></div>
+                                                                        <div class="pd_button loading"></div>
+                                                                     </div>
+                                                                  </div>
+                                                                  <!-- <div class="product-info" style="display: none;"> -->
+                                                                  <div class="product-info">
+                                                                     <h3>
+                                                                        <a href="# "
+                                                                           style="display: block; width: 230px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; ">{{ course.name }}</a>
+                                                                     </h3>
+                                                                     <p style="line-height: 1.5em; height: 3em; overflow: hidden; text-overflow: ellipsis;">{{ course.description }}</p>
+                                                                     <i class="fa fa-users "></i>
+                                                                     <span style="font-size: small; ">{{ course.stuCnt }}</span>
+                                                                     <i class="fa fa-video "></i>
+                                                                     <span style="font-size: small; ">{{ course.video }} Videos</span>
+                                                                     <div class="product-actions ">
+                                                                        <div class="left ">
+                                                                           {% if course.price > 0 %}
+                                                                           <b style="color:red ">${{ course.price}}</b>
+                                                                           {% else %}
+                                                                           <b style="color:green "> Free </b>
+                                                                           {% endif %}
+                                                                        </div>
+                                                                        <div class="right ">
+                                                                           <a class="button primary-button is-solid raised story modal-trigger promo"
+                                                                              data-id="{{ course.id }}" onclick="getPromo(this)">
+                                                                           <i class="fa fa-play" data-id="{{ course.id }}"></i> Promo
+                                                                           </a>
+                                                                        </div>
+                                                                     </div>
+                                                                  </div>
+                                                               </div>
+                                                        </div>
+
+
+                                                        {% endfor %}
+
+                                                      </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+
+                                        <section>
+                                            <div class="store-sections sectionstore">
+                                                <div class="container ">
+                                                    <div class="categories-header">
+                                                        <h2>Quick Access</h2>
+                                                    </div>
+
+                                                    <a class="button process-button" href="index.html" style="background-color: teal;color: white;">
+                                                                Continue shopping &nbsp;<span class="fa fa-shopping-cart"></span>
+                                                            </a>
+
+                                                    <a href="wishlist.html" class="button process-button">
+                                                                Go to Fav courses &nbsp;<span class="fa fa-heart"></span>
+                                                            </a>
+
+                                                </div>
+                                            </div>
+                                        </section>
+
+                                    </div>
+                                    <div class="column is-4">
+                                        <div class="cart-summary">
+                                            <!--card-->
+                                            <div class="summary-card summary-card-dark">
+                                                <div class="order-line" style="border-bottom: 1px solid rgb(228, 228, 228);padding-bottom: 5px;">
+                                                    <span class="is-total" style="font-size: medium;">This course includes</span>
+                                                </div>
+                                            {% for include in includeList %}
+                                                <div class="order-line">
+                                                    <span class="is-total" style="font-size: x-small;"><span class="fa fa-smile"></span>&nbsp;{{ include.name }}</span>
+                                                </div>
+                                            {% endfor %}
+
+
+
+                                       {% if is_me == 0 %}
+
+                                        {% if course.price > 0 %}
+
+                                        <div class="order-line">
+                                            <span class="is-total">Total</span>
+                                            <span class="is-total subtotalprice" style="color: red;">{{course.price}}</span>
+                                        </div>
+                                        <div class="order-line">
+                                            <span>Promo code?</span>
+                                        </div>
+
+                                        <div class="order-line">
+                                            <div class="header-coupon" style="width: 100%;">
+                                                <div class="field is-grouped" style="width: 100%;">
+                                                    <div class="control" style="width: 50%;">
+                                                        <input type="text" class="input" id="promoinput" placeholder="Gift card or discount code"  style="width: 100%; margin-right: 0px !important" />
+                                                    </div>
+
+                                                    <div class="control" style="width: 50%;">
+                                                        <button class="button is-solid primary-button raised applypromobutton"  style=" margin-left: 0px !important">Apply</button>
+
+                                                        <button class="button primary-button is-danger cancelpromobutton" style="display: none; margin-left: -40px !important" disabled>Cancel This Promo Code</button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                         <span class="promoerror" style="color: red;"></span>
+
+                                         <div class="order-line discountamountparent">
+                                            <span>Discount</span>
+                                            <span class="discountamount">0</span>
+                                         </div>
+
+                                        <div class="order-line">
+                                                <span class="is-total">Total after discount</span>
+                                                <span class="is-total totalsum" id="totalsumid" style="color: green;">{{course.price}}</span>
+                                        </div>
+                                        <a onclick="addToCartList()" id="follow-pop" class="button pop-button has-tooltip is-fullwidth second-button is-raised" style="margin-bottom: 10px;"><p style="color: rgb(82, 82, 82);">Add to cart <i class="fa fa-shopping-cart"></i></p></a>
+
+                                      
+
+                                        <a href="#" class="button is-fullwidth buy-button is-raised checkouttest"><p style="color: #fff;">Buy now $<span class="totalsum">{{course.price}}</span></p></a>
+
+                                        {% else %}
+                                        <a onclick="addFav()" id="follow-pop" class="button pop-button has-tooltip is-fullwidth second-button is-raised" style="margin-bottom: 10px;"><p style="color: rgb(82, 82, 82);">Add to Fav <i class="fa fa-heart"></i></p></a>
+                                        <a href="/video/playground/{{course.id}}" class="button is-fullwidth buy-button is-raised"><p style="color: #fff;">Enrolled now </p></a>
+                                        {% endif %}
+                                        {% endif %}
+
+
+                                                    </div>
+                                                    <!--card-->
+
+
+                                                    <div class="summary-card summary-card-dark" style="margin-top:25px">
+
+                                                        <div class="teacher-card">
+
+                                                            <img src="/static{{ user_info.image }}" style="width: 65px;height:65px" data-demo-src="" alt="">
+
+
+                                                            <div class="teacher-card-info">
+                                                                <h3><a href="/viewProfile/{{ user_info.id }}" >{{ user_info.first_name }}{{ user_info.last_name }}</a></h3>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="teacher-card-footer">
+
+                                                            <div class="colmn">
+                                                                <label>Free Courses</label>
+                                                                <div class="num">
+                                                                    {{ free_course }}
+                                                                </div>
+                                                            </div>
+                                                            <div class="colmn">
+                                                                <label>Paid Courses</label>
+                                                                <div class="num">
+                                                                    {{ paid_course }}
+                                                                </div>
+                                                            </div>
+                                                            <div class="colmn">
+                                                                <label>Rating</label>
+                                                                <div class="num">
+                                                                    {{ course.rating }} <i class="fa fa-star" style="color: orange;"></i>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+
+                                                    </div>
+
+                                                    <span class="button is-fullwidth sharecourse" id="tw" style="background-color: rgb(61, 136, 206);color: #fff;margin-bottom: 5px;" >
+                                                        Share this course on Twitter
+                                                        &nbsp;<i class="mdi mdi-twitter"></i>
+                                                    </span>
+
+
+                                                    <span class="button is-fullwidth sharecourse" id="fb" style="background-color: rgb(15, 53, 88);color: #fff;margin-bottom: 5px;">
+                                                        Share this course on Facebook
+                                                        &nbsp;<i class="mdi mdi-facebook"></i>
+                                                    </span>
+
+                                                    <span class="button is-fullwidth sharecourse" id="lin" style="margin-bottom: 5px;background-color: rgb(22,102,197);color: #fff;">Share this course on Linkedin
+                                                        &nbsp;<i class="mdi mdi-linkedin"></i>
+                                                    </span>
+
+
+
+                                                    <div class="summary-card summary-card-dark" style="margin-top:25px">
+                                                        <img src="{% static 'assets/img/icons/questions/help.svg' %}" alt="">
+                                                        <h4>Help center?</h4>
+                                                        <p>Having trouble? Please search our <a class="standard-link" href="support.html">Help Center</a> for a quick
+                                                            answer to your .</p>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                        <!-- Brands -->
+                        <div id="brands-tab" class="store-tab-pane">
+                            <div class="container">
+                                <div class="shop-wrapper">
+                                    <div class="cart-container">
+                                        <div class="cart-content">
+                                            <div class="columns">
+                                                <div class="column is-8">
+                                                <!-- html/partials/widgets/schedule/schedule-widget.html -->
+                                                <div class="schedule"style="margin-top: -3px;">
+                                                    <div class="schedule-day-container hidden">
+                                                        <div class="day-header day-header--large">
+                                                            <div class="day-header-bg"></div>
+                                                            <div class="day-header-close">
+                                                                <i data-feather="x"></i>
+                                                            </div>
+                                                            <div class="day-header-content">
+                                                                <div class="day-header-title">
+                                                                    <div class="day-header-title-day">24</div>
+                                                                    <div class="day-header-title-month">October</div>
+                                                                </div>
+                                                                <div class="day-header-event">Workout Session</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="day-content has-slimscroll">
+
+                                                            <!-- Event 1 details -->
+                                                            <!-- html/partials/widgets/schedule/event-details/event-1.html -->
+                                                            <div id="event-1" class="event-details-wrap">
+                                                                <div class="meta-block">
+                                                                    <i class="mdi mdi-lock"></i>
+                                                                    <div class="meta">
+                                                                        <span>Private</span>
+                                                        <span>This is a private event</span>
+                                                    </div>
+                                                </div>
+                                                <div class="meta-block">
+                                                    <i class="mdi mdi-map-marker"></i>
+                                                    <div class="meta">
+                                                        <span>Where</span>
+                                                        <span>@ Mom and Dad's house</span>
+                                                    </div>
+                                                </div>
+                                                <div class="meta-block">
+                                                    <i class="mdi mdi-progress-clock"></i>
+                                                    <div class="meta">
+                                                        <span>When</span>
+                                                        <span>02:00pm - 03:30pm</span>
+                                                    </div>
+                                                </div>
+                                                <div class="participants-wrap">
+                                                    <label>4 Participants</label>
+                                                    <div class="participants">
+                                                        <img src="https://via.placeholder.com/300x300" data-demo-src="{% static 'assets/img/avatars/jenna.png' %}" alt="" data-user-popover="0">
+                                                        <img src="https://via.placeholder.com/300x300" data-demo-src="{% static 'assets/img/avatars/nelly.png' %}" alt="" data-user-popover="9">
+                                                        <img src="https://via.placeholder.com/300x300" data-demo-src="{% static 'assets/img/avatars/stella.jpg' %}" alt="" data-user-popover="2">
+                                                        <img src="https://via.placeholder.com/300x300" data-demo-src="{% static 'assets/img/avatars/milly.jpg' %}" alt="" data-user-popover="7">
+                                                    </div>
+                                                </div>
+                                                <div class="event-description">
+                                                    <label>Description</label>
+                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci blanditiis commodi accusamus dolores itaque repudiandae.</p>
+                                                </div>
+                                                <hr>
+                                                <div class="button-wrap">
+                                                    <a class="button is-bold">Participating</a>
+                                                    <a class="button is-bold">Details</a>
+                                                </div>
+                                            </div>
+                                            <!-- Event 2 details -->
+                                            <!-- html/partials/widgets/schedule/event-details/event-2.html -->
+                                            <div id="event-2" class="event-details-wrap">
+                                                <div class="meta-block">
+                                                    <i class="mdi mdi-lock"></i>
+                                                    <div class="meta">
+                                                        <span>Private</span>
+                                                        <span>This is a private event</span>
+                                                    </div>
+                                                </div>
+                                                <div class="meta-block">
+                                                    <i class="mdi mdi-map-marker"></i>
+                                                    <div class="meta">
+                                                        <span>Where</span>
+                                                        <span>@ <a class="is-inverted">Wayne's Coffeeshop</a>, LA</span>
+                                                    </div>
+                                                </div>
+                                                <div class="meta-block">
+                                                    <i class="mdi mdi-progress-clock"></i>
+                                                    <div class="meta">
+                                                        <span>When</span>
+                                                        <span>11:00am - 12:30pm</span>
+                                                    </div>
+                                                </div>
+                                                <div class="participants-wrap">
+                                                    <label>3 Participants</label>
+                                                    <div class="participants">
+                                                        <img src="https://via.placeholder.com/300x300" data-demo-src="{% static 'assets/img/avatars/jenna.png' %}" alt="" data-user-popover="0">
+                                                        <img src="https://via.placeholder.com/300x300" data-demo-src="{% static 'assets/img/avatars/edward.jpeg" alt="" data-user-popover="4">
+                                                        <img src="https://via.placeholder.com/300x300" data-demo-src="{% static 'assets/img/avatars/rolf.jpg' %}" alt="" data-user-popover="13">
+                                                    </div>
+                                                </div>
+                                                <div class="event-description">
+                                                    <label>Description</label>
+                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci blanditiis commodi accusamus dolores itaque repudiandae.</p>
+                                                </div>
+                                                <hr>
+                                                <div class="button-wrap">
+                                                    <a class="button is-bold">Participating</a>
+                                                    <a class="button is-bold">Details</a>
+                                                </div>
+                                            </div>
+                                            <!-- Event 3 details -->
+                                            <!-- html/partials/widgets/schedule/event-details/event-3.html -->
+                                            <div id="event-3" class="event-details-wrap">
+                                                <div class="meta-block">
+                                                    <i class="mdi mdi-earth"></i>
+                                                    <div class="meta">
+                                                        <span>Public</span>
+                                                        <span>This is a public event</span>
+                                                    </div>
+                                                </div>
+                                                <div class="meta-block">
+                                                    <i class="mdi mdi-map-marker"></i>
+                                                    <div class="meta">
+                                                        <span>Where</span>
+                                                        <span>@ Frank's appartment</span>
+                                                    </div>
+                                                </div>
+                                                <div class="meta-block">
+                                                    <i class="mdi mdi-progress-clock"></i>
+                                                    <div class="meta">
+                                                        <span>When</span>
+                                                        <span>08:00pm - 02:00am</span>
+                                                    </div>
+                                                </div>
+                                                <div class="participants-wrap">
+                                                    <label>29 Participants</label>
+                                                    <div class="participants">
+                                                        <img src="https://via.placeholder.com/300x300" data-demo-src="{% static 'assets/img/avatars/jenna.png' %}" alt="" data-user-popover="0">
+                                                        <img src="https://via.placeholder.com/300x300" data-demo-src="{% static 'assets/img/avatars/elise.jpg' %}" alt="" data-user-popover="6">
+                                                        <img src="https://via.placeholder.com/300x300" data-demo-src="{% static 'assets/img/avatars/daniel.jpg' %}" alt="" data-user-popover="3">
+                                                        <img src="https://via.placeholder.com/300x300" data-demo-src="{% static 'assets/img/avatars/rolf.jpg' %}" alt="" data-user-popover="13">
+                                                        <img src="https://via.placeholder.com/300x300" data-demo-src="{% static 'assets/img/avatars/milly.jpg' %}" alt="" data-user-popover="7">
+                                                        <div class="is-more">+24</div>
+                                                    </div>
+                                                </div>
+                                                <div class="event-description">
+                                                    <label>Description</label>
+                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci blanditiis commodi accusamus dolores itaque repudiandae.</p>
+                                                </div>
+                                                <hr>
+                                                <div class="button-wrap">
+                                                    <a class="button is-bold">Participating</a>
+                                                    <a class="button is-bold">Details</a>
+                                                </div>
+                                            </div>
+                                            <!-- Event 4 details -->
+                                            <!-- html/partials/widgets/schedule/event-details/event-4.html -->
+                                            <div id="event-4" class="event-details-wrap">
+                                                <div class="meta-block">
+                                                    <i class="mdi mdi-lock"></i>
+                                                    <div class="meta">
+                                                        <span>Private</span>
+                                                        <span>This is a private event</span>
+                                                    </div>
+                                                </div>
+                                                <div class="meta-block">
+                                                    <i class="mdi mdi-map-marker"></i>
+                                                    <div class="meta">
+                                                        <span>Where</span>
+                                                        <span>@ <a class="is-inverted">Gold Gym</a>, LA</span>
+                                                    </div>
+                                                </div>
+                                                <div class="meta-block">
+                                                    <i class="mdi mdi-progress-clock"></i>
+                                                    <div class="meta">
+                                                        <span>When</span>
+                                                        <span>05:00pm - 07:00pm</span>
+                                                    </div>
+                                                </div>
+                                                <div class="participants-wrap">
+                                                    <label>2 Participants</label>
+                                                    <div class="participants">
+                                                        <img src="https://via.placeholder.com/300x300" data-demo-src="{% static 'assets/img/avatars/jenna.png' %}" alt="" data-user-popover="0">
+                                                        <img src="https://via.placeholder.com/300x300" data-demo-src="{% static 'assets/img/avatars/lana.jpeg" alt="" data-user-popover="10">
+                                                    </div>
+                                                </div>
+                                                <div class="event-description">
+                                                    <label>Description</label>
+                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci blanditiis commodi accusamus dolores itaque repudiandae.</p>
+                                                </div>
+                                                <hr>
+                                                <div class="button-wrap">
+                                                    <a class="button is-bold">Participating</a>
+                                                    <a class="button is-bold">Details</a>
+                                                </div>
+                                            </div>
+                                            <!-- Event 5 details -->
+                                            <!-- html/partials/widgets/schedule/event-details/event-5.html -->
+                                            <div id="event-5" class="event-details-wrap">
+                                                <div class="meta-block">
+                                                    <i class="mdi mdi-lock"></i>
+                                                    <div class="meta">
+                                                        <span>Private</span>
+                                                        <span>This is a private event</span>
+                                                    </div>
+                                                </div>
+                                                <div class="meta-block">
+                                                    <i class="mdi mdi-map-marker"></i>
+                                                    <div class="meta">
+                                                        <span>Where</span>
+                                                        <span>@ <a class="is-inverted">Massive Dynamics Office</a>, LA</span>
+                                                    </div>
+                                                </div>
+                                                <div class="meta-block">
+                                                    <i class="mdi mdi-progress-clock"></i>
+                                                    <div class="meta">
+                                                        <span>When</span>
+                                                        <span>08:30am - 10:00am</span>
+                                                    </div>
+                                                </div>
+                                                <div class="participants-wrap">
+                                                    <label>29 Participants</label>
+                                                    <div class="participants">
+                                                        <img src="https://via.placeholder.com/300x300" data-demo-src="{% static 'assets/img/avatars/jenna.png' %}" alt="" data-user-popover="0">
+                                                        <img src="https://via.placeholder.com/300x300" data-demo-src="{% static 'assets/img/avatars/dan.jpg' %}" alt="" data-user-popover="1">
+                                                        <img src="https://via.placeholder.com/300x300" data-demo-src="{% static 'assets/img/avatars/edward.jpeg" alt="" data-user-popover="5">
+                                                        <img src="https://via.placeholder.com/300x300" data-demo-src="{% static 'assets/img/avatars/mike.jpg' %}" alt="" data-user-popover="12">
+                                                        <img src="https://via.placeholder.com/300x300" data-demo-src="{% static 'assets/img/avatars/gaelle.jpeg" alt="" data-user-popover="11">
+                                                        <div class="is-more">+4</div>
+                                                    </div>
+                                                </div>
+                                                <div class="event-description">
+                                                    <label>Description</label>
+                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci blanditiis commodi accusamus dolores itaque repudiandae.</p>
+                                                </div>
+                                                <hr>
+                                                <div class="button-wrap">
+                                                    <a class="button is-bold">Participating</a>
+                                                    <a class="button is-bold">Details</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+                                    <div class="schedule-header">
+
+
+
+                                        <div class="videos-wrapper has-player">
+
+                                            <div class="video-side">
+                                                <div class="meta-box video-meta">
+                                                    <h1 style="font-weight: 500;margin-left: 20px;">Course curriculum - {{ videocount }} Videos </h1>
+
+
+
+
+                                                </div>
+
+
+                                            </div>
+
+                                            <div class="video-subtitle">
+                                                <div class="meta-box video-description">
+
+
+
+
+                                                  {% for listing in includeList %}
+
+
+
+                                                    <div class="accordion js-accordion accordion--boxed list-group-flush" id="parent" style="width: 600px;margin-left: 25px;margin-bottom: 10px;">
+                                                        <div class="accordion__item" style="border: 1px solid #ccc;height: 100% !important;">
+                                                            <a href="#" style="background-color: rgb(240, 240, 240);border: 1px solid rgb(223, 223, 223);" class="accordion__toggle collapsed" data-toggle="collapse" data-target="#course-toc-1" data-parent="#parent">
+                                                                <span class="flex" style="font-size: small;">
+                                                                {{ listing.name}}</span>
+                                                                <i style="position: absolute;right: 15px;top: 15px;font-size: small;" class="fa fa-arrow-down"></i>
+                                                            </a>
+
+
+                                                            <div class="accordion__menu collapse" id="course-toc-1">
+
+
+                                                               {% for i in listing.videoList %}
+
+                                                                <div class="accordion__menu-link" style="border: 1px solid rgb(233, 233, 233);">
+                                                                    <i class="fa fa-video" style="margin-right: 5px;color: rgb(194, 194, 194);"></i>
+                                                                    <a class="flex" href="mini-student-lesson.html" style="color: rgb(1, 100, 192); margin-left: 10px">
+
+                                                                  {{ i.video_name }}</a>
+
+                                                                    <span class="text-muted" style="color: rgb(3, 73, 139) !important;margin-left: 420px">
+                                                                      {{ i.video_time }}
+                                                                    </span>
+                                                                </div>
+
+                                                                {% endfor %}
+
+
+
+
+                                                            </div>
+
+
+
+                                                        </div>
+                                                    </div>
+
+                                                  {% endfor %}
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+
+
+
+
+
+                                </div>
+
+
+
+                                <section>
+                                    <div class="store-sections">
+                                        <div class="container ">
+                                            <div class="categories-header">
+                                                <h2>Quick Access</h2>
+                                            </div>
+
+                                            <a class="button process-button" href="index.html" style="background-color: teal;color: white;">
+                                                                Continue shopping &nbsp;<span class="fa fa-shopping-cart"></span>
+                                                            </a>
+
+                                            <a class="button process-button" data-step="step-dot-2">
+                                                                Go to Fav courses &nbsp;<span class="fa fa-heart"></span>
+                                                            </a>
+
+                                        </div>
+                                    </div>
+                                </section>
+
+
+                            </div>
+                                    <div class="column is-4">
+                                        <div class="cart-summary">
+                                            <!--card-->
+                                            <div class="summary-card summary-card-dark">
+                                                <div class="order-line" style="border-bottom: 1px solid rgb(228, 228, 228);padding-bottom: 5px;">
+                                                    <span class="is-total" style="font-size: medium;">This course includes</span>
+                                                </div>
+                                            {% for include in includeList %}
+                                                <div class="order-line">
+                                                    <span class="is-total" style="font-size: x-small;"><span class="fa fa-smile"></span>&nbsp;{{ include.name }}</span>
+                                                </div>
+                                            {% endfor %}
+
+
+
+                                       {% if is_me == 0 %}
+
+                                        {% if course.price > 0 %}
+
+                                        <div class="order-line">
+                                            <span class="is-total">Total</span>
+                                            <span class="is-total subtotalprice" style="color: red;">{{course.price}}</span>
+                                        </div>
+                                        <div class="order-line">
+                                            <span>Promo code?</span>
+                                        </div>
+
+                                        <div class="order-line">
+                                            <div class="header-coupon" style="width: 100%;">
+                                                <div class="field is-grouped" style="width: 100%;">
+                                                    <div class="control" style="width: 50%;">
+                                                        <input type="text" class="input" id="promoinput" placeholder="Gift card or discount code"  style="width: 100%; margin-right: 0px !important" />
+                                                    </div>
+
+                                                    <div class="control" style="width: 50%;">
+                                                        <button class="button is-solid primary-button raised applypromobutton"  style=" margin-left: 0px !important">Apply</button>
+
+                                                        <button class="button primary-button is-danger cancelpromobutton" style="display: none; margin-left: -40px !important" disabled>Cancel This Promo Code</button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                         <span class="promoerror" style="color: red;"></span>
+
+                                         <div class="order-line discountamountparent">
+                                            <span>Discount</span>
+                                            <span class="discountamount">0</span>
+                                         </div>
+
+                                        <div class="order-line">
+                                                <span class="is-total">Total after discount</span>
+                                                <span class="is-total totalsum" id="totalsumid" style="color: green;">{{course.price}}</span>
+                                        </div>
+                                        <a onclick="addToCartList()" id="follow-pop" class="button pop-button has-tooltip is-fullwidth second-button is-raised" style="margin-bottom: 10px;"><p style="color: rgb(82, 82, 82);">Add to cart <i class="fa fa-shopping-cart"></i></p></a>
+
+
+
+                                        <a href="#" class="button is-fullwidth buy-button is-raised checkouttest"><p style="color: #fff;">Buy now $<span class="totalsum">{{course.price}}</span></p></a>
+
+                                        {% else %}
+                                        <a onclick="addFav()" id="follow-pop" class="button pop-button has-tooltip is-fullwidth second-button is-raised" style="margin-bottom: 10px;"><p style="color: rgb(82, 82, 82);">Add to Fav <i class="fa fa-heart"></i></p></a>
+                                        <a href="/video/playground/{{course.id}}" class="button is-fullwidth buy-button is-raised"><p style="color: #fff;">Enrolled now </p></a>
+                                        {% endif %}
+                                        {% endif %}
+
+
+                                                    </div>
+                                                    <!--card-->
+
+
+
+                                                    <div class="summary-card summary-card-dark" style="margin-top:25px">
+
+                                                        <div class="teacher-card">
+
+                                                            <img src="/static{{ user_info.image }}" style="width: 65px;height:65px" data-demo-src="" alt="">
+
+
+                                                            <div class="teacher-card-info">
+                                                                <h3><a href="/viewProfile/{{ user_info.id }}" >{{ user_info.first_name }}{{ user_info.last_name }}</a></h3>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="teacher-card-footer">
+
+                                                            <div class="colmn">
+                                                                <label>Free Courses</label>
+                                                                <div class="num">
+                                                                    {{ free_course }}
+                                                                </div>
+                                                            </div>
+                                                            <div class="colmn">
+                                                                <label>Paid Courses</label>
+                                                                <div class="num">
+                                                                    {{ paid_course }}
+                                                                </div>
+                                                            </div>
+                                                            <div class="colmn">
+                                                                <label>Rating</label>
+                                                                <div class="num">
+                                                                    {{ course.rating }} <i class="fa fa-star" style="color: orange;"></i>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+
+                                                    </div>
+
+                                                    <span class="button is-fullwidth sharecourse" id="tw" style="background-color: rgb(61, 136, 206);color: #fff;margin-bottom: 5px;" >
+                                                        Share this course on Twitter
+                                                        &nbsp;<i class="mdi mdi-twitter"></i>
+                                                    </span>
+
+
+                                                    <span class="button is-fullwidth sharecourse" id="fb" style="background-color: rgb(15, 53, 88);color: #fff;margin-bottom: 5px;">
+                                                        Share this course on Facebook
+                                                        &nbsp;<i class="mdi mdi-facebook"></i>
+                                                    </span>
+
+                                                    <span class="button is-fullwidth sharecourse" id="lin" style="margin-bottom: 5px;background-color: rgb(22,102,197);color: #fff;">Share this course on Linkedin
+                                                        &nbsp;<i class="mdi mdi-linkedin"></i>
+                                                    </span>
+
+
+
+
+                                                    <div class="summary-card summary-card-dark" style="margin-top:25px">
+                                                        <img src="{% static 'assets/img/icons/questions/help.svg' %}" alt="">
+                                                        <h4>Help center?</h4>
+                                                        <p>Having trouble? Please search our <a class="standard-link" href="support.html">Help Center</a> for a quick
+                                                            answer to your .</p>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+
+</div>
+
+        <!-- Overview and course curriulum -->
+
+    <!-- Course Detail -->
+    <div id="videos-modal" class="modal videos-modal is-large has-light-bg">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+
+        <div class="card">
+        <div class="card-heading">
+                    <div class="user-meta">
+                        <img src="{% static 'assets/img/man.jpg' %}"
+                            data-demo-src="{% static 'assets2/images/avatars/jenna.png' %}" alt="">
+
+                    </div>
+
+                    <span class="user-meta-span">Elzubair Mohammed Saleh </span>
+
+                                            <i class="fa fa-star" style="color: rgb(255, 217, 0);" class="user-meta-star"></i><b class="user-meta-b">4.5</b>
+
+                                            <span class="user-meta-span">&nbsp; &nbsp; | Learn html5 and sass with css.. &nbsp; &nbsp;</span>
+                                            <a type="button" class="button" style="background-color: rgb(202, 0, 51);color: #fff;">Add to Fav  &nbsp;<i class="fa fa-heart"></i></a>
+
+                                            <!-- Close X button -->
+                                            <div class="close-wrap">
+                                                <span class="close-modal">
+                            <i data-feather="x"></i>
+                        </span>
+                                            </div>
+                                        </div>
+            <div class="card-body">
+                                            <div class="inner">
+                                                <div class="left-section">
+                                                    <video poster="{% static 'assets/img/setting.jpg' %}" style="" id="player" playsinline controls>
+                                <source src="{% static 'assets/img/vid/html.mp4' %}" type="video/webm" />
+
+                                <!-- Captions are optional -->
+                                <track kind="captions" label="English captions" src="/path/to/captions.vtt" srclang="en" default />
+                            </video>
+                                                </div>
+                                                <div class="right-section">
+
+                                                    <div class="inner-content">
+                                                        <div class="live-stats">
+                                                            <div class="social-count-2">
+                                                                <div class="likes-count">
+                                                                    <i class="fa fa-users"></i>
+                                                                    <span>140,440</span>
+                                                                </div>
+                                                                <div class="shares-count">
+                                                                    <i class="fa fa-star" style="color: rgb(212, 173, 0);"></i>
+                                                                    <span>4.8</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="tabs-wrapper">
+                                                        <div class="tabs is-fullwidth">
+                                                            <ul>
+                                                                <li class="is-active">
+                                                                    <a>Demo Videos</a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="tab-content ">
+
+
+                                                            <div class="accordion js-accordion accordion--boxed list-group-flush" id="parent">
+                                                                <div class="accordion__item" style="border: 1px solid #ccc;height: 100% !important;">
+                                                                    <a href="#" style="background-color: rgb(240, 240, 240);border: 1px solid rgb(223, 223, 223);" class="accordion__toggle collapsed" data-toggle="collapse" data-target="#course-toc-1" data-parent="#parent">
+                                                                        <span class="flex" style="font-size: small;">Course Overview</span>
+                                                                        <i style="position: absolute;right: 15px;top: 15px;font-size: small;" class="fa fa-arrow-down"></i>
+                                                                    </a>
+                                                                    <div class="accordion__menu collapse" id="course-toc-1">
+                                                                        <div class="accordion__menu-link">
+                                                                            <!-- <span class="material-icons icon-16pt icon--left text-primary">play_circle_outline</span> -->
+
+                                                                            <i class="fa fa-video" style="margin-right: 5px;color: rgb(194, 194, 194);"></i>
+                                                                            <a class="flex" href="mini-student-lesson.html" style="color: rgb(1, 100, 192);">Watch Trailer</a>
+                                                                            <span class="text-muted" style="color: rgb(3, 73, 139) !important;margin-left: 90px;">1m 10s</span>
+                                                                        </div>
+                                                                        <div class="accordion__menu-link">
+                                                                            <!-- <span class="material-icons icon-16pt icon--left text-primary">play_circle_outline</span> -->
+
+                                                                            <i class="fa fa-video" style="margin-right: 5px;color: rgb(194, 194, 194);"></i>
+                                                                            <a class="flex" href="mini-student-lesson.html" style="color: rgb(1, 100, 192);">Watch Trailer</a>
+                                                                            <span class="text-muted" style="color: rgb(3, 73, 139) !important;margin-left: 90px;">1m 10s</span>
+                                                                        </div>
+                                                                        <div class="accordion__menu-link">
+                                                                            <!-- <span class="material-icons icon-16pt icon--left text-primary">play_circle_outline</span> -->
+
+                                                                            <i class="fa fa-video" style="margin-right: 5px;color: rgb(194, 194, 194);"></i>
+                                                                            <a class="flex" href="mini-student-lesson.html" style="color: rgb(1, 100, 192);">Watch Trailer</a>
+                                                                            <span class="text-muted" style="color: rgb(3, 73, 139) !important;margin-left: 90px;">1m 10s</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+
+
+
+                                        </div>
+                                    </div>
+        </div>
+    </div>
+                            <!-- Course Detail -->
+
+<!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="formModal"
+          aria-hidden="true" style = "padding-top: 12%;">
+          <input type="hidden" id="commentId" value="">
+          <input type="hidden" id="commentType" value="">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content" style="background: white; padding: 30px;border: 1px solid #ccc;">
+              <div class="modal-header">
+                <h5 class="modal-title" id="formModal">Add Comment</h5>
+                <button style=" float: right; margin-top: -30px; margin-bottom: 10px;outline: none; background: no-repeat;border: none;font-size: 20px;" type="button" class="close" data-dismiss="modal" aria-label="Close" >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form class="">
+                  <div class="form-group">
+
+                    <div class="input-group">
+            <textarea rows="4" cols="50" name="comment" form="usrform" id = "user_comment" class="form-control" placeholder = "Please Add Your Comment...">
+          </textarea>
+
+           </div>
+                  </div>
+
+                  <button style="color:#fff;" type="button" onclick= "save_comment()" class="button buy-button is-raised">Save</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="formModal"
+          aria-hidden="true" style = "padding-top: 12%;">
+          <input type="hidden" id="commentDeleteId" value="">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content" style="background: white; padding: 30px;border: 1px solid #ccc;">
+              <div class="modal-header">
+                <h4 class="modal-title" id="formModal" style="text-align:center;">Do you really want to delete?</h4>
+                <button style=" float: right; margin-top: -30px; margin-bottom: 10px;outline: none; background: no-repeat;border: none;font-size: 20px;" type="button" class="close" data-dismiss="modal" aria-label="Close" >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form class="">
+                  <button style="color:#fff; background: red !important; border:0px !important; margin-left:230px; margin-top:25px !important; margin-right:10px; "  type="button" onclick= "delete_comment()" class="button buy-button is-raised">Delete</button>
+                  <button style="color:#fff; border:0px !important; margin-top:25px !important;" type="button" onclick= "$('#deleteModal').modal('hide')" class="button  buy-button is-raised">Cancel</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+  <div id="bulmamodal" class="modal">
+
+      <div class="modal-background"></div>
+      <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title sharecoursename">Share This Course </p>
+                <button class="delete sharecoursemodalclose" aria-label="close"></button>
+            </header>
+            <div class="card" style="color: white; border: 0px;">
+                <section class="modal-card-body card-image" style="padding: 0px; overflow: hidden; max-height: 300px;">
+                     <img src="/static{{ course.header_img }}" class="sharecourseimage">
+                </section>
+
+                <div class="card-content is-overlay" style="background-color: rgba(0,0,0,0.6); top: 70%; padding-top: 0px; padding-right: 5px; padding-bottom: 0px;">
+
+                   <div style="line-height: 2; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"> {{ course.name }} </div>
+
+                   <div class="ellipsisco">{{ course.description }}</div>
+
+                </div>
+
+            </div>
+
+            <footer class="modal-card-foot">
+
+              <div class="button is-success sharecoursebutton"style="background-color: rgb(22,102,197);color: #fff;">
+
+
+                <!-- <a target="_blank" href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> -->
+
+
+                <!-- <a  href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-size="large" data-url="http://localhost:8000/en/single_course/49/" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> -->
+
+
+                <!-- <div id="sharebuttonlinkedin" class="sharebuttonholder">
+
+                    <div id="share-linkedin" class="share emails">
+
+                      <div id="linkedinshare">
+
+                      </div>
+                    </div>
+
+                 </div> -->
+
+
+
+
+
+
+
+
+              </div>
+
+
+              <button class="button sharecoursemodalclose">Cancel</button>
+            </footer>
+      </div>
+
+  </div>
+
+  <button class="modal-close is-large" aria-label="close"></button>
+
+</div>
+
+
+          <form method="POST" action="ecommerce_payment/{{course.id}}/" id="buyform" style="display: none;">
+                {% csrf_token %}
+            <input type="hidden" id="subtotalmoney" name="subtotalmoney">
+            <input type="hidden" id="discomontmoney" name="discomontmoney">
+            <input type="hidden" id="totalmoney" name="totalmoney">
+
+            <input type="submit" name="buyformsubmit" id="buyformsubmit">
+
+
+
+
+          </form>
+
+
+<script>
+
+
+var myTimer = setInterval(Dataloading, 2000);
+
+    function Dataloading() {
+
+        $(".skeleton").hide();
+        $(".show-image ").delay(200).fadeIn(650);
+
+        $(".product-skeleton").hide();
+        $(".product-info ").delay(200).fadeIn(650);
+    }
+
+
+$(document).ready(function(){
+
+     $('#loadings').fadeOut(3000);
+     var inp = $("#tipue_drop_input").val()
+
+    $(".sharecourse").click(function(){
+
+
+      console.log("farabi new");
+
+      if($(this).attr("id")=="tw"){
+
+        $(".sharecoursename").empty();
+        $(".sharecoursename").append("Share this course on Twitter");
+
+
+        $(".sharecoursebutton").empty();
+        $(".sharecoursebutton").append("<a target='_blank' href='https://twitter.com/share?ref_src=twsrc%5Etfw' class='twitter-share-button' data-size='large' data-url='http://localhost:8000/en/single_course/49/' data-show-count='false' style='color: white;'>Share to Twitter</a>");
+
+
+        $(".sharecoursebutton").addClass("mdi mdi-twitter");
+
+      }
+
+      if($(this).attr("id")=="fb"){
+
+        $(".sharecoursename").empty();
+        $(".sharecoursename").append("&nbsp; Share this course on Facebook");
+
+
+        $(".sharecoursebutton").empty();
+
+
+        $(".sharecoursebutton").removeAttr("data-href");
+        $(".sharecoursebutton").removeAttr("data-layout");
+        $(".sharecoursebutton").removeAttr("data-size");
+
+        $(".sharecoursebutton").addClass("mdi mdi-facebook");
+        $(".sharecoursebutton").attr("data-href","https://booctep.com/");
+        $(".sharecoursebutton").attr("data-layout","button");
+        $(".sharecoursebutton").attr("data-size","large");
+
+        $(".sharecoursebutton").append("<a target='_blank' href='https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fpencilerkali.com%2F&amp;src=sdkpreparse' class='fb-xfbml-parse-ignore' style='color: white;'>Share to Facebook</a>");
+
+
+
+
+
+
+      }
+
+      if($(this).attr("id")=="lin"){
+
+        $(".sharecoursename").empty();
+        $(".sharecoursename").append("Share this course on LinkedIn");
+
+        $(".sharecoursebutton").empty();
+        $(".sharecoursebutton").append("Share to LinkedIn");
+
+        $(".sharecoursebutton").addClass("mdi mdi-linkedin");
+
+      }
+
+
+      $("#bulmamodal").addClass("is-active");
+
+
+
+
+
+    });
+
+
+    $(".sharecoursemodalclose").click(function() {
+
+       $("#bulmamodal").removeClass("is-active");
+
+    });
+
+
+
+    $(".applypromobutton").click(function(){
+
+          var promoinput = $("#promoinput").val();
+
+          if(!promoinput){
+
+            $(".promoerror").empty();
+            $(".promoerror").append("Please enter a valid promo code");
+
+          }
+          else{
+
+            $(".promoerror").empty();
+
+            var url = 'checkdiscountcode/';
+
+
+            $.post(url,{'promoinput':promoinput},function(res){
+
+                  if(res=='failed'){
+                      $(".promoerror").empty();
+                      $(".promoerror").append("Please enter a valid promo code");
+                  }
+                  else{
+
+                      var totalsum = parseInt($("#totalsumid").text());
+
+                      price_off_percentage = res
+                      price_off = (totalsum*price_off_percentage)/100;
+
+                      $(".discountamount").empty();
+                      $(".discountamount").append(price_off);
+                      $("#promoinput").prop('disabled', true);
+
+                      $(".applypromobutton").css("display","none");
+                      $(".applypromobutton").prop("disabled",true);
+
+                      $(".cancelpromobutton").prop("disabled",false);
+                      $(".cancelpromobutton").css("display","block");
+
+                      var totalsum = parseInt($("#totalsumid").text());
+                      $(".totalsum").empty();
+                      $(".totalsum").append((totalsum-price_off));
+
+
+
+
+
+                  }
+
+            });
+
+
+          }
+
+
+
+
+
+
+
+
+
+    });
+
+
+    $(".cancelpromobutton").click(function(){
+
+
+          var current_discount = parseInt($(".discountamount").text());
+
+          $(".discountamount").empty();
+          $(".discountamount").append("0");
+          $("#promoinput").prop('disabled', false);
+          $("#promoinput").val('');
+
+          $(".applypromobutton").css("display","block");
+          $(".applypromobutton").prop("disabled",false);
+
+          var totalsum = parseInt($("#totalsumid").text());
+          $(".totalsum").empty();
+          $(".totalsum").append((totalsum+current_discount));
+
+
+          $(".cancelpromobutton").css("display","none");
+          $(".cancelpromobutton").prop("disabled",true);
+
+
+
+
+    });
+
+
+
+
+        $(".checkouttest").click(function(event){
+
+
+                // $("#searchform").submit();
+
+                event.preventDefault();
+
+                var stm = parseInt($(".subtotalprice").text())
+                var dam = parseInt($(".discountamount").text())
+                var tot = parseInt($("#totalsumid").text())
+
+                $("#subtotalmoney").val(stm);
+                $("#discomontmoney").val(dam);
+                $("#totalmoney").val(tot);
+
+                console.log("form here "+tot);
+
+
+
+
+
+
+                $("#buyformsubmit").click();
+
+
+
+
+
+
+    });
+
+
+
+
+
+
+});
+
+function addFav(){
+    var course_id = '{{ course.id }}';
+    var user_id = '{{ request.user.id }}';
+    var url = '/student_favourite_courses/';
+    $.post(url,{student:user_id,course:course_id},function (res) {
+    });
+}
+
+function model_open(obj){
+
+
+
+    var type = $(obj).attr('data-type');
+
+    $('#commentId').val($(obj).attr('data-id'));
+    $('#commentDeleteId').val($(obj).attr('data-id'));
+    if(type == 'add'){
+        $('#exampleModal').modal('show');
+        $("#user_comment").val("");
+        $("#user_comment").focus();
+    } else if(type == 'edit'){
+        $('#exampleModal').modal('show');
+        $("#user_comment").val($(obj).attr('data-comment'));
+        $("#user_comment").focus();
+    } else if(type == 'delete'){
+        $('#deleteModal').modal('show');
+    }
+
+}
+
+
+
+function category(){
+    var category_id = $("#category_id").val();
+    var category_id_2 = $("#category_id_2").val();
+    $('#loadings').show();
+    $.ajax({
+    method : "POST",
+    url : "/sort_by_category/",
+    data : {
+        'category_id':category_id,
+        'category_id_2':category_id_2,
+        },
+        success : function(response){
+        $('#loadings').hide();
+        if (response == "error"){
+            $('#products-tab').html("")
+            swal({
+                title:  "Sorry, Course not found ",
+                icon: "warning",
+                button: "Ok",
+                closeOnClickOutside: false,
+            })
+            $('#products-tab').html("");
+            $('#brands-tab').html("");
+            $('#followers-tab').html("");
+        }
+        else {
+            {#response = JSON.parse(response);#}
+            $('#products-tab').html("");
+            $('#products-tab').html(response.rendered);
+            $('#brands-tab').html("");
+            $('#brands-tab').html(response.rendered2);
+            $('#followers-tab').html("");
+            $('#followers-tab').html(response.rendered1);
+            }
+        }
+    });
+}
+
+function save_comment(){
+
+    var course_id = '{{course.id}}'
+    var comment = $("#user_comment").val();
+    var user_id = '{{user_id}}'
+    var comment_id = $('#commentId').val();
+
+    if (comment == 0){
+        swal("Please Add Comment!",{
+        icon: "info",
+        button: "Ok",
+        closeOnClickOutside: false,
+        }).then(function() {
+        });
+    } else{
+        $.ajax({
+            method : "POST",
+            url : "/add_comment/",
+            data : {
+                'comment':comment,
+                'user_id':user_id,
+                'course_id':course_id,
+                'comment_id':comment_id,
+                },
+                success : function(response){
+                if (response == "success"){
+                    swal("Comment Added successfully!", {
+                    icon: "success",
+                    button: "Ok",
+                    closeOnClickOutside: false,
+                    }).then(function() {
+                        location.reload()
+                    });
+                }
+            }
+        });
+    }
+}
+
+function delete_comment(){
+    var id = $('#commentDeleteId').val();
+    $.ajax({
+            method : "POST",
+            url : "/delete_comment/",
+            data : {
+                'id':id,
+                },
+                success : function(response){
+                if (response == "success"){
+                    swal("Comment Deleted succfully!", {
+                    icon: "success",
+                    button: "Ok",
+                    closeOnClickOutside: false,
+                    }).then(function() {
+                        location.reload()
+                    });
+                }
+            }
+        });
+}
+
+function addToCartList(){
+    var course_id = '{{ course.id }}';
+    var user_id = '{{ request.user.id }}';
+    var url = '/student_Cart_courses/';
+    $.post(url,{student:user_id,course:course_id},function (res) {
+    });
+}
+
+</script>
+
+
+
+ {% endblock %} {% block script %}
+<!-- App JS -->
+<script src="{% static 'assets/js/sideb.js' %}"></script>
+<!-- Page and UI related js -->
+<script src="{% static 'assets/js/videos.js' %}"></script>
+<script src="{% static 'assets/js/settings.js' %}"></script>
+{% endblock %}

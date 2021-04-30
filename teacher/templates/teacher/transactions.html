@@ -1,0 +1,181 @@
+{% extends "teacher/base.html" %}
+
+{% block headercontent %}
+    {% include "./layout/header.html" %} 
+{% endblock %}
+
+{% block content %}
+    {% load static %}
+
+
+    <div class=" page__container page-section">
+
+
+
+
+
+
+
+
+        <div class="columns">
+            <div class="column is-12">
+                                <div class="page-separator">
+                    <div class="page-separator__text">Transactions</div>
+                </div>
+
+                <div class="card mb-0">
+
+                    <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-employee-name" data-lists-values='["js-lists-values-employee-name", "js-lists-values-employer-name", "js-lists-values-projects", "js-lists-values-activity", "js-lists-values-earnings"]'>
+
+
+
+                        <div class="card-header">
+                            <form class="form-inline">
+                                <label class="mr-sm-2 form-label">Filter by:</label>
+
+                                <label class="sr-only" for="inlineFormRole">Role</label>
+                                <select id="inlineFormRole" class="custom-select mb-2 mr-sm-2 mb-sm-0">
+                                    <option value="All Roles">All time</option>
+                                    <option value="All Roles">Today</option>
+                                </select>
+                            </form>
+                        </div>
+
+
+                        <table class="table mb-0 thead-border-top-0 table-nowrap">
+                            <thead>
+                                <tr>
+
+                                    <th>
+                                        <a href="javascript:void(0)" data-sort="js-lists-values-employee-name">Transaction</a>
+                                    </th>
+
+                                    <th style="width: 150px;">
+                                        <a href="javascript:void(0)" data-sort="js-lists-values-employer-name">Date</a>
+                                    </th>
+
+
+                                    <th class="text-center" style="width: 48px;">
+                                        <a href="javascript:void(0)" data-sort="js-lists-values-projects">Currency</a>
+                                    </th>
+
+
+
+                                    <th style="width: 120px;">
+                                        <a href="javascript:void(0)" data-sort="js-lists-values-activity">Amount</a>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="list" id="staff">
+
+                                <tr class="selected">
+
+                                    <td>
+
+                                        <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                            <div class="media-body">
+
+
+                                                <div class="d-flex flex-column">
+                                                    <p class="mb-0"><strong class="js-lists-values-employee-name">PayPal payment from booctep.com (7NE35026M8353160S at 22:03:24 Feb 24, 2021 EST)<br /> (SR) To alzober1414@gmail.com</strong></p>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+
+                                    </td>
+
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <a href="" class="text-70"><span class="js-lists-values-employer-name">Mon 12-01-2021</span></a>
+                                        </div>
+                                    </td>
+
+                                    <td class="text-center js-lists-values-projects small">SR</td>
+
+                                    <td class="text-center js-lists-values-projects small">120.00</td>
+
+
+                                </tr>
+
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="card-footer p-8pt">
+
+
+
+                        <center>
+
+                            <ul class="pagination-list " style="font-size:small;margin-top: 15px !important;">
+                                <li><a class="pagination-previous">Previous</a></li>
+                                    <li><a class="pagination-link" aria-label="Goto page 1">1</a></li>
+                                    <li><span class="pagination-ellipsis">&hellip;</span></li>
+                                    <li><a class="pagination-link" aria-label="Goto page 45">45</a></li>
+                                    <li><a class="pagination-link is-current" aria-label="Page 46" aria-current="page" style="color:white">46</a></li>
+                                    <li><a class="pagination-link" aria-label="Goto page 47">47</a></li>
+                                    <li><span class="pagination-ellipsis">&hellip;</span></li>
+                                    <li><a class="pagination-link" aria-label="Goto page 86">86</a></li>
+                                    <li><a class="pagination-next">Next</a></li>
+                                </ul>
+
+                        </center>
+
+                    </div>
+                    <!-- <div class="card-body bordet-top text-right">
+  15 <span class="text-50">of 1,430</span> <a href="#" class="text-50"><i class="material-icons ml-1">arrow_forward</i></a>
+</div> -->
+
+
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+    <script>
+
+        // $(document).ready(function(){
+
+            // $(".addtofeedback").click(function(){
+
+            //     // e.prevantDefault();
+
+            //     // var addthis = $(this).attr("id");
+            //     // console.log("hello "+addthis);
+
+            //     // $.post('addtofeedback/', {commentid: addthis}, function (res) {
+                    
+            //     //     console.log(res);
+            //     // });
+
+                
+
+
+
+            // });
+
+            
+
+
+            
+
+
+
+        // });
+
+
+        
+
+    // $(function(){
+    //     alert(123)
+    // })
+    </script>
+
+{%  endblock %}
+

@@ -1,0 +1,1547 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+{% load static %}
+
+
+
+    <link rel="stylesheet" href="/static/{{lang}}assets/vendor_assets/css/bootstrap/bootstrap.css">
+
+    <link rel="stylesheet" href="/static/{{lang}}assets/vendor_assets/style.css">
+
+
+<style>
+    .loading::after {
+        display: block;
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        transform: translateX(-100%);
+        background: -webkit-gradient(linear, left top, right top, from(transparent), color-stop(rgba(255, 255, 255, 0.2)), to(transparent));
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        /* Adding animation */
+        animation: loading 1s infinite;
+    }
+    /* Loading Animation */
+
+    @keyframes loading {
+        100% {
+            transform: translateX(100%);
+        }
+    }
+
+
+
+    .dancin-bc{
+    background: white !important;
+    height: 100%;
+    width: 100%;
+
+    }
+    .dancing-lao {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+.dancing-lao:after {
+  display: block;
+  width: 150px;
+  height: 2px;
+  margin-top: 10px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  background: rgb(43, 148, 209);
+  content: "";
+  -webkit-animation: 1s border infinite;
+          animation: 1s border infinite;
+  -webkit-animation-timing-function: cubic-bezier(0.92, 0.18, 0.04, 0.92);
+          animation-timing-function: cubic-bezier(0.92, 0.18, 0.04, 0.92);
+}
+.dancing-lao .left-dots {
+  position: absolute;
+  bottom: 20%;
+  left: 20%;
+}
+.dancing-lao .right-dots {
+  position: absolute;
+  bottom: 20%;
+  right: 20%;
+  -webkit-transform: scale(-1, 1);
+          transform: scale(-1, 1);
+}
+.dancing-lao .dot {
+  display: inline-block;
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgb(43, 148, 209);
+  opacity: 0;
+}
+.dancing-lao .dot-1 {
+  -webkit-animation: 1s dot infinite;
+          animation: 1s dot infinite;
+  -webkit-animation-delay: .5s;
+          animation-delay: .5s;
+}
+.dancing-lao .dot-2 {
+  -webkit-animation: 1s dot-2 infinite;
+          animation: 1s dot-2 infinite;
+  -webkit-animation-delay: .5s;
+          animation-delay: .5s;
+}
+.dancing-lao .circle-dot {
+  display: inline-block;
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 2px solid rgb(43, 148, 209);
+  -webkit-animation: 1s cirle-dot infinite;
+          animation: 1s cirle-dot infinite;
+  -webkit-animation-delay: .5s;
+          animation-delay: .5s;
+  opacity: 0;
+}
+.dancing-lao img {
+  display: block;
+  margin: auto;
+  width: 90px;
+  height: 80px;
+  margin-bottom: 20px;
+  -webkit-animation: 1s dance infinite;
+          animation: 1s dance infinite;
+  -webkit-animation-timing-function: cubic-bezier(0.92, 0.18, 0.04, 0.92);
+          animation-timing-function: cubic-bezier(0.92, 0.18, 0.04, 0.92);
+  -webkit-animation-direction: alternate;
+          animation-direction: alternate;
+}
+
+@-webkit-keyframes dance {
+  0% {
+    -webkit-transform: translate3d(-10px, -100px, 0) rotate(-15deg) scaleY(1.1);
+            transform: translate3d(-10px, -100px, 0) rotate(-15deg) scaleY(1.1);
+  }
+  50% {
+    -webkit-transform: translate3d(0, 8px, 0) scaleY(0.85);
+            transform: translate3d(0, 8px, 0) scaleY(0.85);
+  }
+  100% {
+    -webkit-transform: translate3d(10px, -100px, 0) rotate(15deg) scaleY(1.1);
+            transform: translate3d(10px, -100px, 0) rotate(15deg) scaleY(1.1);
+  }
+}
+
+@keyframes dance {
+  0% {
+    -webkit-transform: translate3d(-10px, -100px, 0) rotate(-15deg) scaleY(1.1);
+            transform: translate3d(-10px, -100px, 0) rotate(-15deg) scaleY(1.1);
+  }
+  50% {
+    -webkit-transform: translate3d(0, 8px, 0) scaleY(0.85);
+            transform: translate3d(0, 8px, 0) scaleY(0.85);
+  }
+  100% {
+    -webkit-transform: translate3d(10px, -100px, 0) rotate(15deg) scaleY(1.1);
+            transform: translate3d(10px, -100px, 0) rotate(15deg) scaleY(1.1);
+  }
+}
+@-webkit-keyframes border {
+  0% {
+    -webkit-transform: scaleX(1);
+            transform: scaleX(1);
+    opacity: 0.5;
+  }
+  50% {
+    -webkit-transform: scaleX(0.6);
+            transform: scaleX(0.6);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scaleX(1);
+            transform: scaleX(1);
+    opacity: 0.5;
+  }
+}
+@keyframes border {
+  0% {
+    -webkit-transform: scaleX(1);
+            transform: scaleX(1);
+    opacity: 0.5;
+  }
+  50% {
+    -webkit-transform: scaleX(0.6);
+            transform: scaleX(0.6);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scaleX(1);
+            transform: scaleX(1);
+    opacity: 0.5;
+  }
+}
+@-webkit-keyframes dot {
+  0% {
+    opacity: 0;
+  }
+  1% {
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+  }
+  50% {
+    -webkit-transform: scale(1) translate3d(-50px, -70px, 0);
+            transform: scale(1) translate3d(-50px, -70px, 0);
+    opacity: .8;
+  }
+  100% {
+    -webkit-transform: scale(1) translate3d(-50px, -70px, 0);
+            transform: scale(1) translate3d(-50px, -70px, 0);
+    opacity: 0;
+  }
+}
+@keyframes dot {
+  0% {
+    opacity: 0;
+  }
+  1% {
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+  }
+  50% {
+    -webkit-transform: scale(1) translate3d(-50px, -70px, 0);
+            transform: scale(1) translate3d(-50px, -70px, 0);
+    opacity: .8;
+  }
+  100% {
+    -webkit-transform: scale(1) translate3d(-50px, -70px, 0);
+            transform: scale(1) translate3d(-50px, -70px, 0);
+    opacity: 0;
+  }
+}
+@-webkit-keyframes dot-2 {
+  0% {
+    opacity: 0;
+  }
+  1% {
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+  }
+  70% {
+    -webkit-transform: scale(0.7) translate3d(-50px, -50px, 0);
+            transform: scale(0.7) translate3d(-50px, -50px, 0);
+    opacity: .8;
+  }
+  100% {
+    -webkit-transform: scale(0.7) translate3d(-50px, -50px, 0);
+            transform: scale(0.7) translate3d(-50px, -50px, 0);
+    opacity: 0;
+  }
+}
+@keyframes dot-2 {
+  0% {
+    opacity: 0;
+  }
+  1% {
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+  }
+  70% {
+    -webkit-transform: scale(0.7) translate3d(-50px, -50px, 0);
+            transform: scale(0.7) translate3d(-50px, -50px, 0);
+    opacity: .8;
+  }
+  100% {
+    -webkit-transform: scale(0.7) translate3d(-50px, -50px, 0);
+            transform: scale(0.7) translate3d(-50px, -50px, 0);
+    opacity: 0;
+  }
+}
+@-webkit-keyframes cirle-dot {
+  0% {
+    opacity: 0;
+  }
+  1% {
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+  }
+  80% {
+    -webkit-transform: scale(1) translate3d(-80px, -40px, 0);
+            transform: scale(1) translate3d(-80px, -40px, 0);
+    opacity: .8;
+  }
+  100% {
+    -webkit-transform: scale(1) translate3d(-80px, -40px, 0);
+            transform: scale(1) translate3d(-80px, -40px, 0);
+    opacity: 0;
+  }
+}
+@keyframes cirle-dot {
+  0% {
+    opacity: 0;
+  }
+  1% {
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+  }
+  80% {
+    -webkit-transform: scale(1) translate3d(-80px, -40px, 0);
+            transform: scale(1) translate3d(-80px, -40px, 0);
+    opacity: .8;
+  }
+  100% {
+    -webkit-transform: scale(1) translate3d(-80px, -40px, 0);
+            transform: scale(1) translate3d(-80px, -40px, 0);
+    opacity: 0;
+  }
+}
+
+
+    .accordion__menu{
+       border: 0.5px solid #dbdbdb;
+       background: white !important
+    }
+
+    .card-terms{
+      background-color: white !important;
+        animation-play-state: paused !important;
+    }
+
+    .card-terms-dark{
+      background-color: grey !important;
+        animation-play-state: paused !important;
+    }
+
+
+
+
+.knowledgebase {
+  background-color: #F8F9FB;
+  border-radius: 10px;
+  box-shadow: 0 5px 10px rgba(146, 153, 184, 0.1);
+  padding: 68px 0;
+}
+
+@media (min-width: 1699px) {
+  .knowledgebase .cus-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+.knowledgebase__nav {
+  border-bottom: 1px solid #E3E6EF;
+}
+
+.knowledgebase__nav li .nav-link {
+  padding: 0;
+  padding-bottom: 21px;
+  border-bottom: 1px solid transparent;
+  color: #5A5F7D;
+  font-size: 16px;
+  line-height: 1.25;
+  font-weight: 400;
+}
+
+@media only screen and (max-width: 479px) {
+  .knowledgebase__nav li .nav-link {
+    font-size: 14px;
+  }
+}
+
+.knowledgebase__nav li .nav-link.active {
+  color: #272B41;
+  font-weight: 500;
+  border-bottom: 1px solid #272B41;
+}
+
+.knowledgebase__nav li:not(:last-child) {
+  margin-right: 36px;
+}
+
+@media only screen and (max-width: 479px) {
+  .knowledgebase__nav li:not(:last-child) {
+    margin-right: 20px;
+  }
+}
+
+.knowledgebase__cta {
+  text-align: center;
+}
+
+.knowledgebase__cta h3 {
+  line-height: 1.22727;
+}
+
+.knowledgebase__cta p {
+  margin-top: 17px;
+  margin-bottom: 16px;
+  font-size: 15px;
+  line-height: 1.66667;
+  font-weight: 400;
+  color: #5A5F7D;
+}
+
+.knowledgebase__cta button {
+  height: 46px;
+}
+
+.knowledgebase__list h3 {
+  line-height: 1.22727;
+  margin-top: 37px;
+  margin-bottom: 22px;
+}
+
+.knowledgebase__list li {
+  margin-bottom: 6px;
+}
+
+.knowledgebase__list li a, .knowledgebase__list li .knowledgebase__list-collapsed {
+  font-size: 15px;
+  line-height: 1.66667;
+  font-weight: 400;
+  color: #5A5F7D;
+}
+
+.knowledgebase__list a, .knowledgebase__list .knowledgebase__list-collapsed {
+  display: flex;
+  position: relative;
+}
+
+.knowledgebase__list a:not(.collapsed) .changelog__accordingArrow, .knowledgebase__list .knowledgebase__list-collapsed:not(.collapsed) .changelog__accordingArrow {
+  transform: rotate(90deg);
+  transition: transform .24s;
+}
+
+.knowledgebase__list a .changelog__accordingArrow, .knowledgebase__list .knowledgebase__list-collapsed .changelog__accordingArrow {
+  transition: transform .24s;
+  position: absolute;
+  left: -20px;
+}
+
+.knowledgebase__list a .changelog__accordingArrow svg, .knowledgebase__list .knowledgebase__list-collapsed .changelog__accordingArrow svg {
+  width: 15px;
+  height: auto;
+  color: #272B41;
+}
+
+.knowledgebase__list .collapse-area {
+  margin-left: 22px;
+  margin-bottom: 15px;
+  margin-top: 6px;
+  transition: all 0.3s ease;
+}
+
+.knowledgebase__list-plugin h3 {
+  line-height: 1.22727;
+}
+
+.knowledgebase__plugin-wrapper {
+  margin-top: 46px;
+}
+
+.knowledgebase__more {
+  display: flex;
+  align-items: center;
+}
+
+.knowledgebase__more a {
+  font-size: 15px;
+  line-height: 1.33333;
+  font-weight: 500;
+  text-transform: capitalize;
+  transition: all 0.3s ease;
+  margin-top: 11px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid transparent;
+}
+
+.knowledgebase__more a i {
+  font-size: 15px;
+  margin-left: 13px;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.knowledgebase__more a:hover i {
+  opacity: 1;
+}
+
+.knowledgebase__more a:hover {
+  border-bottom: 1px solid #5f63f2;
+}
+
+.knowledgebase__hr {
+  background: #E3E6EF;
+  width: 100%;
+  height: 1px;
+  margin: 70px 0;
+}
+
+.knowledgebase__article span {
+  font-size: 15px;
+  line-height: 1.33333;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.knowledgebase__article h3 {
+  line-height: 1.36364;
+  color: rgba(255, 255, 255, 0.9);
+  margin-top: 15px;
+  margin-bottom: 25px;
+}
+
+.knowledgebase__article a {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 15px;
+  line-height: 1.33333;
+  font-weight: 500;
+  text-transform: capitalize;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.knowledgebase__article a i {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.knowledgebase__article a:hover i {
+  visibility: visible;
+  opacity: 1;
+}
+
+.knowledgebase__article-title {
+  margin-bottom: 30px;
+}
+
+.knowledgebase__article-title h2 {
+  line-height: 1.25;
+}
+
+.knowledgebase-adv {
+  margin-top: 62px;
+}
+
+.knowledgebase-adv__card .card-body {
+  margin-left: 12px;
+}
+
+.knowledgebase-adv__card .knowledgebase__list li {
+  margin-bottom: 17px;
+}
+
+.knowledgebase-adv__card .knowledgebase__list li a, .knowledgebase-adv__card .knowledgebase__list li .knowledgebase__list-collapsed {
+  font-size: 16px;
+  line-height: 1.5625;
+  font-weight: 500;
+}
+
+.knowledgebase-adv__right h1 {
+  line-height: 1.26667;
+  margin-bottom: 27px;
+}
+
+@media only screen and (max-width: 767px) {
+  .knowledgebase-adv__right {
+    margin-top: 50px;
+  }
+}
+
+.knowledgebase-adv__content article h3 {
+  line-height: 1.22727;
+}
+
+@media only screen and (max-width: 575px) {
+  .knowledgebase-adv__content article h3 {
+    width: 85%;
+  }
+}
+
+.knowledgebase-adv__content article p {
+  margin-top: 19px;
+  margin-bottom: 40px;
+  color: #272B41;
+  font-size: 15px;
+  line-height: 1.73333;
+  font-weight: 400;
+}
+
+.knowledgebase-adv__content article a {
+  color: #272B41;
+  font-size: 12px;
+  line-height: 1.33333;
+  font-weight: 500;
+  text-transform: uppercase;
+  text-decoration: underline;
+}
+
+.knowledgebase-adv__content article:not(:first-child) {
+  margin-top: 50px;
+}
+
+.knowledgebase-adv__collapse:not(.collapsed) .changelog__accordingArrow {
+  transform: rotate(90deg);
+  transition: transform .24s;
+}
+
+.knowledgebase-adv__collapse .changelog__accordingArrow {
+  transition: transform .24s;
+  width: 28px;
+  height: 28px;
+  box-shadow: 0 2px 2px rgba(146, 148, 159, 0.3);
+  border-radius: 50%;
+}
+
+.knowledgebase-adv__collapse .changelog__accordingArrow svg {
+  width: 18px;
+  color: #272B41;
+}
+
+.knowledgebase-adv .collapse-adv__area .nav-pills .nav-link {
+  padding: 8px 18px;
+  border-radius: 0;
+  background: transparent;
+  color: #5A5F7D;
+  border-left: 1px solid #EAEBEF;
+  font-size: 15px;
+  line-height: 1.66667;
+  font-weight: 400;
+}
+
+.knowledgebase-adv .collapse-adv__area .nav-pills .nav-link.active {
+  border-left: 1px solid #5f63f2;
+}
+
+.knowledgebase-updateDate {
+  color: #868EAE;
+  font-size: 14px;
+  line-height: 1.42857;
+  font-weight: 400;
+  margin-top: 50px;
+  margin-bottom: 0;
+}
+
+.knowledgebase-updateDate span {
+  color: #272B41;
+  font-weight: 500;
+}
+
+.knowledgebase-help {
+  border-radius: 5px;
+  margin: 25px 0;
+  border: 1px solid #E3E6EF;
+  box-shadow: 0 5px 10px rgba(146, 153, 184, 0.1);
+}
+
+.knowledgebase-help .card-body {
+  flex-wrap: wrap;
+  padding: 35px 30px;
+  margin: 0 -20px;
+}
+
+@media only screen and (max-width: 575px) {
+  .knowledgebase-help .card-body {
+    flex-direction: column;
+  }
+}
+
+.knowledgebase-help .card-body h6 {
+  margin-right: 40px;
+}
+
+@media only screen and (max-width: 575px) {
+  .knowledgebase-help .card-body h6 {
+    margin-right: 0;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+}
+
+@media only screen and (max-width: 1199px) {
+  .knowledgebase-help .card-body h6 {
+    margin: 5px 20px;
+    margin-right: 0;
+  }
+}
+
+@media only screen and (max-width: 1199px) {
+  .knowledgebase-help .card-body .button-group {
+    margin: 0 20px;
+  }
+}
+
+.knowledgebase-help .card-body button {
+  font-size: 14px;
+  line-height: 1.78571;
+  font-weight: 400;
+  height: 36px;
+  text-transform: capitalize;
+}
+
+.knowledgebase-help .card-body button svg {
+  width: 20px;
+  height: 20px;
+}
+
+.knowledgebase-help-request {
+  flex-wrap: wrap;
+}
+
+.knowledgebase-help-request > p {
+  font-size: 16px;
+  line-height: 1.25;
+  font-weight: 500;
+  color: #272B41;
+  margin-bottom: 10px;
+}
+
+.knowledgebase-help-request > p a {
+  margin-left: 10px;
+}
+
+.knowledgebase-help-request .knowledgebase__share {
+  margin-bottom: 10px;
+}
+
+.knowledgebase-help-request .knowledgebase__share p {
+  margin-bottom: 0;
+  margin-right: 20px;
+  color: #868EAE;
+  font-size: 14px;
+  line-height: 1.78571;
+  font-weight: 400;
+}
+
+.knowledgebase-help-request .knowledgebase__share ul {
+  display: flex;
+}
+
+.knowledgebase-help-request .knowledgebase__share ul li {
+  margin-right: 10px;
+}
+
+.knowledgebase-help-request .knowledgebase__share ul li a {
+  color: #9299BB;
+  font-size: 15px;
+}
+
+.knowledgebase-hr {
+  width: 100%;
+  height: 1px;
+  background: #EAEBEF;
+  margin-top: 40px;
+  margin-bottom: 25px;
+}
+
+
+.knowledgebase-details {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 5px 10px rgba(146, 153, 184, 0.1);
+  padding: 68px 0;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+@media only screen and (max-width: 991px) {
+  .knowledgebase-details {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+}
+
+@media (min-width: 1599px) {
+  .knowledgebase-details .cus-8 {
+    flex: 0 0 66.66667%;
+    max-width: 66.66667%;
+  }
+}
+
+</style>
+
+
+    <div class="products-navigation" style="display: none;">
+    </div>
+
+
+
+
+
+
+
+
+    <div class="terms" >
+
+
+
+
+
+            <!-- Brands -->
+            <div id="brands-tab" class="store-tab-pane is-active">
+                   <!-- Timeline -->
+
+                   <section class="hero is-small is-bold hero-term">
+                    <div class="hero-body">
+                      <div class="container">
+
+                        <h1 class="booctep-1" data-shadow='Booctep'>Terms</h1>
+
+
+
+
+                        <h2 class="booctep-h2">Terms of use and condition</h2>
+
+                      </div>
+                    </div>
+                  </section>
+
+
+
+
+
+
+
+
+                  <div class="terms-page " id="terms">
+                    <div class="container">
+
+
+                        <div class="columns" >
+                            <div class="column is-12 ">
+
+                                                  <div class="social-dash-wrap">
+
+                      <div class="knowledgebase-details">
+                          <div class="row justify-content-center">
+                              <div class="col-lg-10">
+                                  <div class="row">
+                                      <div class="col-md-12">
+                                          <div class="knowledgebase-breadcrumb">
+                                              <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                                                  <ol class="breadcrumb">
+                                                      <li class="breadcrumb-item"><a href="#">Demo Home</a></li>
+                                                      <li class="breadcrumb-item"><a href="#">Plugins</a></li>
+                                                      <li class="breadcrumb-item"><a href="#">Introduction to Plugin</a></li>
+                                                      <li class="breadcrumb-item active" aria-current="page">Switch between accounts
+                                                      </li>
+                                                  </ol>
+                                              </nav>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="knowledgebase-adv">
+                                      <div class="row">
+                                          <div class="col-md-4">
+                                              <div class="card knowledgebase-adv__card  shadow-none radius-xs">
+                                                  <div class="card-header px-20">
+                                                      <h6>Plugins</h6>
+                                                  </div>
+                                                  <div class="card-body">
+                                                      <div class="knowledgebase__list">
+                                                          <ul>
+                                                              <li>
+                                                                  <div class="accordion" id="accordionExample1">
+                                                                      <div class="d-flex flex-wrap">
+                                                                          <div id="headingOne">
+                                                                              <div role="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne" class="knowledgebase__list-collapsed">
+                                                                                  <div class="changelog__accordingArrow">
+                                                                                      <span data-feather="chevron-right"></span>
+                                                                                  </div>
+                                                                                  Introduction to Plugin
+                                                                              </div>
+                                                                          </div>
+
+                                                                          <div id="collapseOne" class="collapse  show collapse-adv__area" aria-labelledby="headingOne" data-parent="#accordionExample1">
+                                                                              <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                                                                                  <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Switch between accounts</a>
+                                                                                  <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Installing vendor
+                                                                                      marketplace
+                                                                                      lorem vendor marketplace </a>
+                                                                                  <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Stop getting emails from
+                                                                                      lorem</a>
+                                                                                  <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Threads to organize
+                                                                                      discussions</a>
+                                                                              </div>
+                                                                          </div>
+                                                                      </div>
+                                                                  </div>
+                                                              </li>
+                                                              <li>
+                                                                  <div class="accordion" id="accordionExample2">
+                                                                      <div>
+                                                                          <div id="headingOne2">
+                                                                              <div role="button" data-toggle="collapse" data-target="#collapseOne2" aria-expanded="false" aria-controls="collapseOne2" class="collapsed knowledgebase__list-collapsed">
+                                                                                  <div class="changelog__accordingArrow">
+                                                                                      <span data-feather="chevron-right"></span>
+                                                                                  </div>
+                                                                                  Introduction to Plugin
+                                                                              </div>
+                                                                          </div>
+
+                                                                          <div id="collapseOne2" class="collapse collapse-adv__area" aria-labelledby="headingOne2" data-parent="#accordionExample2">
+                                                                              <div class="card-body p-0 pt-20 ml-3">
+                                                                                  <ul>
+
+                                                                                      <li>
+                                                                                          <div class="accordion" id="accordionExample3">
+                                                                                              <div class="d-flex flex-wrap">
+                                                                                                  <div id="headingOne3">
+                                                                                                      <div role="button" data-toggle="collapse" data-target="#collapseOne3" aria-expanded="false" aria-controls="collapseOne3" class="collapsed knowledgebase__list-collapsed">
+                                                                                                          <div class="changelog__accordingArrow">
+                                                                                                              <span data-feather="chevron-right"></span>
+                                                                                                          </div>
+                                                                                                          Installing lorem marketplace
+                                                                                                      </div>
+                                                                                                  </div>
+
+                                                                                                  <div id="collapseOne3" class="collapse collapse-adv__area" aria-labelledby="headingOne3" data-parent="#accordionExample3">
+                                                                                                      <div class="nav flex-column nav-pills" id="v-pills-tab2" role="tablist" aria-orientation="vertical">
+                                                                                                          <a class="nav-link" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Installing
+                                                                                                              vendor
+                                                                                                              marketplace
+                                                                                                              lorem vendor marketplace
+                                                                                                          </a>
+                                                                                                          <a class="nav-link" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Stop
+                                                                                                              getting emails from
+                                                                                                              lorem</a>
+                                                                                                          <a class="nav-link" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Threads
+                                                                                                              to organize
+                                                                                                              discussions</a>
+                                                                                                      </div>
+                                                                                                  </div>
+                                                                                              </div>
+                                                                                          </div>
+                                                                                      </li>
+                                                                                      <li>
+                                                                                          <div class="accordion" id="accordionExample4">
+                                                                                              <div class="d-flex flex-wrap">
+                                                                                                  <div id="headingOne4">
+                                                                                                      <div role="button" data-toggle="collapse" data-target="#collapseOne4" aria-expanded="false" aria-controls="collapseOne4" class="collapsed knowledgebase__list-collapsed">
+                                                                                                          <div class="changelog__accordingArrow">
+                                                                                                              <span data-feather="chevron-right"></span>
+                                                                                                          </div>
+                                                                                                          Understand your actions in
+                                                                                                          lorem
+                                                                                                      </div>
+                                                                                                  </div>
+
+                                                                                                  <div id="collapseOne4" class="collapse collapse-adv__area" aria-labelledby="headingOne4" data-parent="#accordionExample4">
+                                                                                                      <div class="nav flex-column nav-pills" id="v-pills-tab3" role="tablist" aria-orientation="vertical">
+                                                                                                          <a class="nav-link" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Installing
+                                                                                                              vendor
+                                                                                                              marketplace
+                                                                                                              lorem vendor marketplace
+                                                                                                          </a>
+                                                                                                          <a class="nav-link" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Stop
+                                                                                                              getting emails from
+                                                                                                              lorem</a>
+                                                                                                          <a class="nav-link" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Threads
+                                                                                                              to organize
+                                                                                                              discussions</a>
+                                                                                                      </div>
+                                                                                                  </div>
+                                                                                              </div>
+                                                                                          </div>
+                                                                                      </li>
+                                                                                  </ul>
+                                                                              </div>
+                                                                          </div>
+                                                                      </div>
+                                                                  </div>
+                                                              </li>
+                                                              <li>
+                                                                  <div class="accordion" id="accordionExample5">
+                                                                      <div class="d-flex flex-wrap">
+                                                                          <div id="headingOne5">
+                                                                              <div role="button" data-toggle="collapse" data-target="#collapseOne5" aria-expanded="false" aria-controls="collapseOne5" class="collapsed knowledgebase__list-collapsed">
+                                                                                  <div class="changelog__accordingArrow">
+                                                                                      <span data-feather="chevron-right"></span>
+                                                                                  </div>
+                                                                                  Productivity tools for your Plugin admin & change
+                                                                                  password
+                                                                              </div>
+                                                                          </div>
+
+                                                                          <div id="collapseOne5" class="collapse collapse-adv__area" aria-labelledby="headingOne5" data-parent="#accordionExample5">
+                                                                              <div class="nav flex-column nav-pills" id="v-pills-tab4" role="tablist" aria-orientation="vertical">
+                                                                                  <a class="nav-link" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Installing
+                                                                                      vendor
+                                                                                      marketplace
+                                                                                      lorem vendor marketplace
+                                                                                  </a>
+                                                                                  <a class="nav-link" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Stop
+                                                                                      getting emails from
+                                                                                      lorem</a>
+                                                                                  <a class="nav-link" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Threads
+                                                                                      to organize
+                                                                                      discussions</a>
+                                                                              </div>
+                                                                          </div>
+                                                                      </div>
+                                                                  </div>
+                                                              </li>
+                                                              <li>
+                                                                  <div class="accordion" id="accordionExample6">
+                                                                      <div class="d-flex flex-wrap">
+                                                                          <div id="headingOne6">
+                                                                              <div role="button" data-toggle="collapse" data-target="#collapseOne6" aria-expanded="false" aria-controls="collapseOne6" class="collapsed knowledgebase__list-collapsed">
+                                                                                  <div class="changelog__accordingArrow">
+                                                                                      <span data-feather="chevron-right"></span>
+                                                                                  </div>
+                                                                                  Download, install, and upgrade
+                                                                              </div>
+                                                                          </div>
+
+                                                                          <div id="collapseOne6" class="collapse collapse-adv__area" aria-labelledby="headingOne6" data-parent="#accordionExample6">
+                                                                              <div class="nav flex-column nav-pills" id="v-pills-tab6" role="tablist" aria-orientation="vertical">
+                                                                                  <a class="nav-link" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Installing
+                                                                                      vendor
+                                                                                      marketplace
+                                                                                      lorem vendor marketplace
+                                                                                  </a>
+                                                                                  <a class="nav-link" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Stop
+                                                                                      getting emails from
+                                                                                      lorem</a>
+                                                                                  <a class="nav-link" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Threads
+                                                                                      to organize
+                                                                                      discussions</a>
+                                                                              </div>
+                                                                          </div>
+                                                                      </div>
+                                                                  </div>
+                                                              </li>
+                                                              <li>
+                                                                  <div class="accordion" id="accordionExample7">
+                                                                      <div class="d-flex flex-wrap">
+                                                                          <div id="headingOne7">
+                                                                              <div role="button" data-toggle="collapse" data-target="#collapseOne7" aria-expanded="false" aria-controls="collapseOne7" class="collapsed knowledgebase__list-collapsed">
+                                                                                  <div class="changelog__accordingArrow">
+                                                                                      <span data-feather="chevron-right"></span>
+                                                                                  </div>
+                                                                                  Explore plans & features
+                                                                              </div>
+                                                                          </div>
+
+                                                                          <div id="collapseOne7" class="collapse collapse-adv__area" aria-labelledby="headingOne7" data-parent="#accordionExample7">
+                                                                              <div class="nav flex-column nav-pills" id="v-pills-tab7" role="tablist" aria-orientation="vertical">
+                                                                                  <a class="nav-link" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Installing
+                                                                                      vendor
+                                                                                      marketplace
+                                                                                      lorem vendor marketplace
+                                                                                  </a>
+                                                                                  <a class="nav-link" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Stop
+                                                                                      getting emails from
+                                                                                      lorem</a>
+                                                                                  <a class="nav-link" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Threads
+                                                                                      to organize
+                                                                                      discussions</a>
+                                                                              </div>
+                                                                          </div>
+                                                                      </div>
+                                                                  </div>
+                                                              </li>
+                                                              <li>
+                                                                  <div class="accordion" id="accordionExample8">
+                                                                      <div class="d-flex flex-wrap">
+                                                                          <div id="headingOne8">
+                                                                              <div role="button" data-toggle="collapse" data-target="#collapseOne8" aria-expanded="false" aria-controls="collapseOne8" class="collapsed knowledgebase__list-collapsed">
+                                                                                  <div class="changelog__accordingArrow">
+                                                                                      <span data-feather="chevron-right"></span>
+                                                                                  </div>
+                                                                                  Profile Settings
+                                                                              </div>
+                                                                          </div>
+
+                                                                          <div id="collapseOne8" class="collapse collapse-adv__area" aria-labelledby="headingOne8" data-parent="#accordionExample8">
+                                                                              <div class="nav flex-column nav-pills" id="v-pills-tab8" role="tablist" aria-orientation="vertical">
+                                                                                  <a class="nav-link" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Installing
+                                                                                      vendor
+                                                                                      marketplace
+                                                                                      lorem vendor marketplace
+                                                                                  </a>
+                                                                                  <a class="nav-link" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Stop
+                                                                                      getting emails from
+                                                                                      lorem</a>
+                                                                                  <a class="nav-link" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Threads
+                                                                                      to organize
+                                                                                      discussions</a>
+                                                                              </div>
+                                                                          </div>
+                                                                      </div>
+                                                                  </div>
+                                                              </li>
+                                                              <li>
+                                                                  <div class="accordion" id="accordionExample9">
+                                                                      <div class="d-flex flex-wrap">
+                                                                          <div id="headingOne9">
+                                                                              <div role="button" data-toggle="collapse" data-target="#collapseOne9" aria-expanded="false" aria-controls="collapseOne9" class="collapsed knowledgebase__list-collapsed">
+                                                                                  <div class="changelog__accordingArrow">
+                                                                                      <span data-feather="chevron-right"></span>
+                                                                                  </div>
+                                                                                  Listings Management
+                                                                              </div>
+                                                                          </div>
+
+                                                                          <div id="collapseOne9" class="collapse collapse-adv__area" aria-labelledby="headingOne9" data-parent="#accordionExample9">
+                                                                              <div class="nav flex-column nav-pills" id="v-pills-tab9" role="tablist" aria-orientation="vertical">
+                                                                                  <a class="nav-link" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Installing
+                                                                                      vendor
+                                                                                      marketplace
+                                                                                      lorem vendor marketplace
+                                                                                  </a>
+                                                                                  <a class="nav-link" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Stop
+                                                                                      getting emails from
+                                                                                      lorem</a>
+                                                                                  <a class="nav-link" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Threads
+                                                                                      to organize
+                                                                                      discussions</a>
+                                                                              </div>
+                                                                          </div>
+                                                                      </div>
+                                                                  </div>
+                                                              </li>
+                                                              <li>
+                                                                  <div class="accordion" id="accordionExample10">
+                                                                      <div class="d-flex flex-wrap">
+                                                                          <div id="headingOne10">
+                                                                              <div role="button" data-toggle="collapse" data-target="#collapseOne10" aria-expanded="false" aria-controls="collapseOne10" class="collapsed knowledgebase__list-collapsed">
+                                                                                  <div class="changelog__accordingArrow">
+                                                                                      <span data-feather="chevron-right"></span>
+                                                                                  </div>
+                                                                                  Explore plans & features
+                                                                              </div>
+                                                                          </div>
+
+                                                                          <div id="collapseOne10" class="collapse collapse-adv__area" aria-labelledby="headingOne10" data-parent="#accordionExample10">
+                                                                              <div class="nav flex-column nav-pills" id="v-pills-tab10" role="tablist" aria-orientation="vertical">
+                                                                                  <a class="nav-link" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Installing
+                                                                                      vendor
+                                                                                      marketplace
+                                                                                      lorem vendor marketplace
+                                                                                  </a>
+                                                                                  <a class="nav-link" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Stop
+                                                                                      getting emails from
+                                                                                      lorem</a>
+                                                                                  <a class="nav-link" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Threads
+                                                                                      to organize
+                                                                                      discussions</a>
+                                                                              </div>
+                                                                          </div>
+                                                                      </div>
+                                                                  </div>
+                                                              </li>
+                                                              <li>
+                                                                  <div class="accordion" id="accordionExample11">
+                                                                      <div class="d-flex flex-wrap">
+                                                                          <div id="headingOne11">
+                                                                              <div role="button" data-toggle="collapse" data-target="#collapseOne11" aria-expanded="false" aria-controls="collapseOne11" class="collapsed knowledgebase__list-collapsed">
+                                                                                  <div class="changelog__accordingArrow">
+                                                                                      <span data-feather="chevron-right"></span>
+                                                                                  </div>
+                                                                                  Miscellaneous
+                                                                              </div>
+                                                                          </div>
+
+                                                                          <div id="collapseOne11" class="collapse collapse-adv__area" aria-labelledby="headingOne11" data-parent="#accordionExample11">
+                                                                              <div class="nav flex-column nav-pills" id="v-pills-tab11" role="tablist" aria-orientation="vertical">
+                                                                                  <a class="nav-link" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Installing
+                                                                                      vendor
+                                                                                      marketplace
+                                                                                      lorem vendor marketplace
+                                                                                  </a>
+                                                                                  <a class="nav-link" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Stop
+                                                                                      getting emails from
+                                                                                      lorem</a>
+                                                                                  <a class="nav-link" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Threads
+                                                                                      to organize
+                                                                                      discussions</a>
+                                                                              </div>
+                                                                          </div>
+                                                                      </div>
+                                                                  </div>
+                                                              </li>
+                                                          </ul>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div class="col-md-8">
+                                              <div class="tab-content" id="v-pills-tabContent">
+                                                  <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                                                      <div class="knowledgebase-adv__right">
+                                                          <h1>Switch between accounts</h1>
+                                                          <div class="knowledgebase-adv__content">
+                                                              <article>
+                                                                  <h3>Configuration</h3>
+                                                                  <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+                                                                      nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+                                                                      erat, sed diam voluptua. At vero eos et accusam et justo duo
+                                                                      dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
+                                                                      sanctus est Lorem ipsum dolor sit amet….</p>
+                                                                  <a href="#">Read More</a>
+                                                              </article>
+                                                              <article>
+                                                                  <h3>Research and experiments</h3>
+                                                                  <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+                                                                      nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+                                                                      erat, sed diam voluptua. At vero eos et accusam et justo duo
+                                                                      dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
+                                                                      sanctus est Lorem ipsum dolor sit amet….</p>
+                                                                  <img src="img/NoPath.png" alt="img" class="w-100">
+                                                              </article>
+
+                                                              <article id="accordion-post1">
+                                                                  <div id="article1">
+                                                                      <div role="button" class="d-flex flex-wrap justify-content-between knowledgebase-adv__collapse collapsed " data-toggle="collapse" data-target="#article1area" aria-expanded="false" aria-controls="article1area">
+                                                                          <h3>Measuring
+                                                                              elevation
+                                                                          </h3>
+                                                                          <div class="changelog__accordingArrow">
+                                                                              <span data-feather="chevron-right"></span>
+                                                                          </div>
+                                                                      </div>
+                                                                  </div>
+
+                                                                  <div id="article1area" class="collapse" aria-labelledby="article1" data-parent="#accordion-post1">
+                                                                      <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+                                                                          diam
+                                                                          nonumy eirmod tempor invidunt ut labore et dolore magna
+                                                                          aliquyam
+                                                                          erat, sed diam voluptua. At vero eos et accusam et justo duo
+                                                                          dolores et ea rebum. Stet clita kasd gubergren, no sea
+                                                                          takimata
+                                                                          sanctus est Lorem ipsum dolor sit amet….</p>
+                                                                      <a href="#">Read More</a>
+                                                                  </div>
+                                                              </article>
+
+                                                              <article id="accordion-post2">
+                                                                  <div id="article2">
+                                                                      <div role="button" class="d-flex flex-wrap justify-content-between knowledgebase-adv__collapse collapsed " data-toggle="collapse" data-target="#article2area" aria-expanded="false" aria-controls="article2area">
+                                                                          <h3>Research and experiments
+                                                                          </h3>
+                                                                          <div class="changelog__accordingArrow">
+                                                                              <span data-feather="chevron-right"></span>
+                                                                          </div>
+                                                                      </div>
+                                                                  </div>
+
+                                                                  <div id="article2area" class="collapse" aria-labelledby="article2" data-parent="#accordion-post2">
+                                                                      <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+                                                                          diam
+                                                                          nonumy eirmod tempor invidunt ut labore et dolore magna
+                                                                          aliquyam
+                                                                          erat, sed diam voluptua. At vero eos et accusam et justo duo
+                                                                          dolores et ea rebum. Stet clita kasd gubergren, no sea
+                                                                          takimata
+                                                                          sanctus est Lorem ipsum dolor sit amet….</p>
+                                                                      <a href="#">Read More</a>
+                                                                  </div>
+                                                              </article>
+                                                              <p class="knowledgebase-updateDate">
+                                                                  Last updated: <span> June 7, 2019</span>
+                                                              </p>
+
+                                                              <div class="card knowledgebase-help">
+                                                                  <div class="card-body">
+                                                                      <h6>Was this article helpful?</h6>
+                                                                      <div class="button-group">
+                                                                          <button class="btn btn-sm btn-squared btn-outline-success "><span data-feather="smile"></span> yes</button>
+                                                                          <button class="btn btn-sm btn-squared btn-outline-warning "><span data-feather="frown"></span> No</button>
+                                                                      </div>
+                                                                  </div>
+                                                              </div>
+                                                              <div class="knowledgebase-help-request d-flex align-items-center justify-content-between">
+                                                                  <p>Still need help? <a href="#">Submit a Request</a></p>
+                                                                  <div class="knowledgebase__share d-flex align-items-center">
+                                                                      <p>Share this article:</p>
+                                                                      <ul>
+                                                                          <li><a href="#"><i class="lab la-facebook-f"></i></a></li>
+                                                                          <li><a href="#"><i class="lab la-twitter"></i></a></li>
+                                                                          <li><a href="#"><i class="lab la-pinterest"></i></a></li>
+                                                                          <li><a href="#"><i class="las la-link"></i></a></li>
+                                                                      </ul>
+                                                                  </div>
+                                                              </div>
+                                                              <div class="knowledgebase-hr">
+
+                                                              </div>
+                                                              <div class="post-pagination d-flex justify-content-between">
+                                                                  <div class="prev-post">
+                                                                      <span><i class="las la-angle-left"></i>Previous article</span>
+                                                                      <p><a href="#" class="title">Stop getting emails from lorem</a>
+                                                                      </p>
+                                                                  </div>
+                                                                  <div class="next-post">
+                                                                      <span>Next article <i class="las la-angle-right"></i></span>
+                                                                      <p><a href="#" class="title">Use threads to organize
+                                                                              discussions</a></p>
+                                                                  </div>
+                                                              </div>
+
+                                                              <div class="related-article card">
+                                                                  <div class="card-body">
+                                                                      <h4>Related articles</h4>
+                                                                      <ul>
+                                                                          <li><i class="las la-file-invoice"></i>Installing lorem
+                                                                              multi vendor marketplace</li>
+                                                                          <li><i class="las la-file-invoice"></i>Copyright and
+                                                                              trademarks</li>
+                                                                          <li><i class="las la-file-invoice"></i>Stop getting emails
+                                                                              from lorem</li>
+                                                                      </ul>
+                                                                  </div>
+                                                              </div>
+
+                                                              <div id="respond" class="comment-respond">
+                                                                  <h4>Leave comment</h4>
+                                                                  <form class="comment_form_wrapper row">
+                                                                      <div class="col-md-6">
+                                                                          <div class="form-group">
+                                                                              <label class="required" for="exampleInputEmail1">Name</label>
+                                                                              <input type="text" class="form-control cr-form-control" id="exampleInputEmail1" aria-describedby="exampleInputEmail1" required>
+                                                                          </div>
+                                                                      </div>
+                                                                      <div class="col-md-6">
+                                                                          <div class="form-group">
+                                                                              <label class="required" for="exampleInputEmail2">Email</label>
+                                                                              <input type="email" class="form-control cr-form-control" id="exampleInputEmail2" aria-describedby="exampleInputEmail2" required>
+                                                                          </div>
+                                                                      </div>
+                                                                      <div class="col-md-12">
+                                                                          <div class="form-group">
+                                                                              <label for="exampleFormControlTextarea1">Comment</label>
+                                                                              <textarea class="form-control cr-form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                                                          </div>
+                                                                      </div>
+                                                                      <div class="col-md-12">
+                                                                          <button type="submit" class="btn btn-primary btn-default btn-squared btn-shadow-primary">Submit
+                                                                              Comment</button>
+                                                                      </div>
+                                                                  </form>
+                                                              </div>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                                  <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                                                      <div class="knowledgebase-adv__right">
+                                                          <h1>Installing vendor marketplace
+                                                              lorem vendor marketplace </h1>
+                                                          <div class="knowledgebase-adv__content">
+                                                              <article>
+                                                                  <h3>Configuration</h3>
+                                                                  <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+                                                                      nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+                                                                      erat, sed diam voluptua. At vero eos et accusam et justo duo
+                                                                      dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
+                                                                      sanctus est Lorem ipsum dolor sit amet….</p>
+                                                                  <a href="#">Read More</a>
+                                                              </article>
+                                                              <article>
+                                                                  <h3>Research and experiments</h3>
+                                                                  <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+                                                                      nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+                                                                      erat, sed diam voluptua. At vero eos et accusam et justo duo
+                                                                      dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
+                                                                      sanctus est Lorem ipsum dolor sit amet….</p>
+                                                                  <img src="img/NoPath.png" alt="img" class="w-100">
+                                                              </article>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                                  <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+                                                      <div class="knowledgebase-adv__right">
+                                                          <h1>Stop getting emails from lorem</h1>
+                                                          <div class="knowledgebase-adv__content">
+                                                              <article>
+                                                                  <h3>Configuration</h3>
+                                                                  <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+                                                                      nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+                                                                      erat, sed diam voluptua. At vero eos et accusam et justo duo
+                                                                      dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
+                                                                      sanctus est Lorem ipsum dolor sit amet….</p>
+                                                                  <a href="#">Read More</a>
+                                                              </article>
+                                                              <article>
+                                                                  <h3>Research and experiments</h3>
+                                                                  <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+                                                                      nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+                                                                      erat, sed diam voluptua. At vero eos et accusam et justo duo
+                                                                      dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
+                                                                      sanctus est Lorem ipsum dolor sit amet….</p>
+                                                                  <img src="img/NoPath.png" alt="img" class="w-100">
+                                                              </article>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                                  <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+                                                      <div class="knowledgebase-adv__right">
+                                                          <h1>Threads to organize discussions</h1>
+                                                          <div class="knowledgebase-adv__content">
+                                                              <article>
+                                                                  <h3>Configuration</h3>
+                                                                  <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+                                                                      nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+                                                                      erat, sed diam voluptua. At vero eos et accusam et justo duo
+                                                                      dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
+                                                                      sanctus est Lorem ipsum dolor sit amet….</p>
+                                                                  <a href="#">Read More</a>
+                                                              </article>
+                                                              <article>
+                                                                  <h3>Research and experiments</h3>
+                                                                  <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+                                                                      nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+                                                                      erat, sed diam voluptua. At vero eos et accusam et justo duo
+                                                                      dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
+                                                                      sanctus est Lorem ipsum dolor sit amet….</p>
+                                                                  <img src="img/NoPath.png" alt="img" class="w-100">
+                                                              </article>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                                  <div class="tab-pane fade" id="v-pills-profile2" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                                                      <div class="knowledgebase-adv__right">
+                                                          <h1>Installing vendor marketplace
+                                                              lorem vendor marketplace </h1>
+                                                          <div class="knowledgebase-adv__content">
+                                                              <article>
+                                                                  <h3>Configuration</h3>
+                                                                  <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+                                                                      nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+                                                                      erat, sed diam voluptua. At vero eos et accusam et justo duo
+                                                                      dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
+                                                                      sanctus est Lorem ipsum dolor sit amet….</p>
+                                                                  <a href="#">Read More</a>
+                                                              </article>
+                                                              <article>
+                                                                  <h3>Research and experiments</h3>
+                                                                  <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+                                                                      nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+                                                                      erat, sed diam voluptua. At vero eos et accusam et justo duo
+                                                                      dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
+                                                                      sanctus est Lorem ipsum dolor sit amet….</p>
+                                                                  <img src="img/NoPath.png" alt="img" class="w-100">
+                                                              </article>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                                  <div class="tab-pane fade" id="v-pills-profile3" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                                                      <div class="knowledgebase-adv__right">
+                                                          <h1>Installing vendor marketplace
+                                                              lorem vendor marketplace </h1>
+                                                          <div class="knowledgebase-adv__content">
+                                                              <article>
+                                                                  <h3>Configuration</h3>
+                                                                  <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+                                                                      nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+                                                                      erat, sed diam voluptua. At vero eos et accusam et justo duo
+                                                                      dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
+                                                                      sanctus est Lorem ipsum dolor sit amet….</p>
+                                                                  <a href="#">Read More</a>
+                                                              </article>
+                                                              <article>
+                                                                  <h3>Research and experiments</h3>
+                                                                  <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+                                                                      nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+                                                                      erat, sed diam voluptua. At vero eos et accusam et justo duo
+                                                                      dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
+                                                                      sanctus est Lorem ipsum dolor sit amet….</p>
+                                                                  <img src="img/NoPath.png" alt="img" class="w-100">
+                                                              </article>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                                  <div class="tab-pane fade" id="v-pills-profile4" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                                                      <div class="knowledgebase-adv__right">
+                                                          <h1>Installing vendor marketplace
+                                                              lorem vendor marketplace </h1>
+                                                          <div class="knowledgebase-adv__content">
+                                                              <article>
+                                                                  <h3>Configuration</h3>
+                                                                  <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+                                                                      nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+                                                                      erat, sed diam voluptua. At vero eos et accusam et justo duo
+                                                                      dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
+                                                                      sanctus est Lorem ipsum dolor sit amet….</p>
+                                                                  <a href="#">Read More</a>
+                                                              </article>
+                                                              <article>
+                                                                  <h3>Research and experiments</h3>
+                                                                  <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+                                                                      nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+                                                                      erat, sed diam voluptua. At vero eos et accusam et justo duo
+                                                                      dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
+                                                                      sanctus est Lorem ipsum dolor sit amet….</p>
+                                                                  <img src="img/NoPath.png" alt="img" class="w-100">
+                                                              </article>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                                  <div class="tab-pane fade" id="v-pills-profile5" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                                                      <div class="knowledgebase-adv__right">
+                                                          <h1>Installing vendor marketplace
+                                                              lorem vendor marketplace </h1>
+                                                          <div class="knowledgebase-adv__content">
+                                                              <article>
+                                                                  <h3>Configuration</h3>
+                                                                  <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+                                                                      nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+                                                                      erat, sed diam voluptua. At vero eos et accusam et justo duo
+                                                                      dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
+                                                                      sanctus est Lorem ipsum dolor sit amet….</p>
+                                                                  <a href="#">Read More</a>
+                                                              </article>
+                                                              <article>
+                                                                  <h3>Research and experiments</h3>
+                                                                  <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+                                                                      nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+                                                                      erat, sed diam voluptua. At vero eos et accusam et justo duo
+                                                                      dolores et ea rebum. Stet clita kasd gubergren, no sea takimata
+                                                                      sanctus est Lorem ipsum dolor sit amet….</p>
+                                                                  <img src="img/NoPath.png" alt="img" class="w-100">
+                                                              </article>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+
+                  </div>
+
+
+                            </div>
+                        </div>
+
+                      </div>
+                  </div>
+
+
+        </div>
+
+    </div>
+
+
+    </div>
+
+
+
+    <script src="/static/{{lang}}assets/vendor_assetsjs/jquery/jquery-3.5.1.min.js"></script>
+    <script src="/static/{{lang}}assets/vendor_assetsjs/jquery/jquery-ui.js"></script>
+    <script src="/static/{{lang}}assets/vendor_assetsjs/bootstrap/bootstrap.min.js"></script>
+    <script src="/static/{{lang}}assets/vendor_assetsjs/feather.min.js"></script>
+    <script src="/static/{{lang}}assets/theme_assetsjs/main.js"></script>
+
+
+    {%  endblock %}

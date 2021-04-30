@@ -1,0 +1,2134 @@
+{% extends "base.html" %} {% block content %} {% load static %} {% load i18n %}
+
+<!-- HOEM SECTION -->
+<!-- USER LOGE OUT -->
+{% if request.user.id == None %} {% include "home/contents.html" %} {% else %} {% include './home/contents-2.html' %} {% endif %}
+<!-- END HOME SECTION -->
+
+<style>
+    .fa-shopping-cart:hover {
+        color: #0160e2 !important;
+    }
+</style>
+
+<!--
+<style>
+
+
+
+    .product-card .product-skeleton {
+        position: absolute;
+        bottom: 5px;
+        left: 10px;
+    }
+
+    .pd_title {
+        width: 70px;
+        height: 15px;
+        margin: 10px 2px 10px 2px;
+        background-color: rgb(233, 232, 232);
+        position: relative;
+        border-radius: 3px;
+    }
+
+    .pd_description1 {
+        width: 220px;
+        height: 13px;
+        margin: 10px 2px 5px 2px;
+        background-color: rgb(233, 232, 232);
+        position: relative;
+        border-radius: 3px;
+    }
+
+    .pd_description2 {
+        width: 210px;
+        height: 13px;
+        margin: 5px 2px 5px 2px;
+        background-color: rgb(233, 232, 232);
+        position: relative;
+        border-radius: 3px;
+    }
+
+    .pd_users {
+        width: 100px;
+        height: 30px;
+        margin: 10px 8px 5px 2px;
+        background-color: rgb(233, 232, 232);
+        position: relative;
+        border-radius: 3px;
+    }
+
+    .pd_videos {
+        width: 110px;
+        height: 30px;
+        margin: 10px 2px 5px 2px;
+        background-color: rgb(233, 232, 232);
+        position: relative;
+        border-radius: 3px;
+    }
+
+    .pd_price {
+        width: 65px;
+        height: 24px;
+        margin: 21px 60px 5px 5px;
+        background-color: rgb(233, 232, 232);
+        position: relative;
+        border-radius: 3px;
+    }
+
+    .pd_button {
+        width: 80px;
+        height: 35px;
+        margin: 10px 5px 5px 10px;
+        background-color: rgb(233, 232, 232);
+        position: relative;
+        border-radius: 3px;
+    }
+    /* The moving element */
+
+    .loading::after {
+        display: block;
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        transform: translateX(-100%);
+        background: -webkit-gradient(linear, left top, right top, from(transparent), color-stop(rgba(255, 255, 255, 0.2)), to(transparent));
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        /* Adding animation */
+        animation: loading 1s infinite;
+    }
+    /* Loading Animation */
+
+    @keyframes loading {
+        100% {
+            transform: translateX(100%);
+        }
+    }
+</style>
+
+-->
+
+
+<style>
+    .loading::after {
+        display: block;
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 9 !important;
+        height: 100%;
+        transform: translateX(0%);
+        background: rgba(238, 238, 238, 1);
+        /* Adding animation */
+        animation: loading 1s infinite;
+    }
+
+    /* Loading Animation */
+
+
+    @keyframes loading {
+        50% {
+            transform: translateX(0%);
+        }
+        100% {
+            transform: translateX(0%);
+        }
+    }
+
+
+    .dancin-bc {
+        background: white !important;
+        height: 100%;
+        width: 100%;
+
+    }
+
+    .dancing-lao {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+    }
+
+    .dancing-lao:after {
+        display: block;
+        width: 150px;
+        height: 2px;
+        margin-top: 10px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 10px;
+        background: rgb(43, 148, 209);
+        content: "";
+        -webkit-animation: 1s border infinite;
+        animation: 1s border infinite;
+        -webkit-animation-timing-function: cubic-bezier(0.92, 0.18, 0.04, 0.92);
+        animation-timing-function: cubic-bezier(0.92, 0.18, 0.04, 0.92);
+    }
+
+    .dancing-lao .left-dots {
+        position: absolute;
+        bottom: 20%;
+        left: 20%;
+    }
+
+    .dancing-lao .right-dots {
+        position: absolute;
+        bottom: 20%;
+        right: 20%;
+        -webkit-transform: scale(-1, 1);
+        transform: scale(-1, 1);
+    }
+
+    .dancing-lao .dot {
+        display: inline-block;
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: rgb(43, 148, 209);
+        opacity: 0;
+    }
+
+    .dancing-lao .dot-1 {
+        -webkit-animation: 1s dot infinite;
+        animation: 1s dot infinite;
+        -webkit-animation-delay: .5s;
+        animation-delay: .5s;
+    }
+
+    .dancing-lao .dot-2 {
+        -webkit-animation: 1s dot-2 infinite;
+        animation: 1s dot-2 infinite;
+        -webkit-animation-delay: .5s;
+        animation-delay: .5s;
+    }
+
+    .dancing-lao .circle-dot {
+        display: inline-block;
+        position: absolute;
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        border: 2px solid rgb(43, 148, 209);
+        -webkit-animation: 1s cirle-dot infinite;
+        animation: 1s cirle-dot infinite;
+        -webkit-animation-delay: .5s;
+        animation-delay: .5s;
+        opacity: 0;
+    }
+
+    .dancing-lao img {
+        display: block;
+        margin: auto;
+        width: 90px;
+        height: 80px;
+        margin-bottom: 20px;
+        -webkit-animation: 1s dance infinite;
+        animation: 1s dance infinite;
+        -webkit-animation-timing-function: cubic-bezier(0.92, 0.18, 0.04, 0.92);
+        animation-timing-function: cubic-bezier(0.92, 0.18, 0.04, 0.92);
+        -webkit-animation-direction: alternate;
+        animation-direction: alternate;
+    }
+
+    @-webkit-keyframes dance {
+        0% {
+            -webkit-transform: translate3d(-10px, -100px, 0) rotate(-15deg) scaleY(1.1);
+            transform: translate3d(-10px, -100px, 0) rotate(-15deg) scaleY(1.1);
+        }
+        50% {
+            -webkit-transform: translate3d(0, 8px, 0) scaleY(0.85);
+            transform: translate3d(0, 8px, 0) scaleY(0.85);
+        }
+        100% {
+            -webkit-transform: translate3d(10px, -100px, 0) rotate(15deg) scaleY(1.1);
+            transform: translate3d(10px, -100px, 0) rotate(15deg) scaleY(1.1);
+        }
+    }
+
+    @keyframes dance {
+        0% {
+            -webkit-transform: translate3d(-10px, -100px, 0) rotate(-15deg) scaleY(1.1);
+            transform: translate3d(-10px, -100px, 0) rotate(-15deg) scaleY(1.1);
+        }
+        50% {
+            -webkit-transform: translate3d(0, 8px, 0) scaleY(0.85);
+            transform: translate3d(0, 8px, 0) scaleY(0.85);
+        }
+        100% {
+            -webkit-transform: translate3d(10px, -100px, 0) rotate(15deg) scaleY(1.1);
+            transform: translate3d(10px, -100px, 0) rotate(15deg) scaleY(1.1);
+        }
+    }
+
+    @-webkit-keyframes border {
+        0% {
+            -webkit-transform: scaleX(1);
+            transform: scaleX(1);
+            opacity: 0.5;
+        }
+        50% {
+            -webkit-transform: scaleX(0.6);
+            transform: scaleX(0.6);
+            opacity: 1;
+        }
+        100% {
+            -webkit-transform: scaleX(1);
+            transform: scaleX(1);
+            opacity: 0.5;
+        }
+    }
+
+    @keyframes border {
+        0% {
+            -webkit-transform: scaleX(1);
+            transform: scaleX(1);
+            opacity: 0.5;
+        }
+        50% {
+            -webkit-transform: scaleX(0.6);
+            transform: scaleX(0.6);
+            opacity: 1;
+        }
+        100% {
+            -webkit-transform: scaleX(1);
+            transform: scaleX(1);
+            opacity: 0.5;
+        }
+    }
+
+    @-webkit-keyframes dot {
+        0% {
+            opacity: 0;
+        }
+        1% {
+            -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+        }
+        50% {
+            -webkit-transform: scale(1) translate3d(-50px, -70px, 0);
+            transform: scale(1) translate3d(-50px, -70px, 0);
+            opacity: .8;
+        }
+        100% {
+            -webkit-transform: scale(1) translate3d(-50px, -70px, 0);
+            transform: scale(1) translate3d(-50px, -70px, 0);
+            opacity: 0;
+        }
+    }
+
+    @keyframes dot {
+        0% {
+            opacity: 0;
+        }
+        1% {
+            -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+        }
+        50% {
+            -webkit-transform: scale(1) translate3d(-50px, -70px, 0);
+            transform: scale(1) translate3d(-50px, -70px, 0);
+            opacity: .8;
+        }
+        100% {
+            -webkit-transform: scale(1) translate3d(-50px, -70px, 0);
+            transform: scale(1) translate3d(-50px, -70px, 0);
+            opacity: 0;
+        }
+    }
+
+    @-webkit-keyframes dot-2 {
+        0% {
+            opacity: 0;
+        }
+        1% {
+            -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+        }
+        70% {
+            -webkit-transform: scale(0.7) translate3d(-50px, -50px, 0);
+            transform: scale(0.7) translate3d(-50px, -50px, 0);
+            opacity: .8;
+        }
+        100% {
+            -webkit-transform: scale(0.7) translate3d(-50px, -50px, 0);
+            transform: scale(0.7) translate3d(-50px, -50px, 0);
+            opacity: 0;
+        }
+    }
+
+    @keyframes dot-2 {
+        0% {
+            opacity: 0;
+        }
+        1% {
+            -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+        }
+        70% {
+            -webkit-transform: scale(0.7) translate3d(-50px, -50px, 0);
+            transform: scale(0.7) translate3d(-50px, -50px, 0);
+            opacity: .8;
+        }
+        100% {
+            -webkit-transform: scale(0.7) translate3d(-50px, -50px, 0);
+            transform: scale(0.7) translate3d(-50px, -50px, 0);
+            opacity: 0;
+        }
+    }
+
+    @-webkit-keyframes cirle-dot {
+        0% {
+            opacity: 0;
+        }
+        1% {
+            -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+        }
+        80% {
+            -webkit-transform: scale(1) translate3d(-80px, -40px, 0);
+            transform: scale(1) translate3d(-80px, -40px, 0);
+            opacity: .8;
+        }
+        100% {
+            -webkit-transform: scale(1) translate3d(-80px, -40px, 0);
+            transform: scale(1) translate3d(-80px, -40px, 0);
+            opacity: 0;
+        }
+    }
+
+    @keyframes cirle-dot {
+        0% {
+            opacity: 0;
+        }
+        1% {
+            -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+        }
+        80% {
+            -webkit-transform: scale(1) translate3d(-80px, -40px, 0);
+            transform: scale(1) translate3d(-80px, -40px, 0);
+            opacity: .8;
+        }
+        100% {
+            -webkit-transform: scale(1) translate3d(-80px, -40px, 0);
+            transform: scale(1) translate3d(-80px, -40px, 0);
+            opacity: 0;
+        }
+    }
+
+
+</style>
+
+<style>
+    .in-blk {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .goldstardiv {
+        color: gold;
+        position: relative;
+    }
+
+    .goldstardiv2 {
+        position: relative;
+    }
+
+    .halfstar {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 7px;
+        color: #fff;
+        overflow: hidden;
+        transform: rotateY(3.142rad);
+    }
+
+</style>
+
+
+
+
+
+
+<!-- Filters and courses -->
+<div id="shop-page" class="shop-wrapper">
+
+    <div class="products-navigation" style="display: none;"></div>
+
+    <div class="shop-header shop-header-is-dark">
+        <div class="container">
+            <div class="store-tabs">
+                <a data-tab="products-tab" class="tab-control is-active">{% trans 'All' %}</a>
+                <a data-tab="brands-tab" class="tab-control">{% trans 'Paid' %}</a>
+                <a data-tab="followers-tab" class="tab-control">{% trans 'Free' %}</a>
+                <div class="store-naver"></div>
+            </div>
+            <div>
+
+
+                <div class="control-filter is-combo is-combo-dark filter-panel" style="width: 100%;height: 100%;">
+                    <div class="box-inner">
+                        <div class="combo-item">
+                            <!-- <span class="selected-item"></span> -->
+                            <select class="combo-box selected-item" id="category_id_2" onchange="category()" style="">
+                                <option selected disabled hidden>Sort By</option>
+                                <option value="All">All</option>
+                                <option value="1">Most Rating</option>
+                                <option value="2">Most Students</option>
+                                <option value="3">Newest</option>
+                            </select>
+                            <select class="combo-box selected-item" id="category_id" onchange="category()" style="">
+                                <option selected disabled hidden class="combo-item">Sort By</option>
+                                <option value="All">All</option>
+                                {% for i in category_obj %}
+                                <option value="{{i.id}}">{{i.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="store-sections">
+        <div class="container">
+            <!--Products-->
+            <div id="products-tab" class="store-tab-pane is-active" id="demo">
+                <div class="columns  is-multiline">
+
+
+                    <!-- /partials/commerce/products/products-list.html -->
+                    {% for course in course_list %}
+                    <!--Product-->
+                    <!-- {{ course.name|pprint }} -->
+                    <div class="column is-one-fifth-fullhd is-one-quarter-widescreen is-one-third-desktop is-half-tablet is-full-mobile">
+                        <div class="product-card  product-card-dark" data-name="Spring Red Dress" data-price="44.00"
+                             data-colors="true" data-variants="true" data-path="{% static 'assets/img/products/1' %}">
+                            <a href="/single_course?id={{course.id}}" class="product-image">
+                                <div class="image-grid-wrap">
+                                    <div class="image-grid">
+                                        <!--Grid Row-->
+
+                                        <!--Grid Row-->
+                                        <div class="image-row">
+                                            <!--Photo-->
+                                            <div class="flex-1 has-background-image show-image"
+                                                 data-background="{%static 'assets/img/courses/pc.jpg' %}"
+                                                 data-demo-background="{%static 'assets/img/courses/pc.jpg' %}"
+                                                 style="display: none;">
+                                                <a href="/single_course/{{course.id}}">
+                                                    <div class="overlay"></div>
+                                                </a>
+                                                <div class="image-owner">
+                                                    <div class="name">
+                                                        {% if course.rating == 0.0 %}
+                                                        <span class="fa fa-star"
+                                                              style="color: rgb(255, 255, 255);"></span>
+                                                        <span class="fa fa-star"
+                                                              style="color: rgb(255, 255, 255);"></span>
+                                                        <span class="fa fa-star"
+                                                              style="color: rgb(255, 255, 255);"></span>
+                                                        <span class="fa fa-star"
+                                                              style="color: rgb(255, 255, 255);"></span>
+                                                        <span class="fa fa-star"
+                                                              style="color: rgb(255, 255, 255);"></span>
+                                                        {% if course.rating == 5.0 %}
+                                                        <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">5</span>
+                                                        {% elif course.rating == 4.0 %}
+                                                        <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">4</span>
+                                                        {% elif course.rating == 3.0 %}
+                                                        <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">3</span>
+                                                        {% elif course.rating == 2.0 %}
+                                                        <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">2</span>
+                                                        {% elif course.rating == 1.0 %}
+                                                        <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">1</span>
+                                                        {% else %}
+                                                        <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">{{ course.rating }} <small
+                                                                style="color:white"> ( 390,900 )</small></span>
+                                                        {% endif %}
+                                                        {% elif course.rating <= 1.0 %}
+                                                        <span class="fa fa-star"
+                                                              style="color: rgb(255, 238, 80);"></span>
+                                                        <span class="fa fa-star"
+                                                              style="color: rgb(255, 255, 255);"></span>
+                                                        <span class="fa fa-star"
+                                                              style="color: rgb(255, 255, 255);"></span>
+                                                        <span class="fa fa-star"
+                                                              style="color: rgb(255, 255, 255);"></span>
+                                                        <span class="fa fa-star"
+                                                              style="color: rgb(255, 255, 255);"></span>
+                                                        {% if course.rating == 5.0 %}
+                                                        <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">5</span>
+                                                        {% elif course.rating == 4.0 %}
+                                                        <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">4</span>
+                                                        {% elif course.rating == 3.0 %}
+                                                        <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">3</span>
+                                                        {% elif course.rating == 2.0 %}
+                                                        <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">2</span>
+                                                        {% elif course.rating == 1.0 %}
+                                                        <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">1</span>
+                                                        {% elif course.rating == 0.0 %}
+                                                        <span style="font-size: medium; color: rgb(255, 255, 255);font-weight: 700;margin-left: 5px;">0</span>
+                                                        {% else %}
+                                                        <span style="font-size: medium; color:rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">{{ course.rating }} <small
+                                                                style="color:white"> ( 390,900 )</small></span>
+                                                        {% endif %}
+                                                        {% elif course.rating <= 2.0 %}
+                                                        <span class="fa fa-star"
+                                                              style="color: rgb(255, 238, 80);"></span>
+                                                        <span class="fa fa-star"
+                                                              style="color: rgb(255, 238, 80);"></span>
+                                                        <span class="fa fa-star"
+                                                              style="color: rgb(255, 255, 255);"></span>
+                                                        <span class="fa fa-star"
+                                                              style="color: rgb(255, 255, 255);"></span>
+                                                        <span class="fa fa-star"
+                                                              style="color: rgb(255, 255, 255);"></span>
+                                                        {% if course.rating == 5.0 %}
+                                                        <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">5</span>
+                                                        {% elif course.rating == 4.0 %}
+                                                        <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">4</span>
+                                                        {% elif course.rating == 3.0 %}
+                                                        <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">3</span>
+                                                        {% elif course.rating == 2.0 %}
+                                                        <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">2</span>
+                                                        {% elif course.rating == 1.0 %}
+                                                        <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">1</span>
+                                                        {% else %}
+                                                        <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">{{ course.rating }} <small
+                                                                style="color:white"> ( 390,900 )</small></span>
+                                                        {% endif %}
+                                                        {% elif course.rating <= 3.0 %}
+                                                        <span class="fa fa-star"
+                                                              style="color: rgb(255, 238, 80);"></span>
+                                                        <span class="fa fa-star"
+                                                              style="color: rgb(255, 238, 80);"></span>
+                                                        <span class="fa fa-star"
+                                                              style="color: rgb(255, 238, 80);"></span>
+                                                        <span class="fa fa-star"
+                                                              style="color: rgb(255, 255, 255);"></span>
+                                                        <span class="fa fa-star"
+                                                              style="color: rgb(255, 255, 255);"></span>
+                                                        {% if course.rating == 5.0 %}
+                                                        <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">5</span>
+                                                        {% elif course.rating == 4.0 %}
+                                                        <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">4</span>
+                                                        {% elif course.rating == 3.0 %}
+                                                        <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">3</span>
+                                                        {% elif course.rating == 2.0 %}
+                                                        <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">2</span>
+                                                        {% elif course.rating == 1.0 %}
+                                                        <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">1</span>
+                                                        {% else %}
+                                                        <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">{{ course.rating }} <small
+                                                                style="color:white"> ( 390,900 )</small></span>
+                                                        {% endif %}
+                                                        {% elif course.rating <= 4.0 %}
+                                                        <div class="in-blk">
+
+                                                            <div class="goldstardiv">
+                                                                <span class="fa fa-star"></span>
+                                                                <span class="fa fa-star"></span>
+                                                                <span class="fa fa-star"></span>
+                                                            </div>
+
+                                                            <div class="goldstardiv">
+                                                                <span class="fa fa-star"
+                                                                      style="margin-left:3px !important"></span>
+                                                                <div class="halfstar">
+                                                                    <span class="fa fa-star"></span>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="goldstardiv goldstardiv2">
+                                                                <span class="fa fa-star" style="color:white"></span>
+                                                            </div>
+
+                                                            {% if course.rating == 5.0 %}
+                                                            <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">5</span>
+                                                            {% elif course.rating == 4.0 %}
+                                                            <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">4</span>
+                                                            {% elif course.rating == 3.0 %}
+                                                            <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">3</span>
+                                                            {% elif course.rating == 2.0 %}
+                                                            <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">2</span>
+                                                            {% elif course.rating == 1.0 %}
+                                                            <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">1</span>
+                                                            {% else %}
+                                                            <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">{{ course.rating }} <small
+                                                                    style="color:white"> ( 390,900 )</small></span>
+                                                            {% endif %}
+                                                        </div>
+
+
+                                                        {% else %}
+                                                        <span class="fa fa-star"
+                                                              style="color: rgb(255, 238, 80);"></span>
+                                                        <span class="fa fa-star"
+                                                              style="color: rgb(255, 238, 80);"></span>
+                                                        <span class="fa fa-star"
+                                                              style="color: rgb(255, 238, 80);"></span>
+                                                        <span class="fa fa-star"
+                                                              style="color: rgb(255, 238, 80);"></span>
+                                                        <span class="fa fa-star"
+                                                              style="color: rgb(255, 238, 80);"></span>
+                                                        {% if course.rating == 5.0 %}
+                                                        <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">5</span>
+                                                        {% elif course.rating == 4.0 %}
+                                                        <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">4</span>
+                                                        {% elif course.rating == 3.0 %}
+                                                        <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">3</span>
+                                                        {% elif course.rating == 2.0 %}
+                                                        <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">2</span>
+                                                        {% elif course.rating == 1.0 %}
+                                                        <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">1</span>
+                                                        {% else %}
+                                                        <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">{{ course.rating }} <small
+                                                                style="color:white"> ( 390,900 )</small></span>
+                                                        {% endif %}
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+
+                                                {% if course.price > 0 %}
+
+                                                <div class="photo-like pop-button has-tooltip addfavbutton" id="invite-pop">
+                                                    <a href="# " class="inner " data-title="Relationship"
+                                                       data-type="addFav" data-id="" onclick="addFav({{ course.id }})" >
+                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                             xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                             aria-hidden="true" focusable="false" width="1em"
+                                                             height="1em"
+                                                             style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);"
+                                                             preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
+                                                            <g fill="none" stroke="#626262" stroke-width="2"
+                                                               stroke-linecap="round" stroke-linejoin="round">
+                                                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78l1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                                            </g>
+                                                        </svg>
+                                                    </a>
+                                                </div>
+
+                                                <a id="follow-pop" class="photo-time pop-button has-tooltip"
+                                                   data-title="Relationship" onclick="addToCartList({{ course.id }})">
+                                                    <i class="fa fa-shopping-cart"
+                                                       style="font-size: 22px;color: #fff;"></i>
+                                                </a>
+
+                                                {% else %}
+
+                                                <div class="photo-like pop-button has-tooltip addfavbutton"
+                                                     style="left:10px !important" data-title="Relationship"
+                                                     id="invite-pop" data-type="addFav" onclick="addFav({{course.id}})">
+                                                    <a href="# " class="inner ">
+                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                             xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                             aria-hidden="true" focusable="false" width="1em"
+                                                             height="1em"
+                                                             style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);"
+                                                             preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
+                                                            <g fill="none" stroke="#626262" stroke-width="2"
+                                                               stroke-linecap="round" stroke-linejoin="round">
+                                                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78l1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                                            </g>
+                                                        </svg>
+                                                    </a>
+                                                </div>
+
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="product-skeleton">
+                                <div class="pd_title loading"></div>
+                                <div class="pd_description">
+                                    <div class="pd_description1 loading"></div>
+                                    <div class="pd_description2 loading"></div>
+                                </div>
+                                <div class="pd_review" style="display: flex;">
+                                    <div class="pd_users loading"></div>
+                                    <div class="pd_videos loading"></div>
+                                </div>
+                                <div class="pd_footer" style="display: flex;">
+                                    <div class="pd_price loading"></div>
+                                    <div class="pd_button loading"></div>
+                                </div>
+                            </div>
+                            <!-- <div class="product-info" style="display: none;"> -->
+                            <div class="product-info">
+                                <h3>
+                                    <a href="# "
+                                       style="display: block; width: 230px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; ">{{ course.name }}</a>
+                                </h3>
+                                <p style="line-height: 1.5em; height: 3em; overflow: hidden; text-overflow: ellipsis;">{{ course.description }}</p>
+
+
+                                <i class="fa fa-users "></i>
+                                <span style="font-size: small; ">{{ course.stuCnt }}</span>
+                                <i class="fa fa-video "></i>
+                                <span style="font-size: small; ">{{ course.video }} Videos</span>
+                                <div class="product-actions ">
+                                    <div class="left ">
+                                        {% if course.price > 0 %}
+                                        <b style="color:red ">${{ course.price}}</b>
+                                        {% else %}
+                                        <b style="color:green "> Free </b>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="right ">
+                                        <a class="button primary-button is-solid raised story modal-trigger promo"
+                                           data-id="{{ course.id }}" onclick="getPromo(this)">
+                                            <i class="fa fa-play" data-id="{{ course.id }}"></i> Promo
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+
+                <center>
+                    <nav class="pagination is-centered " role="navigation " aria-label="pagination "
+                         style="margin-bottom: 20px; ">
+
+                        <ul class="pagination-list ">
+                            <li>
+                                <a class="pagination-previous "
+                                   style="background-color: white; border-radius: 50% "><span
+                                        class="fa fa-arrow-left "></span>&nbsp;
+
+                                </a>
+                            </li>
+                            <li><a class="pagination-link "
+                                   style="background-color: white;  border-radius: 50% !important;width:43px;height:43px"
+                                   aria-label="Page 1 " aria-current="page ">1..</a></li>
+                            <li><a class="pagination-link is-current "
+                                   style=" border-radius: 50% !important;width:43px;height:43px" aria-label="Page 1 "
+                                   aria-current="page ">10</a></li>
+                            <li><a class="pagination-link "
+                                   style="background-color: white;  border-radius: 50% !important;width:43px;height:43px"
+                                   aria-label="Page 1 " aria-current="page ">..43</a></li>
+                            <li>
+                                <a class="pagination-next " style="background-color: white; border-radius: 50%">
+                                    <span class="fa fa-arrow-right "></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </center>
+
+            </div>
+
+            <!-- Followers -->
+            <div id="followers-tab" class="store-tab-pane ">
+
+                <div class="columns is-multiline ">
+
+                    {% for course in course_free_list %}
+                    <!--Product-->
+                    <!-- {{ course.name|pprint }} -->
+                    <div class="column is-one-fifth-fullhd is-one-quarter-widescreen is-one-third-desktop is-half-tablet is-full-mobile">
+                        <div class="product-card  product-card-dark" data-name="Spring Red Dress" data-price="44.00"
+                             data-colors="true" data-variants="true" data-path="{% static 'assets/img/products/1' %}">
+
+                            <a href="/single_course?id={{course.id}}" class="product-image">
+
+                                <div class="image-grid-wrap">
+                                    <div class="image-grid">
+
+                                        <!--Grid Row-->
+                                        <div class="image-row">
+                                            <!--Photo-->
+
+                                            <div class="flex-1 has-background-image loading skeleton"
+                                                 style="background-color:rgb(233, 232, 232);">
+                                                <div class="image-owner">
+                                                    <div class="name">
+                                                        <span class="e-item-card-recently-viewed_stars">
+                                                            <span class="m-item-card-recently-viewed_stars__orange">
+                                                                ★★★★
+                                                            </span>
+                                                            <span class='half'><div>★</div><div>★</div></span>
+</span>
+
+                                                    </div>
+                                                </div>
+                                                <!-- <div id="invite-pop" class="photo-like pop-button has-tooltip" data-title="Relationship"> -->
+                                                <div>
+                                                    <a id="invite-pop" class="photo-like pop-button has-tooltip"
+                                                       data-title="Relationship">
+                                                        <i class="inactive-icon" data-feather="heart"></i>
+                                                    </a>
+                                                </div>
+                                                <a id="follow-pop " class="photo-time pop-button has-tooltip "
+                                                   data-title="Relationship ">
+                                                    <i class="fa fa-shopping-cart "
+                                                       style="font-size: 22px;color: #fff; "></i>
+                                                </a>
+
+                                            </div>
+
+                                            <div class="flex-1 has-background-image show-image"
+                                                 data-background="{%static 'assets/img/courses/pc.jpg' %}"
+                                                 data-demo-background="{%static 'assets/img/courses/pc.jpg' %}"
+                                                 style="display: none;">
+                                                <a href="/single_course/{{course.id}}">
+                                                    <div class="overlay"></div>
+                                                </a>
+                                                <div class="image-owner">
+                                                    <div class="name">
+                                                        <span class="fa fa-star"
+                                                              style="color: rgb(255, 238, 80);"></span>
+                                                        <span class="fa fa-star"
+                                                              style="color: rgb(255, 238, 80);"></span>
+                                                        <span class="fa fa-star"
+                                                              style="color: rgb(255, 238, 80);"></span>
+                                                        <span class="fa fa-star"
+                                                              style="color: rgb(255, 238, 80);"></span>
+                                                        <span class="fa fa-star"
+                                                              style="color: rgb(255, 255, 255);"></span>
+                                                        {% if course.rating == 5.0 %}
+                                                        <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">5</span>
+                                                        {% else %}
+                                                        <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">{{ course.rating }}</span>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div id="invite-pop" class="photo-like pop-button has-tooltip"
+                                                     data-title="Relationship">
+                                                    <a href="# " class="inner ">
+                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                             xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                             aria-hidden="true" focusable="false" width="1em"
+                                                             height="1em"
+                                                             style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);"
+                                                             preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
+                                                            <g fill="none" stroke="#626262" stroke-width="2"
+                                                               stroke-linecap="round" stroke-linejoin="round">
+                                                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78l1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                                            </g>
+                                                        </svg>
+                                                    </a>
+                                                </div>
+                                                <a id="follow-pop" class="photo-time pop-button has-tooltip"
+                                                   data-title="Relationship">
+                                                    <i class="fa fa-shopping-cart"
+                                                       style="font-size: 22px;color: #fff;"></i>
+                                                </a>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </a>
+
+                            <div class="product-skeleton">
+                                <div class="pd_title loading"></div>
+                                <div class="pd_description">
+                                    <div class="pd_description1 loading"></div>
+                                    <div class="pd_description2 loading"></div>
+                                </div>
+                                <div class="pd_review" style="display: flex;">
+                                    <div class="pd_users loading"></div>
+                                    <div class="pd_videos loading"></div>
+                                </div>
+                                <div class="pd_footer" style="display: flex;">
+                                    <div class="pd_price loading"></div>
+                                    <div class="pd_button loading"></div>
+                                </div>
+                            </div>
+
+                            <!-- <div class="product-info" style="display: none;"> -->
+                            <div class="product-info">
+
+                                <h3>
+                                    <a href="# "
+                                       style="display: block; width: 230px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; ">{{
+                                        course.name }}</a>
+                                </h3>
+                                <p style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden">{{
+                                    course.description }}</p>
+
+                                <i class="fa fa-users "></i>
+                                <span style="font-size: small; ">{{ course.rating }} &nbsp;</span>
+                                <i class="fa fa-video "></i>
+                                <span style="font-size: small; ">{{ course.video }} Videos</span>
+                                <div class="product-actions ">
+                                    <div class="left ">
+                                        {% if course.price > 0 %}
+                                        <b style="color:red ">${{course.price}}</b>
+                                        {% else %}
+                                        <b style="color:green "> Free! </b>
+                                        {% endif %}
+                                    </div>
+                                    <div class="right ">
+                                        <a class="button primary-button is-solid raised story modal-trigger promo"
+                                           data-id="{{ course.id }}" onclick="getPromo(this)">
+                                            <i class="fa fa-play" data-id="{{ course.id }}"></i> Promo
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <center>
+                    <nav class="pagination is-centered " role="navigation " aria-label="pagination "
+                         style="margin-bottom: 20px; ">
+
+                        <ul class="pagination-list ">
+                            <li>
+                                <a class="pagination-previous "
+                                   style="background-color: white; border-radius: 50% "><span
+                                        class="fa fa-arrow-left "></span>&nbsp;
+
+                                </a>
+                            </li>
+                            <li><a class="pagination-link "
+                                   style="background-color: white;  border-radius: 50% !important;width:43px;height:43px"
+                                   aria-label="Page 1 " aria-current="page ">1..</a></li>
+                            <li><a class="pagination-link is-current "
+                                   style=" border-radius: 50% !important;width:43px;height:43px" aria-label="Page 1 "
+                                   aria-current="page ">10</a></li>
+                            <li><a class="pagination-link "
+                                   style="background-color: white;  border-radius: 50% !important;width:43px;height:43px"
+                                   aria-label="Page 1 " aria-current="page ">..43</a></li>
+                            <li>
+                                <a class="pagination-next " style="background-color: white; border-radius: 50%">
+                                    <span class="fa fa-arrow-right "></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </center>
+
+            </div>
+
+            <!-- Brands -->
+            <div id="brands-tab" class="store-tab-pane ">
+
+                <div class="columns is-multiline ">
+                    {% for course in course_paid_list %}
+                    <!--Product-->
+                    <!-- {{ course.name|pprint }} -->
+                    <div class="column is-one-fifth-fullhd is-one-quarter-widescreen is-one-third-desktop is-half-tablet is-full-mobile">
+                        <div class="product-card  product-card-dark" data-name="Spring Red Dress" data-price="44.00"
+                             data-colors="true" data-variants="true" data-path="{% static 'assets/img/products/1' %}">
+
+                            <a href="/single_course?id={{course.id}}" class="product-image">
+
+                                <div class="image-grid-wrap">
+                                    <div class="image-grid">
+
+                                        <!--Grid Row-->
+                                        <div class="image-row">
+                                            <!--Photo-->
+
+                                            <div class="flex-1 has-background-image loading skeleton"
+                                                 style="background-color:rgb(233, 232, 232);">
+                                                <div class="image-owner">
+                                                    <div class="name">
+                                                        <span class="fa fa-star"
+                                                              style="color: rgb(255, 238, 80);"></span>
+                                                        <span class="fa fa-star"
+                                                              style="color: rgb(255, 238, 80);"></span>
+                                                        <span class="fa fa-star"
+                                                              style="color: rgb(255, 238, 80);"></span>
+                                                        <span class="fa fa-star"
+                                                              style="color: rgb(255, 238, 80);"></span>
+                                                        <span class="fa fa-star"
+                                                              style="color: rgb(255, 255, 255);"></span>
+                                                        {% if course.rating == 5.0 %}
+                                                        <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">5</span>
+                                                        {% else %}
+                                                        <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">{{ course.rating }}</span>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <!-- <div id="invite-pop" class="photo-like pop-button has-tooltip" data-title="Relationship"> -->
+                                                <div>
+                                                    <a id="invite-pop" class="photo-like pop-button has-tooltip"
+                                                       data-title="Relationship">
+                                                        <i class="inactive-icon" data-feather="heart"></i>
+                                                    </a>
+                                                </div>
+                                                <a id="follow-pop " class="photo-time pop-button has-tooltip "
+                                                   data-title="Relationship ">
+                                                    <i class="fa fa-shopping-cart "
+                                                       style="font-size: 22px;color: #fff; "></i>
+                                                </a>
+
+                                            </div>
+
+                                            <div class="flex-1 has-background-image show-image"
+                                                 data-background="{%static 'assets/img/courses/pc.jpg' %}"
+                                                 data-demo-background="{%static 'assets/img/courses/pc.jpg' %}"
+                                                 style="display: none;">
+                                                <a href="/single_course/{{course.id}}">
+                                                    <div class="overlay"></div>
+                                                </a>
+                                                <div class="image-owner">
+                                                    <div class="name">
+                                                        <span class="fa fa-star"
+                                                              style="color: rgb(255, 238, 80);"></span>
+                                                        <span class="fa fa-star"
+                                                              style="color: rgb(255, 238, 80);"></span>
+                                                        <span class="fa fa-star"
+                                                              style="color: rgb(255, 238, 80);"></span>
+                                                        <span class="fa fa-star"
+                                                              style="color: rgb(255, 238, 80);"></span>
+                                                        <span class="fa fa-star"
+                                                              style="color: rgb(255, 255, 255);"></span>
+                                                        {% if course.rating == 5.0 %}
+                                                        <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">5</span>
+                                                        {% else %}
+                                                        <span style="font-size: medium; color: rgb(255, 238, 80);font-weight: 700;margin-left: 5px;">{{ course.rating }}</span>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+
+
+                                                <div id="invite-pop" class="photo-like pop-button has-tooltip"
+                                                     data-title="Relationship">
+                                                    <a href="# " class="inner ">
+
+
+                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                             xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                             aria-hidden="true" focusable="false" width="1em"
+                                                             height="1em"
+                                                             style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);"
+                                                             preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
+                                                            <g fill="none" stroke="#626262" stroke-width="2"
+                                                               stroke-linecap="round" stroke-linejoin="round">
+                                                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78l1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                                            </g>
+                                                        </svg>
+
+
+                                                    </a>
+                                                </div>
+
+
+                                                <a id="follow-pop" class="photo-time pop-button has-tooltip"
+                                                   data-title="Relationship">
+                                                    <i class="fa fa-shopping-cart"
+                                                       style="font-size: 22px;color: #fff;"></i>
+                                                </a>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </a>
+
+                            <div class="product-skeleton">
+                                <div class="pd_title loading"></div>
+                                <div class="pd_description">
+                                    <div class="pd_description1 loading"></div>
+                                    <div class="pd_description2 loading"></div>
+                                </div>
+                                <div class="pd_review" style="display: flex;">
+                                    <div class="pd_users loading"></div>
+                                    <div class="pd_videos loading"></div>
+                                </div>
+                                <div class="pd_footer" style="display: flex;">
+                                    <div class="pd_price loading"></div>
+                                    <div class="pd_button loading"></div>
+                                </div>
+                            </div>
+
+                            <div class="product-info">
+
+                                <h3>
+                                    <a href="# "
+                                       style="display: block; width: 230px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; ">{{
+                                        course.name }}</a>
+                                </h3>
+                                <p style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden">{{
+                                    course.description }}</p>
+
+
+                                <i class="fa fa-users "></i>
+                                <span style="font-size: small; ">{{ course.rating }} &nbsp;</span>
+                                <i class="fa fa-video "></i>
+                                <span style="font-size: small; ">{{ course.video }} Videos</span>
+                                <div class="product-actions ">
+                                    <div class="left ">
+                                        {% if course.price > 0 %}
+                                        <b style="color:red ">${{course.price}}</b>
+                                        {% else %}
+                                        <b style="color:green "> Free! </b>
+                                        {% endif %}
+                                    </div>
+                                    <div class="right ">
+                                        <a class="button primary-button is-solid raised story modal-trigger promo"
+                                           data-id="{{ course.id }}" onclick="getPromo(this)">
+                                            <i class="fa fa-play" data-id="{{ course.id }}"></i> Promo
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <center>
+                    <nav class="pagination is-centered " role="navigation " aria-label="pagination "
+                         style="margin-bottom: 20px; ">
+
+                        <ul class="pagination-list ">
+                            <li>
+                                <a class="pagination-previous "
+                                   style="background-color: white; border-radius: 50% "><span
+                                        class="fa fa-arrow-left "></span>&nbsp;
+
+                                </a>
+                            </li>
+                            <li><a class="pagination-link "
+                                   style="background-color: white;  border-radius: 50% !important;width:43px;height:43px"
+                                   aria-label="Page 1 " aria-current="page ">1..</a></li>
+                            <li><a class="pagination-link is-current "
+                                   style=" border-radius: 50% !important;width:43px;height:43px" aria-label="Page 1 "
+                                   aria-current="page ">10</a></li>
+                            <li><a class="pagination-link "
+                                   style="background-color: white;  border-radius: 50% !important;width:43px;height:43px"
+                                   aria-label="Page 1 " aria-current="page ">..43</a></li>
+                            <li>
+                                <a class="pagination-next " style="background-color: white; border-radius: 50%">
+                                    <span class="fa fa-arrow-right "></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </center>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- Filters and courses -->
+
+<!-- More categories start -->
+<div class="categories-bg categories-dark-bg">
+    <div class="container ">
+        <div class="columns ">
+            <div class="column ">
+                <div class="categories-header categories-dark-header ">
+                    <h2>{% trans 'Categories' %}</h2>
+                </div>
+
+                <div class="tile is-ancestor ">
+                    <div class="tile is-parent is-vertical ">
+                        <a href="/single_category/1" class="tile is-child category-box category-dark-box is-accent ">
+                            <img src="{% static 'assets/img/categories/p-language.svg' %} " alt=" ">
+                            <div class="box-content ">
+                                <h3 class="title is-6 "> {% trans 'Web Development' %}</h3>
+                                <p>{% trans '#HTML, #Css, #Js, #PHP, #Python, #Java, #Ruby, #C++, #R, #SQl, #C, #swift,
+                                    #Swift, #kotlin, #etc.' %}</p>
+                            </div>
+                        </a>
+                        <a href="/single_category/3" class="tile is-child category-box category-dark-box is-accent ">
+                            <img src="{% static 'assets/img/categories/aviation.svg' %} " alt=" ">
+                            <div class="box-content ">
+                                <h3 class="title is-6 ">{% trans 'Aviation' %}</h3>
+                                <p>{% trans '#AirCraft_Maintenance, #Professional_Pilot, #Flight_instructure,
+                                    #Airport_security, #Airline_managment, #etc..' %}</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="tile is-vertical is-8 ">
+                        <div class="tile ">
+                            <div class="tile is-parent is-vertical ">
+                                <a href="/single_category/2"
+                                   class="tile is-child category-box category-dark-box is-accent ">
+                                    <img src="{% static 'assets/img/categories/business.svg' %} " alt=" ">
+                                    <div class="box-content ">
+                                        <h3 class="title is-6 ">{% trans 'Business' %}</h3>
+                                        <p>{% trans '#Human_resource, #Markting, #international_business_managment,
+                                            #business_managment, #Finance, #Accounting, #Audit, #Analysis_of_business
+                                            ,#etc..' %}</p>
+                                    </div>
+                                </a>
+                                <a href="/single_category/5"
+                                   class="tile is-child category-box category-dark-box is-primary ">
+                                    <img src="{% static 'assets/img/categories/physical.svg' %} " alt=" ">
+                                    <div class="box-content ">
+                                        <h3 class="title is-6 ">{% trans 'Physical & Chemistry' %}</h3>
+                                        <p>{% trans '#General_chemistry, #Medical_chemistry, #Biochemistry,
+                                            #General_physical, #Engineering_physical, #Physical_science, #Laser_physic,
+                                            #Optics, #Mevhanics, #Cosmology, #etc..' %}</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="tile is-parent is-vertical ">
+                                <a href="/single_category/4"
+                                   class="tile is-child category-box category-dark-box is-primary is-taller ">
+                                    <img src="{% static 'assets/img/categories/gaming.svg' %} " alt=" ">
+                                    <div class="box-content ">
+                                        <h3 class="title is-6 ">{% trans 'Gaming' %}</h3>
+                                        <p>{% trans '#Furtnite, #Pes, #Fifa, #Pubg, #COD, #etc..' %}</p>
+                                    </div>
+                                </a>
+
+                                <a href="/single_category/13"
+                                   class="tile is-child category-box category-dark-box is-accent is-taller ">
+                                    <img src="{% static 'assets/img/categories/Engineer.svg' %} " alt=" ">
+                                    <div class="box-content ">
+                                        <h3 class="title is-6 ">{% trans 'Engineering' %}</h3>
+                                        <p>{% trans '#Civil_engineering, #Architecter_engineering,
+                                            #electronic_engineering, #etc..' %}</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="tile is-parent ">
+                            <a href="/single_category/5"
+                               class="tile is-child category-box category-dark-box is-accent is-row ">
+                                <img src="{% static 'assets/img/categories/math.svg' %} " alt=" ">
+                                <div class="box-content ">
+                                    <h3 class="title is-6 ">{% trans 'Mathmatics' %}</h3>
+                                    <p>{% trans '#Analysis, #Calculate, #algebra, #algorithm, #statics, #etc..' %}</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tile is-ancestor ">
+                    <div class="tile is-parent is-vertical ">
+                        <a href="/single_category/14"
+                           class="tile is-child category-box category-dark-box is-accent is-taller ">
+                            <img src="{% static 'assets/img/categories/skills.svg' %} " alt=" ">
+                            <div class="box-content ">
+                                <h3 class="title is-6 ">{% trans 'Skills' %}</h3>
+                                <p>{% trans '#Eyes_Connect, #Insurance_market, #Communication, #Content_industry,
+                                    #Costumers_needs, #the_Secretary, #etc..' %}
+                                </p>
+                            </div>
+                        </a>
+                        <a href="/single_category/13"
+                           class="tile is-child category-box category-dark-box is-primary is-taller ">
+                            <img src="{% static 'assets/img/categories/repare.svg' %} " alt=" ">
+                            <div class="box-content ">
+                                <h3 class="title is-6 ">{% trans 'Maintaince & Reparing' %}</h3>
+                                <p>{% trans '#Cars, #Motorocycle, #PC, #Aircone, #Plumbing, #etc..' %}
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="tile is-vertical is-8 ">
+                        <div class="tile ">
+                            <div class="tile is-parent is-vertical ">
+                                <a href="/single_category/6"
+                                   class="tile is-child category-box category-dark-box is-primary ">
+                                    <img src="{% static 'assets/img/categories/hospitality.svg' %} " alt=" ">
+                                    <div class="box-content ">
+                                        <h3 class="title is-6 ">{% trans 'Hospitality & Tourism' %}</h3>
+                                        <p>{% trans '#Management, #Kitchen, #Leader, #jerson, #Tourism_industry ,
+                                            #etc..' %}</p>
+                                    </div>
+                                </a>
+                                <a href="/single_category/8"
+                                   class="tile is-child category-box category-dark-box is-accent ">
+                                    <img src="{% static 'assets/img/categories/robot.svg' %} " alt=" ">
+                                    <div class="box-content ">
+                                        <h3 class="title is-6 ">{% trans 'Information Technology' %}</h3>
+                                        <p>{% trans '#Cyber_security, #Virtual_environment, #Networking, #Data_analysis,
+                                            #Data_base, #Robots, #Haking, #etc..' %}</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="tile is-parent is-vertical ">
+                                <a href="/single_category/6"
+                                   class="tile is-child category-box category-dark-box is-accent ">
+                                    <img src="{% static 'assets/img/categories/fitness.svg' %} " alt=" ">
+                                    <div class="box-content ">
+                                        <h3 class="title is-6 ">{% trans 'Life style' %}</h3>
+                                        <p>{% trans '#Fitness, #sports, #Diet, #resistance_trainging,
+                                            #healthy_life_style, #athletics, #Physical_therapy , #Dance ,#etc..' %}</p>
+                                    </div>
+                                </a>
+                                <a href="/single_category/14"
+                                   class="tile is-child category-box category-dark-box is-primary ">
+                                    <img src="{% static 'assets/img/categories/self-dev.svg' %} " alt=" ">
+                                    <div class="box-content ">
+                                        <h3 class="title is-6 ">{% trans 'Self development' %}</h3>
+                                        <p>{% trans '#Entrepreneurship, #Confidence, #Communicate, #persuasion,
+                                            #team_work, #time_managment, #etc..' %}</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="tile is-parent ">
+                            <a href="/single_category/7"
+                               class="tile is-child category-box category-dark-box is-accent is-row ">
+                                <img src="{% static 'assets/img/categories/art.svg' %} " alt=" ">
+                                <div class="box-content ">
+                                    <h3 class="title is-6 ">{% trans 'Arts' %}</h3>
+                                    <p>{% trans '#Sketch, #Faces, #places, #Softwares, #etc..' %}</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tile is-ancestor ">
+                    <div class="tile is-parent is-vertical ">
+                        <a href="/single_category/11"
+                           class="tile is-child category-box category-dark-box is-accent is-taller ">
+                            <img src="{% static 'assets/img/categories/laguage.svg' %} " alt=" ">
+                            <div class="box-content ">
+                                <h3 class="title is-6 ">{% trans 'Languages' %}</h3>
+                                <p>{% trans '#Arabic, #English, #chinese, #Spanish, #France, #Turkiesh, #Malay.' %}
+                                </p>
+                            </div>
+                        </a>
+                        <a href="/single_category/15"
+                           class="tile is-child category-box category-dark-box is-primary is-taller ">
+                            <img src="{% static 'assets/img/categories/other.svg' %} " alt=" ">
+                            <div class="box-content ">
+                                <h3 class="title is-6 ">{% trans 'Others' %}</h3>
+                                <p>{% trans 'General courses in differents subjects are here..' %}
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="tile is-vertical is-8 ">
+                        <div class="tile ">
+                            <div class="tile is-parent is-vertical ">
+                                <a href="/single_category/9"
+                                   class="tile is-child category-box category-dark-box is-primary ">
+                                    <img src="{% static 'assets/img/categories/dramaa.svg' %} " alt=" ">
+                                    <div class="box-content ">
+                                        <h3 class="title is-6 ">{% trans 'Drama' %}</h3>
+                                        <p>{% trans '#Cinematography, #Documentaries, #Photographing, #Acting,
+                                            #Director, #etc..' %}</p>
+                                    </div>
+                                </a>
+                                <a href="/single_category/14"
+                                   class="tile is-child category-box category-dark-box is-accent ">
+                                    <img src="{% static 'assets/img/categories/sewiing.svg' %} " alt=" ">
+                                    <div class="box-content ">
+                                        <h3 class="title is-6 ">{% trans 'Sewing design' %}</h3>
+                                        <p>{% trans '#Pants, #T-shirt, #Kids, #Fashion, #dress , #etc..' %}</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="tile is-parent is-vertical ">
+                                <a href="/single_category/12"
+                                   class="tile is-child category-box category-dark-box is-accent ">
+                                    <img src="{% static 'assets/img/categories/food.svg' %} " alt=" ">
+                                    <div class="box-content ">
+                                        <h3 class="title is-6 ">{% trans 'Food and coocking' %}</h3>
+                                        <p>{% trans '#Arabic_food, #Amirecan_food, #Indian_food, #Pasta, #Pizza,
+                                            #spaghetti, #Burger, #Rice, #Chicken, #Fries ,#etc..' %}</p>
+                                    </div>
+                                </a>
+                                <a href="/single_category/10"
+                                   class="tile is-child category-box category-dark-box is-primary ">
+                                    <img src="{% static 'assets/img/categories/design.svg' %} " alt=" ">
+                                    <div class="box-content ">
+                                        <h3 class="title is-6 ">{% trans 'Design' %}</h3>
+                                        <p>{% trans '#T-shirt, #Building, #Studiom, #Gardens, #Educationals_building,
+                                            #Museum, #etc..' %}</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="tile is-parent ">
+                            <a href="/single_category/10"
+                               class="tile is-child category-box category-dark-box is-accent is-row ">
+                                <img src="{% static 'assets/img/categories/softwares.svg' %} " alt=" ">
+                                <div class="box-content ">
+                                    <h3 class="title is-6 ">{% trans 'Software Programs' %}</h3>
+                                    <p>{% trans '#Adobe_photoshop, #illustrator, #Maya, #Adobe_XD, #Excel, #Word,
+                                        #Visual_studio, #Adobe_after_effect, #Filmora, #Terminal, #CMD ,#etc..' %}</p>
+                                </div>
+                            </a>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- More categories End -->
+
+{% endblock %} {% block script %}
+<script>
+    var Config = {
+        apiKey: "AIzaSyAoBR3g9AXuF2GXzlgsJ5DWGiQW1sPdk9g",
+        authDomain: "booctop.firebaseio.com",
+        databaseURL: "https://booctop.firebaseio.com/",
+        projectId: "booctop",
+        storageBucket: "booctop.appspot.com",
+
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(Config);
+
+    var db = firebase.firestore();
+
+    $('#tipue_drop_input').keyup(function (e) {
+
+        var inp = $("#tipue_drop_input").val()
+
+        $.ajax({
+            method: "POST",
+            url: "/search_course/",
+            data: {
+                'inp': inp,
+            },
+            success: function (response) {
+                $('#loading').hide();
+                $('#products-tab').html("")
+                $('#products-tab').html(response)
+            }
+        });
+    });
+
+    <!------------------------------------------For Count----------------------------------------->
+
+    $(document).ready(async function () {
+
+        var final_count = 0;
+        var count = 0;
+        var first_count = 0;
+
+        let chat_messages1_shipmen;
+        let chat_messages2_shipmen;
+
+        var ref_1 = await db.collection("ChatMessages").where('sender_id', '==', "{{user_id}}")
+
+        var ref_2 = await db.collection("ChatMessages").where('receiver_id', '==', "{{user_id}}")
+
+        chat_messages1_shipmen = await ref_1.get();
+
+        chat_messages2_shipmen = await ref_2.get();
+
+        if (chat_messages1_shipmen.empty) {
+
+            db.collection("ChatMessages").where('receiver_id', '==', "{{user_id}}")
+                .onSnapshot(function (querySnapshot) {
+                    includeMetadataChanges: true;
+                    final_count = 0;
+                    querySnapshot.forEach(function (doc) {
+
+                        console.log("doc_1.....", doc.data()['receiver_seen'])
+
+                        count = doc.data()['receiver_seen'];
+
+                        final_count += count
+
+                    });
+
+                    $("#count_1").text(final_count)
+                    $('#count_2').text(final_count)
+
+                    $('#count_3').text(final_count)
+                    $('#count_4').text(final_count)
+
+                });
+
+        } else if (chat_messages1_shipmen && chat_messages2_shipmen.empty) {
+
+            db.collection("ChatMessages").where('sender_id', '==', "{{user_id}}")
+                .onSnapshot(function (querySnapshot) {
+                    final_count = 0;
+                    querySnapshot.forEach(function (doc) {
+
+                        console.log("doc_2.....", doc.data()['sender_seen'])
+
+                        count = doc.data()['sender_seen'];
+
+                        final_count = count
+
+                        console.log("count.....", count)
+
+                    });
+
+                    $("#count_1").text(final_count)
+                    $('#count_2').text(final_count)
+
+                    $('#count_3').text(final_count)
+                    $('#count_4').text(final_count)
+
+                });
+
+        } else if (chat_messages2_shipmen.empty) {
+
+            db.collection("ChatMessages").where('sender_id', '==', "{{user_id}}")
+                .onSnapshot(function (querySnapshot) {
+                    final_count = 0;
+                    querySnapshot.forEach(function (doc) {
+
+                        console.log("doc_3.....", doc.data()['sender_seen'])
+
+                        count = doc.data()['sender_seen'];
+
+                        final_count = count
+
+                    });
+
+                    $("#count_1").text(final_count)
+                    $('#count_2').text(final_count)
+
+                    $('#count_3').text(final_count)
+                    $('#count_4').text(final_count)
+
+                });
+
+
+        } else if (chat_messages2_shipmen && chat_messages1_shipmen.empty) {
+
+            db.collection("ChatMessages").where('receiver_id', '==', "{{user_id}}")
+                .onSnapshot(function (querySnapshot) {
+                    includeMetadataChanges: true;
+                    final_count = 0;
+                    querySnapshot.forEach(function (doc) {
+
+                        console.log("doc_4.....", doc.data()['receiver_seen'])
+
+                        count = doc.data()['receiver_seen'];
+
+                        final_count = count
+
+                    });
+                    $("#count_1").text(final_count)
+                    $('#count_2').text(final_count)
+
+                    $('#count_3').text(final_count)
+                    $('#count_4').text(final_count)
+
+
+                });
+
+
+        } else {
+            db.collection("ChatMessages").where('sender_id', '==', "{{user_id}}")
+                .onSnapshot(function (querySnapshot) {
+                    final_count = 0;
+                    querySnapshot.forEach(function (doc) {
+
+                        console.log("doc_5.....", doc.data()['sender_seen'])
+
+                        first_count = doc.data()['sender_seen']
+
+                        final_count = first_count
+
+
+                    });
+                    $("#count_1").text(final_count)
+                    $('#count_2').text(final_count)
+
+                    $('#count_3').text(final_count)
+                    $('#count_4').text(final_count)
+
+
+                });
+
+
+            db.collection("ChatMessages").where('receiver_id', '==', "{{user_id}}")
+                .onSnapshot(function (querySnapshot) {
+                    final_count = 0;
+                    querySnapshot.forEach(function (doc) {
+
+                        console.log("doc_6.....", doc.data()['receiver_seen'])
+
+                        count = doc.data()['receiver_seen'];
+
+                        final_count = count
+
+                    });
+
+                    $("#count_1").text(final_count)
+                    $('#count_2').text(final_count)
+
+                    $('#count_3').text(final_count)
+                    $('#count_4').text(final_count)
+
+                });
+
+        }
+    });
+
+    async function set_count_zero() {
+        let chat_messages1_shipmen;
+        let chat_messages2_shipmen;
+        var ref_1 = await db.collection("ChatMessages").where('sender_id', '==', "{{user_id}}")
+
+        var ref_2 = await db.collection("ChatMessages").where('receiver_id', '==', "{{user_id}}")
+
+        chat_messages1_shipmen = await ref_1.get();
+
+        chat_messages2_shipmen = await ref_2.get();
+
+
+        if (chat_messages1_shipmen.empty) {
+
+            db.collection("ChatMessages").where('receiver_id', '==', "{{user_id}}")
+                .onSnapshot(function (querySnapshot) {
+                    includeMetadataChanges: true;
+
+                    $("#count_1").text(0)
+                    $('#count_2').text(0)
+
+                    $('#count_3').text(0)
+                    $('#count_4').text(0)
+
+
+                    querySnapshot.forEach(function (doc) {
+
+                        console.log("doc_1.....", doc.data()['receiver_seen'])
+
+                        const doc_id = querySnapshot.docs[0];
+                        const docId = doc_id.id;
+
+                        db.collection("ChatMessages").doc(docId).update({
+
+                            receiver_seen: 0
+
+                        })
+
+
+                    });
+
+                });
+
+
+        } else if (chat_messages1_shipmen && chat_messages2_shipmen.empty) {
+
+            db.collection("ChatMessages").where('sender_id', '==', "{{user_id}}")
+                .onSnapshot(function (querySnapshot) {
+
+                    $("#count_1").text(0)
+                    $('#count_2').text(0)
+
+                    $('#count_3').text(0)
+                    $('#count_4').text(0)
+
+
+                    querySnapshot.forEach(function (doc) {
+
+                        console.log("doc_2.....", doc.data()['sender_seen'])
+
+                        const doc_id = querySnapshot.docs[0];
+                        const docId = doc_id.id;
+
+                        db.collection("ChatMessages").doc(docId).update({
+
+                            sender_seen: 0
+
+
+                        })
+
+
+                    });
+
+                });
+
+        } else if (chat_messages2_shipmen.empty) {
+
+            db.collection("ChatMessages").where('sender_id', '==', "{{user_id}}")
+                .onSnapshot(function (querySnapshot) {
+
+                    $("#count_1").text(0)
+                    $('#count_2').text(0)
+
+                    $('#count_3').text(0)
+                    $('#count_4').text(0)
+
+                    querySnapshot.forEach(function (doc) {
+
+                        console.log("doc_3.....", doc.data()['sender_seen'])
+
+                        const doc_id = querySnapshot.docs[0];
+                        const docId = doc_id.id;
+
+                        db.collection("ChatMessages").doc(docId).update({
+
+                            sender_seen: 0
+
+
+                        })
+
+
+                    });
+
+                });
+
+        } else if (chat_messages2_shipmen && chat_messages1_shipmen.empty) {
+
+            db.collection("ChatMessages").where('receiver_id', '==', "{{user_id}}")
+                .onSnapshot(function (querySnapshot) {
+                    includeMetadataChanges: true;
+
+                    $("#count_1").text(0)
+                    $('#count_2').text(0)
+
+                    $('#count_3').text(0)
+                    $('#count_4').text(0)
+
+                    querySnapshot.forEach(function (doc) {
+
+                        console.log("doc_4.....", doc.data()['receiver_seen'])
+
+                        const doc_id = querySnapshot.docs[0];
+                        const docId = doc_id.id;
+
+                        db.collection("ChatMessages").doc(docId).update({
+
+                            receiver_seen: 0
+
+                        })
+
+                    });
+
+                });
+
+
+        } else {
+
+            db.collection("ChatMessages").where('sender_id', '==', "{{user_id}}")
+                .onSnapshot(function (querySnapshot) {
+
+                    $("#count_1").text(0)
+                    $('#count_2').text(0)
+
+                    $('#count_3').text(0)
+                    $('#count_4').text(0)
+
+                    querySnapshot.forEach(function (doc) {
+
+                        console.log("doc_5.....", doc.data()['sender_seen'])
+
+                        const doc_id = querySnapshot.docs[0];
+                        const docId_1 = doc_id.id;
+
+                        db.collection("ChatMessages").doc(docId_1).update({
+
+                            sender_seen: 0
+
+                        })
+
+                    });
+
+                });
+
+
+            db.collection("ChatMessages").where('receiver_id', '==', "{{user_id}}")
+                .onSnapshot(function (querySnapshot) {
+
+                    $("#count_1").text(0)
+                    $('#count_2').text(0)
+
+                    $('#count_3').text(0)
+                    $('#count_4').text(0)
+
+                    querySnapshot.forEach(function (doc) {
+
+                        console.log("doc_6.....", doc.data()['receiver_seen'])
+
+                        const doc_id = querySnapshot.docs[0];
+                        const docId = doc_id.id;
+
+                        db.collection("ChatMessages").doc(docId).update({
+
+                            receiver_seen: 0
+
+
+                        })
+
+
+                    });
+
+                });
+
+        }
+
+    }
+
+    var myTimer = setInterval(Dataloading, 2000);
+
+    function Dataloading() {
+
+        $(".skeleton").hide();
+        $(".show-image ").delay(200).fadeIn(650);
+
+        $(".product-skeleton").hide();
+        $(".product-info ").delay(200).fadeIn(650);
+    }
+
+    $(document).ready(function () {
+        $('#loadings').fadeOut(3000);
+        var inp = $("#tipue_drop_input").val()
+    });
+
+    $(document).ready(function () {
+        $(".SlickCarousel ").slick({
+            rtl: false, // If RTL Make it true & .slick-slide{float:right;}
+            autoplay: true,
+            autoplaySpeed: 5000, //  Slide Delay
+            speed: 1000, // Transition Speed
+            slidesToShow: 4, // Number Of Carousel
+            slidesToScroll: 1, // Slide To Move
+            pauseOnHover: false,
+            appendArrows: $(".Head .Arrows "), // Class For Arrows Buttons
+            prevArrow: '<span class="Slick-Prev "></span>',
+            nextArrow: '<span class="Slick-Next "></span>',
+            easing: "linear ",
+            responsive: [{
+                breakpoint: 900,
+                settings: {
+                    slidesToShow: 2,
+                }
+            }, {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 1,
+                }
+            },],
+        })
+    })
+
+    var slider = document.getElementById('slider'),
+        sliderItems = document.getElementById('slides'),
+        prev = document.getElementById('prev'),
+        next = document.getElementById('next');
+
+    function slide(wrapper, items, prev, next) {
+        var posX1 = 0,
+            posX2 = 0,
+            posInitial,
+            posFinal,
+            threshold = 100,
+            slides = items.getElementsByClassName('slide'),
+            slidesLength = slides.length,
+            slideSize = items.getElementsByClassName('slide')[0].offsetWidth,
+            firstSlide = slides[0],
+            lastSlide = slides[slidesLength - 1],
+            cloneFirst = firstSlide.cloneNode(true),
+            cloneLast = lastSlide.cloneNode(true),
+            index = 0,
+            allowShift = true;
+
+        // Clone first and last slide
+        items.appendChild(cloneFirst);
+        items.insertBefore(cloneLast, firstSlide);
+        wrapper.classList.add('loaded');
+
+        // Mouse events
+        items.onmousedown = dragStart;
+
+        // Touch events
+        items.addEventListener('touchstart', dragStart);
+        items.addEventListener('touchend', dragEnd);
+        items.addEventListener('touchmove', dragAction);
+
+        // Click events
+        prev.addEventListener('click', function () {
+            shiftSlide(-1)
+        });
+        next.addEventListener('click', function () {
+            shiftSlide(1)
+        });
+
+        // Transition events
+        items.addEventListener('transitionend', checkIndex);
+
+        function dragStart(e) {
+            e = e || window.event;
+            e.preventDefault();
+            posInitial = items.offsetLeft;
+
+            if (e.type == 'touchstart') {
+                posX1 = e.touches[0].clientX;
+            } else {
+                posX1 = e.clientX;
+                document.onmouseup = dragEnd;
+                document.onmousemove = dragAction;
+            }
+        }
+
+        function dragAction(e) {
+            e = e || window.event;
+
+            if (e.type == 'touchmove') {
+                posX2 = posX1 - e.touches[0].clientX;
+                posX1 = e.touches[0].clientX;
+            } else {
+                posX2 = posX1 - e.clientX;
+                posX1 = e.clientX;
+            }
+            items.style.left = (items.offsetLeft - posX2) + "px ";
+        }
+
+        function dragEnd(e) {
+            posFinal = items.offsetLeft;
+            if (posFinal - posInitial < -threshold) {
+                shiftSlide(1, 'drag');
+            } else if (posFinal - posInitial > threshold) {
+                shiftSlide(-1, 'drag');
+            } else {
+                items.style.left = (posInitial) + "px ";
+            }
+
+            document.onmouseup = null;
+            document.onmousemove = null;
+        }
+
+        function shiftSlide(dir, action) {
+            items.classList.add('shifting');
+
+            if (allowShift) {
+                if (!action) {
+                    posInitial = items.offsetLeft;
+                }
+
+                if (dir == 1) {
+                    items.style.left = (posInitial - slideSize) + "px ";
+                    index++;
+                } else if (dir == -1) {
+                    items.style.left = (posInitial + slideSize) + "px ";
+                    index--;
+                }
+            }
+            ;
+
+            allowShift = false;
+        }
+
+        function checkIndex() {
+            items.classList.remove('shifting');
+
+            if (index == -1) {
+                items.style.left = -(slidesLength * slideSize) + "px ";
+                index = slidesLength - 1;
+            }
+
+            if (index == slidesLength) {
+                items.style.left = -(1 * slideSize) + "px ";
+                index = 0;
+            }
+
+            allowShift = true;
+        }
+    }
+
+    slide(slider, sliderItems, prev, next);
+
+    function category() {
+        var category_id = $("#category_id").val();
+        var category_id_2 = $("#category_id_2").val();
+        $('#loadings').show();
+        $.ajax({
+            method: "POST",
+            url: "/sort_by_category/",
+            data: {
+                'category_id': category_id,
+                'category_id_2': category_id_2,
+            },
+            success: function (response) {
+                $('#loadings').hide();
+                if (response == "error") {
+                    $('#products-tab').html("")
+                    swal({
+                        title: "Sorry, Course not found ",
+                        icon: "warning",
+                        button: "Ok",
+                        closeOnClickOutside: false,
+                    })
+                    $('#products-tab').html("");
+                    $('#brands-tab').html("");
+                    $('#followers-tab').html("");
+                } else {
+                    {
+                        response = JSON.parse(response);
+                    }
+                    $('#products-tab').html("");
+                    $('#products-tab').html(response.rendered);
+                    $('#brands-tab').html("");
+                    $('#brands-tab').html(response.rendered2);
+                    $('#followers-tab').html("");
+                    $('#followers-tab').html(response.rendered1);
+                }
+            }
+        });
+    }
+
+    function getPromo(obj) {
+        id = $(obj).attr('data-id');
+        $.post('/getPromoData/', {course_id: id}, function (res) {
+            $('#videos-modal').modal('show');
+            $('#videos-modal').html("");
+            $('#videos-modal').html(res.lender)
+        });
+    }
+
+
+    $(document).ready(function () {
+
+        $(".addfavbutton").click(function(){
+
+            // $(this).css("background-color","red");
+            console.log("farabi wins");
+        });
+
+
+    });
+
+    function addFav(course_id) {
+        console.log("test add fav");
+        var user_id = '{{ request.user.id }}';
+        var url = '/student_favourite_courses/';
+        $.post(url, {student: user_id, course: course_id}, function (res) {
+            // document.location.reload();
+        });
+    }
+
+
+
+
+    
+
+
+    function addToCartList(course_id) {
+        var user_id = '{{ request.user.id }}';
+        var url = '/student_Cart_courses/';
+        $.post(url, {student: user_id, course: course_id}, function (res) {
+            document.location.reload();
+        });
+    }
+
+
+</script>
+
+{% endblock %}

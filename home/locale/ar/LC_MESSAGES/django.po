@@ -1,0 +1,805 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-07-02 00:30+1000\n"
+"PO-Revision-Date: 2020-07-02 01:07+1000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"Language: ar\n"
+"X-Generator: Poedit 2.3.1\n"
+
+#: .\home\models.py:36
+msgid "email address"
+msgstr ""
+
+#: .\home\models.py:37
+msgid "staf status"
+msgstr ""
+
+#: .\home\models.py:38
+msgid "active"
+msgstr ""
+
+#: .\home\models.py:39
+msgid "superuser status"
+msgstr ""
+
+#: .\home\models.py:41
+msgid "date joined"
+msgstr ""
+
+#: .\home\models.py:59
+msgid "User"
+msgstr ""
+
+#: .\home\models.py:60
+msgid "Users"
+msgstr ""
+
+#: .\home\templates\become.html:22 .\home\templates\become.html:29
+#: .\home\templates\layout\footer.html:55
+#: .\home\templates\layout\header.html:39
+msgid "Become a teacher"
+msgstr "أصبح معلم"
+
+#: .\home\templates\become.html:27
+msgid ""
+"Teach what you learn and earn money now, see this step for how to be a "
+"teacher than sign as a teacher."
+msgstr ""
+"قم بتدريب ما تعلمت واكسب المزيد من المال ، تقدم بطلب الالتحاق كمعلم الان."
+
+#: .\home\templates\become.html:57
+msgid "Step 1"
+msgstr "الخطوة الأولى"
+
+#: .\home\templates\become.html:58
+msgid "Sign up as a teacher."
+msgstr "قم بتسجيل الدخول كمعلم."
+
+#: .\home\templates\become.html:63
+msgid "Step 2"
+msgstr "الخطوة الثالثة"
+
+#: .\home\templates\become.html:64
+msgid "Set up your profile information."
+msgstr "قم بتسجيل الدخول كمعلم."
+
+#: .\home\templates\become.html:69
+msgid "Step 3"
+msgstr "الخطوة الثالثة"
+
+#: .\home\templates\become.html:70
+msgid ""
+"Set up your payments methods to collect your income and manage your money."
+msgstr "قم بتسجيل الدخول كمعلم."
+
+#: .\home\templates\become.html:75
+msgid "Step 4"
+msgstr "الخطوة الرابعة"
+
+#: .\home\templates\become.html:76
+msgid ""
+"Test your Videos and Audios Quality by sending your videos to our team via "
+"test course page."
+msgstr "قم بتسجيل الدخول كمعلم."
+
+#: .\home\templates\become.html:81
+msgid "Step 5"
+msgstr "الخطوة الخامسة"
+
+#: .\home\templates\become.html:82
+msgid ""
+"Be Spacific when you choose your target students when you set up your "
+"profile."
+msgstr "قم بتسجيل الدخول كمعلم."
+
+#: .\home\templates\become.html:87
+msgid "Step 6"
+msgstr "الخطوة السادسة"
+
+#: .\home\templates\become.html:88
+msgid "Read our Teacher's Terms and Privacy."
+msgstr "قم بتسجيل الدخول كمعلم."
+
+#: .\home\templates\become.html:93
+msgid "Step 7"
+msgstr "الخطوة السابعة"
+
+#: .\home\templates\become.html:94
+msgid "Get help if you want in your dashboard."
+msgstr "قم بتسجيل الدخول كمعلم."
+
+#: .\home\templates\become.html:115
+msgid "How it works!"
+msgstr "كيف يعمل!"
+
+#: .\home\templates\home\contents-2.html:7
+#: .\home\templates\layout\dialogs.html:112
+msgid "Welcome Back"
+msgstr "مرحبا بك من جديد"
+
+#: .\home\templates\home\contents-2.html:9
+#: .\home\templates\home\contents-2.html:11
+#: .\home\templates\layout\footer.html:63
+#: .\home\templates\layout\header.html:369
+#: .\home\templates\layout\header.html:380
+msgid "My courses"
+msgstr "دوراتي"
+
+#: .\home\templates\home\contents-2.html:14
+msgid "Continue learning now.."
+msgstr "اكمل التعلم.."
+
+#: .\home\templates\home\contents-2.html:29
+#: .\home\templates\home\contents-2.html:54
+#: .\home\templates\home\contents-2.html:79
+#: .\home\templates\home\contents-2.html:104
+#, python-format
+msgid "88%%"
+msgstr ""
+
+#: .\home\templates\home\contents-2.html:33
+#: .\home\templates\home\contents-2.html:58
+#: .\home\templates\home\contents-2.html:83
+#: .\home\templates\home\contents-2.html:108
+msgid "490 / 500"
+msgstr ""
+
+#: .\home\templates\home\contents-2.html:38
+#: .\home\templates\home\contents-2.html:63
+#: .\home\templates\home\contents-2.html:88
+#: .\home\templates\home\contents-2.html:113 .\home\templates\signup.html:72
+#: .\home\templates\signup.html:82 .\home\templates\signup.html:92
+msgid "Continue"
+msgstr "سجل"
+
+#: .\home\templates\home\contents.html:11
+msgid "Are you ready to learn?"
+msgstr "هل أنت جاهز للتعلم؟"
+
+#: .\home\templates\home\contents.html:18
+msgid "Learn"
+msgstr "تعلم"
+
+#: .\home\templates\home\contents.html:23
+msgid "Search"
+msgstr "أبحث عن دورة"
+
+#: .\home\templates\index.html:30 .\home\templates\single_category.html:42
+msgid "All"
+msgstr "الكل"
+
+#: .\home\templates\index.html:31 .\home\templates\single_category.html:43
+msgid "Paid"
+msgstr "مدفوعة"
+
+#: .\home\templates\index.html:32 .\home\templates\single_category.html:44
+msgid "Free"
+msgstr "مجانية"
+
+#: .\home\templates\index.html:41 .\home\templates\single_category.html:53
+msgid "Sort By"
+msgstr "البحث عن طريق"
+
+#: .\home\templates\index.html:51 .\home\templates\single_category.html:63
+msgid "Newest courses"
+msgstr "الدورات الجديدة"
+
+#: .\home\templates\index.html:57 .\home\templates\single_category.html:69
+msgid "Most students"
+msgstr "الأعلى شراءاً"
+
+#: .\home\templates\index.html:63 .\home\templates\single_category.html:75
+msgid "Most Ratings"
+msgstr "الأعلى تقييماً"
+
+#: .\home\templates\index.html:170 .\home\templates\index.html:1312
+#: .\home\templates\index.html:2453 .\home\templates\single_category.html:309
+#: .\home\templates\single_category.html:415
+msgid "Previous"
+msgstr "التالي"
+
+#: .\home\templates\index.html:182 .\home\templates\index.html:1324
+#: .\home\templates\index.html:2465 .\home\templates\single_category.html:322
+#: .\home\templates\single_category.html:428
+msgid "Next page"
+msgstr "السابق"
+
+#: .\home\templates\index.html:2487
+msgid "Categories"
+msgstr "الأقسام"
+
+#: .\home\templates\index.html:2495 .\home\templates\layout\dialogs.html:16
+msgid "Web Development"
+msgstr "تطوير الويب"
+
+#: .\home\templates\index.html:2496
+msgid ""
+"#HTML, #Css, #Js, #PHP, #Python, #Java, #Ruby, #C++, #R, #SQl, #C, #swift, "
+"#Swift, #kotlin, #etc."
+msgstr ""
+"#اتش-تي-ام-ال-٥، #بايثون، #بي-اتش-بي، #جيكوري، #جافا-سكربت، #جافا، #سويفت، "
+"#روبي، #الخ.."
+
+#: .\home\templates\index.html:2502 .\home\templates\layout\dialogs.html:26
+msgid "Aviation"
+msgstr "طيران"
+
+#: .\home\templates\index.html:2503
+msgid ""
+"#AirCraft_Maintenance, #Professional_Pilot, #Flight_instructure, "
+"#Airport_security, #Airline_managment, #etc.."
+msgstr "#طيار، #مضيف-طيران، #هندسة-طيران، #مساعد-طيار، #مدير-مطارات، #الخ.."
+
+#: .\home\templates\index.html:2513 .\home\templates\layout\dialogs.html:21
+msgid "Business"
+msgstr "ادارة اعمال"
+
+#: .\home\templates\index.html:2514
+msgid ""
+"#Human_resource, #Markting, #international_business_managment, "
+"#business_managment, #Finance, #Accounting, #Audit, #Analysis_of_business ,"
+"#etc.."
+msgstr "#موارد-بشرية، #ادارة-اعمال-عالمية، #تسويق، #محاسبة، #توظيف #الخ.."
+
+#: .\home\templates\index.html:2520
+msgid "Physical & Chemistry"
+msgstr "كيمياء وفيزياء"
+
+#: .\home\templates\index.html:2521
+msgid ""
+"#General_chemistry, #Medical_chemistry, #Biochemistry, #General_physical, "
+"#Engineering_physical, #Physical_science, #Laser_physic, #Optics, "
+"#Mevhanics, #Cosmology, #etc.."
+msgstr "#كيمياء ، #فيزياء، #هندسة، #علم-الارض، #الجبر، #الخ.."
+
+#: .\home\templates\index.html:2529
+msgid "Gaming"
+msgstr "ترفيه"
+
+#: .\home\templates\index.html:2530
+msgid "#Furtnite, #Pes, #Fifa, #Pubg, #COD, #etc.."
+msgstr "#العاب، #ترفيه، رياضة، #شطرنج، #الخ.."
+
+#: .\home\templates\index.html:2537
+msgid "Engineering"
+msgstr "هندسة"
+
+#: .\home\templates\index.html:2538
+msgid ""
+"#Civil_engineering, #Architecter_engineering, #electronic_engineering, #etc.."
+msgstr "#العاب، #ترفيه، رياضة، #شطرنج، #الخ.."
+
+#: .\home\templates\index.html:2547 .\home\templates\layout\dialogs.html:36
+msgid "Mathmatics"
+msgstr "رياضيات"
+
+#: .\home\templates\index.html:2548
+msgid "#Analysis, #Calculate, #algebra, #algorithm, #statics, #etc.."
+msgstr "#العاب، #ترفيه، رياضة، #شطرنج، #الخ.."
+
+#: .\home\templates\index.html:2563 .\home\templates\layout\dialogs.html:81
+msgid "Skills"
+msgstr "مهارات"
+
+#: .\home\templates\index.html:2564
+msgid ""
+"#Eyes_Connect, #Insurance_market, #Communication, #Content_industry, "
+"#Costumers_needs, #the_Secretary, #etc.."
+msgstr "#العاب، #ترفيه، رياضة، #شطرنج، #الخ.."
+
+#: .\home\templates\index.html:2571
+msgid "Maintaince & Reparing"
+msgstr "صيانة"
+
+#: .\home\templates\index.html:2572
+msgid "#Cars, #Motorocycle, #PC, #Aircone, #Plumbing, #etc.."
+msgstr "#العاب، #ترفيه، رياضة، #شطرنج، #الخ.."
+
+#: .\home\templates\index.html:2583
+msgid "Hospitality & Tourism"
+msgstr "فندقة وضيافة"
+
+#: .\home\templates\index.html:2584
+msgid "#Management, #Kitchen, #Leader, #jerson, #Tourism_industry , #etc.."
+msgstr "#العاب، #ترفيه، رياضة، #شطرنج، #الخ.."
+
+#: .\home\templates\index.html:2590 .\home\templates\layout\dialogs.html:51
+msgid "Information Technology"
+msgstr "تكنولوجيا المعلومات"
+
+#: .\home\templates\index.html:2591
+msgid ""
+"#Cyber_security, #Virtual_environment, #Networking, #Data_analysis, "
+"#Data_base, #Robots, #Haking, #etc.."
+msgstr "#العاب، #ترفيه، رياضة، #شطرنج، #الخ.."
+
+#: .\home\templates\index.html:2599
+msgid "Life style"
+msgstr "أمور حيوية"
+
+#: .\home\templates\index.html:2600
+msgid ""
+"#Fitness, #sports, #Diet, #resistance_trainging, #healthy_life_style, "
+"#athletics, #Physical_therapy , #Dance ,#etc.."
+msgstr "#العاب، #ترفيه، رياضة، #شطرنج، #الخ.."
+
+#: .\home\templates\index.html:2606
+msgid "Self development"
+msgstr "تطوير الذات"
+
+#: .\home\templates\index.html:2607
+msgid ""
+"#Entrepreneurship, #Confidence, #Communicate, #persuasion, #team_work, "
+"#time_managment, #etc.."
+msgstr "#العاب، #ترفيه، رياضة، #شطرنج، #الخ.."
+
+#: .\home\templates\index.html:2616 .\home\templates\layout\dialogs.html:46
+msgid "Arts"
+msgstr "فن ورسم"
+
+#: .\home\templates\index.html:2617
+msgid "#Sketch, #Faces, #places, #Softwares, #etc.."
+msgstr "#العاب، #ترفيه، رياضة، #شطرنج، #الخ.."
+
+#: .\home\templates\index.html:2633 .\home\templates\layout\dialogs.html:66
+msgid "Languages"
+msgstr "لغات"
+
+#: .\home\templates\index.html:2634
+msgid "#Arabic, #English, #chinese, #Spanish, #France, #Turkiesh, #Malay."
+msgstr "#العاب، #ترفيه، رياضة، #شطرنج، #الخ.."
+
+#: .\home\templates\index.html:2641 .\home\templates\layout\dialogs.html:86
+msgid "Others"
+msgstr "أخرى"
+
+#: .\home\templates\index.html:2642
+msgid "General courses in differents subjects are here.."
+msgstr "#العاب، #ترفيه، رياضة، #شطرنج، #الخ.."
+
+#: .\home\templates\index.html:2653
+msgid "Drama"
+msgstr "سينماء"
+
+#: .\home\templates\index.html:2654
+msgid ""
+"#Cinematography, #Documentaries, #Photographing, #Acting, #Director, #etc.."
+msgstr "#العاب، #ترفيه، رياضة، #شطرنج، #الخ.."
+
+#: .\home\templates\index.html:2660
+msgid "Sewing design"
+msgstr "خياطة"
+
+#: .\home\templates\index.html:2661
+msgid "#Pants, #T-shirt, #Kids, #Fashion, #dress , #etc.."
+msgstr "#العاب، #ترفيه، رياضة، #شطرنج، #الخ.."
+
+#: .\home\templates\index.html:2669
+msgid "Food and coocking"
+msgstr "طبخ"
+
+#: .\home\templates\index.html:2670
+msgid ""
+"#Arabic_food, #Amirecan_food, #Indian_food, #Pasta, #Pizza, #spaghetti, "
+"#Burger, #Rice, #Chicken, #Fries ,#etc.."
+msgstr "#العاب، #ترفيه، رياضة، #شطرنج، #الخ.."
+
+#: .\home\templates\index.html:2676
+msgid "Design"
+msgstr "تصميم"
+
+#: .\home\templates\index.html:2677
+msgid ""
+"#T-shirt, #Building, #Studiom, #Gardens, #Educationals_building, #Museum, "
+"#etc.."
+msgstr "#العاب، #ترفيه، رياضة، #شطرنج، #الخ.."
+
+#: .\home\templates\index.html:2686
+msgid "Software Programs"
+msgstr "برامج"
+
+#: .\home\templates\index.html:2687
+msgid ""
+"#Adobe_photoshop, #illustrator, #Maya, #Adobe_XD, #Excel, #Word, "
+"#Visual_studio, #Adobe_after_effect, #Filmora, #Terminal, #CMD ,#etc.."
+msgstr "#العاب، #ترفيه، رياضة، #شطرنج، #الخ.."
+
+#: .\home\templates\layout\dialogs.html:9
+msgid "Explore"
+msgstr "الأقسام"
+
+#: .\home\templates\layout\dialogs.html:31
+msgid "Games"
+msgstr "ترفيه"
+
+#: .\home\templates\layout\dialogs.html:41
+msgid "life Style"
+msgstr "أسلوب الحياة"
+
+#: .\home\templates\layout\dialogs.html:56
+msgid "Cenima & Drama"
+msgstr "سينما و دراما"
+
+#: .\home\templates\layout\dialogs.html:61
+msgid "Software Programming"
+msgstr "برمجة"
+
+#: .\home\templates\layout\dialogs.html:71
+msgid "Food & Cooking"
+msgstr "طعام وطبخ"
+
+#: .\home\templates\layout\dialogs.html:76
+msgid "Repare & Maintaince"
+msgstr "صيانة"
+
+#: .\home\templates\layout\dialogs.html:111
+#: .\home\templates\layout\dialogs.html:154
+msgid "Login"
+msgstr "تسجيل الدخول"
+
+#: .\home\templates\layout\dialogs.html:114
+msgid "Login via Gmail"
+msgstr "تسجيل الدخول عن طريق قوقل"
+
+#: .\home\templates\layout\dialogs.html:118
+msgid "Login via Twitter"
+msgstr "تسجيل الدخول عن طريق فيسبوك"
+
+#: .\home\templates\layout\dialogs.html:129
+msgid "Enter email"
+msgstr "ادخل البريد الالكتروني"
+
+#: .\home\templates\layout\dialogs.html:138
+msgid "Enter your password"
+msgstr "ادخل كلمة المرور"
+
+#: .\home\templates\layout\dialogs.html:147
+msgid "Remember me"
+msgstr "تذكرني"
+
+#: .\home\templates\layout\dialogs.html:158
+msgid "Already have an account ?"
+msgstr "ليس لديك حساب؟"
+
+#: .\home\templates\layout\dialogs.html:158
+#: .\home\templates\layout\header.html:505 .\home\templates\signup.html:22
+msgid "Sign up"
+msgstr "تسجيل جديد"
+
+#: .\home\templates\layout\dialogs.html:160
+#: .\home\templates\layout\dialogs.html:177
+msgid "Forget Password"
+msgstr "نسيت الرمز السري"
+
+#: .\home\templates\layout\dialogs.html:190
+msgid "Enter your Email address."
+msgstr "أدخل البريد الالكتروني."
+
+#: .\home\templates\layout\dialogs.html:192
+msgid "Enter your Email"
+msgstr "ادخل ايميلك"
+
+#: .\home\templates\layout\dialogs.html:194
+msgid "Send link"
+msgstr "ارسل رابط"
+
+#: .\home\templates\layout\dialogs.html:212
+msgid "Forgot which email address you signed up with?"
+msgstr "نسيت البريد الالكتروني الذي قمت بالتسجيل به؟"
+
+#: .\home\templates\layout\dialogs.html:212
+msgid "Get help!"
+msgstr "احصل على المساعدة!"
+
+#: .\home\templates\layout\footer.html:20
+msgid "About us"
+msgstr "عن بوستيب"
+
+#: .\home\templates\layout\footer.html:28
+msgid "FAQs"
+msgstr "الاسئلة الشائعة"
+
+#: .\home\templates\layout\footer.html:36
+#: .\home\templates\layout\header.html:391
+msgid "Help"
+msgstr "مساعدة"
+
+#: .\home\templates\layout\footer.html:44
+msgid "Terms"
+msgstr "الشروط"
+
+#: .\home\templates\layout\footer.html:83
+#: .\home\templates\layout\footer.html:111
+#: .\home\templates\layout\footer.html:132
+msgid "Arabic"
+msgstr "عربي"
+
+#: .\home\templates\layout\footer.html:155
+msgid "Made with"
+msgstr "صمم بحب"
+
+#: .\home\templates\layout\footer.html:155
+msgid "By Booctep's Designers."
+msgstr "من مصممي بوستيب."
+
+#: .\home\templates\layout\head\head.html:4
+msgid "Booctep | Homepage"
+msgstr "الصفحة الرئيسية"
+
+#: .\home\templates\layout\header.html:24
+msgid "Search course"
+msgstr "أبحث عن دورة"
+
+#: .\home\templates\layout\header.html:83
+msgid "Mark all as read"
+msgstr "اشر عليها بانها قرات"
+
+#: .\home\templates\layout\header.html:85
+msgid "Total:"
+msgstr "مجموع:"
+
+#: .\home\templates\layout\header.html:86
+msgid "4 Notifications"
+msgstr "4 الإخطارات"
+
+#: .\home\templates\layout\header.html:93
+#: .\home\templates\layout\header.html:101
+#: .\home\templates\layout\header.html:109
+#: .\home\templates\layout\header.html:117
+msgid "Hello Bandar How are you?"
+msgstr "مرحبا بندر كيف حالك؟"
+
+#: .\home\templates\layout\header.html:94
+#: .\home\templates\layout\header.html:102
+#: .\home\templates\layout\header.html:110
+#: .\home\templates\layout\header.html:118
+msgid "3 mins"
+msgstr "3 دقائق"
+
+#: .\home\templates\layout\header.html:123
+msgid "view all Notifications"
+msgstr "عرض جميع الإخطاراتn"
+
+#: .\home\templates\layout\header.html:346
+#: .\home\templates\layout\header.html:357
+msgid "Settings"
+msgstr "الاعدادات"
+
+#: .\home\templates\layout\header.html:403
+#: .\home\templates\layout\header.html:414
+msgid "messages"
+msgstr "الرسائل"
+
+#: .\home\templates\layout\header.html:426
+msgid "Log out"
+msgstr "تسجيل خروج"
+
+#: .\home\templates\layout\header.html:508
+msgid "Log in"
+msgstr "تسجيل دخول"
+
+#: .\home\templates\signup.html:51
+msgid "Sign up as"
+msgstr "تسجيل كـ"
+
+#: .\home\templates\signup.html:52
+msgid "What are you going to teach?"
+msgstr "ماذا ستعلم؟"
+
+#: .\home\templates\signup.html:53
+msgid "Tell us more about you."
+msgstr "أخبرنا اكثر عن نفسك."
+
+#: .\home\templates\signup.html:54
+msgid "Upload a profile picture."
+msgstr "حمل صورة شخصية."
+
+#: .\home\templates\signup.html:55
+msgid "Secure your account."
+msgstr "ادخل كلمة السر الخاصة بك."
+
+#: .\home\templates\signup.html:56
+msgid "we sent you an email to activate your account."
+msgstr "قم بتفعيل حسابك."
+
+#: .\home\templates\signup.html:70 .\home\templates\signup.html:80
+msgid "Student"
+msgstr "طالب"
+
+#: .\home\templates\signup.html:90 .\home\templates\support.html:38
+msgid "Teacher"
+msgstr "معلمين"
+
+#: .\home\templates\signup.html:98
+msgid "Or"
+msgstr "أو"
+
+#: .\home\templates\signup.html:103
+msgid "Sign up via Gmail"
+msgstr "تسجيل  عن طريق قوقل"
+
+#: .\home\templates\signup.html:108
+msgid "Sign up via Twitter"
+msgstr "تسجيل عن طريق تويتر"
+
+#: .\home\templates\signup.html:113
+msgid "Sign up via Facebook"
+msgstr "تسجيل عن طريق فيسبوك"
+
+#: .\home\templates\signup.html:130
+msgid "Add Categories"
+msgstr "أضف فئات"
+
+#: .\home\templates\signup.html:135 .\home\templates\signup.html:167
+#: .\home\templates\signup.html:192 .\home\templates\signup.html:220
+#: .\home\templates\support.html:172
+msgid "Back"
+msgstr "رجوع"
+
+#: .\home\templates\signup.html:136 .\home\templates\signup.html:169
+#: .\home\templates\signup.html:193 .\home\templates\signup.html:221
+msgid "Next"
+msgstr "التالى"
+
+#: .\home\templates\signup.html:147
+msgid "First Name"
+msgstr "الاسم الاول"
+
+#: .\home\templates\signup.html:149
+msgid "Enter your first name"
+msgstr "قم بادخال اسمك الاول"
+
+#: .\home\templates\signup.html:153
+msgid "Last Name"
+msgstr "الاسم الاخير"
+
+#: .\home\templates\signup.html:155
+msgid "Enter your last name"
+msgstr "قم بادخال اسمك الاخير"
+
+#: .\home\templates\signup.html:159
+msgid "Email"
+msgstr "ايميلك"
+
+#: .\home\templates\signup.html:161
+msgid "Enter your email address"
+msgstr "قم بادخال ايميلك"
+
+#: .\home\templates\signup.html:186
+msgid "Only images with a size lower than 3MB are allowed."
+msgstr "فقط مسموح بحجم صورة ٣٠ ميقا بايت وصيغة جي بي جي."
+
+#: .\home\templates\signup.html:200
+msgid "Password"
+msgstr "كلمة السر"
+
+#: .\home\templates\signup.html:202
+msgid "Choose a password"
+msgstr "ادخل كلمة السر"
+
+#: .\home\templates\signup.html:206
+msgid "Repeat Password"
+msgstr "اعادة كلمة السر"
+
+#: .\home\templates\signup.html:208
+msgid "Repeat your password"
+msgstr "اعد ادخال كلمة السر"
+
+#: .\home\templates\signup.html:229
+msgid "Congratz, you successfully created your account."
+msgstr "مبروك، لقد قمت بالتسجيل بنجاح."
+
+#: .\home\templates\signup.html:230
+msgid ""
+"We just sent you a confirmation email. PLease confirm your account within 24 "
+"hours."
+msgstr "لإكمال التسجيل قم بتفعيل حسابك، قمنا بارسال رابط التفعيل في ايميلك."
+
+#: .\home\templates\signup.html:244
+msgid "Crop your picture"
+msgstr "اقتصاص صورتك"
+
+#: .\home\templates\signup.html:274
+msgid "What will you teach?"
+msgstr "ماذا ستعلم؟"
+
+#: .\home\templates\signup.html:318
+msgid "Go Back"
+msgstr "العودة"
+
+#: .\home\templates\signup.html:328
+msgid "Add"
+msgstr "أضف"
+
+#: .\home\templates\signup.html:451
+msgid "Please enter the first name"
+msgstr "يرجى إدخال الاسم الأول"
+
+#: .\home\templates\signup.html:454
+msgid "Please enter the last name"
+msgstr "الرجاء إدخال الاسم الأخير"
+
+#: .\home\templates\signup.html:457
+msgid "Please enter the valid email"
+msgstr "يرجى إدخال البريد الإلكتروني الصحيح"
+
+#: .\home\templates\signup.html:512
+msgid "Please enter the password"
+msgstr "يرجى إدخال كلمة المرور"
+
+#: .\home\templates\signup.html:515
+msgid "Please enter the confirm password"
+msgstr "الرجاء إدخال كلمة المرور لتأكيدها"
+
+#: .\home\templates\signup.html:518
+msgid "password is not match. Please re-enter the correct password."
+msgstr "كلمة المرور غير متطابقة. يرجى إعادة إدخال كلمة المرور الصحيحة."
+
+#: .\home\templates\single_category.html:15
+msgid "199 courses in “Gaming”"
+msgstr "١٩٩ دورة في “لا ت”"
+
+#: .\home\templates\single_category.html:16
+msgid "If you don't find what you want, be more specific.."
+msgstr "اذا لم تجد ما تبحث عنه قم بكتابة الكلمات بعناية"
+
+#: .\home\templates\support.html:10
+msgid "Help & Support"
+msgstr "مساعدة"
+
+#: .\home\templates\support.html:11
+msgid ""
+"Get help and support with our Articles or contact us if you don't find what "
+"you want!"
+msgstr "احصل على مساعدة عبر مقالاتنا او اطلب مساعدة في حال لم تجد ماتريد!"
+
+#: .\home\templates\support.html:39
+msgid "Students"
+msgstr "طلاب"
+
+#: .\home\templates\support.html:91 .\home\templates\support.html:109
+#: .\home\templates\support.html:118 .\home\templates\support.html:129
+#: .\home\templates\support.html:138 .\home\templates\support.html:147
+#: .\home\templates\support.html:156 .\home\templates\support.html:183
+#: .\home\templates\support.html:192 .\home\templates\support.html:201
+#: .\home\templates\support.html:210 .\home\templates\support.html:222
+#: .\home\templates\support.html:231 .\home\templates\support.html:240
+#: .\home\templates\support.html:249
+msgid "Accounts"
+msgstr "حسابات"
+
+#: .\home\templates\support.html:92 .\home\templates\support.html:110
+#: .\home\templates\support.html:119 .\home\templates\support.html:130
+#: .\home\templates\support.html:139 .\home\templates\support.html:148
+#: .\home\templates\support.html:157 .\home\templates\support.html:184
+#: .\home\templates\support.html:193 .\home\templates\support.html:202
+#: .\home\templates\support.html:211 .\home\templates\support.html:223
+#: .\home\templates\support.html:232 .\home\templates\support.html:241
+#: .\home\templates\support.html:250
+msgid "Get help about your account profile."
+msgstr "احصل على مساعدة لمعرفة ادارة حسابك."
+
+#: .\home\templates\support.html:163
+msgid "What’s happening with you?"
+msgstr "ماذا يحدث معك؟"
+
+#: .\home\templates\support.html:174
+msgid "Set up your account correctly"
+msgstr "الحسابات"
+
+#: .\home\templates\support.html:264
+msgid "Login Problems"
+msgstr "مشاكل تسجيل الدخول"

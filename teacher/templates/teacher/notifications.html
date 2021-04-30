@@ -1,0 +1,354 @@
+{#{% extends "teacher/base2.html" %}#}
+{% extends "teacher/base.html" %}
+
+{% block title %}
+Notification
+{% endblock %}
+
+{% block content %}
+    {% load static %}
+        <div data-push data-responsive-width="768px" data-has-scrollable-region data-fullbleed class="mdk-drawer-layout js-mdk-drawer-layout">
+                <div class="mdk-drawer-layout__content" data-perfect-scrollbar>
+
+                    <div class="navbar border-bottom justify-content-start">
+                        <a data-target="#email-drawer" data-toggle="sidebar" class="btn btn-sm btn-light"  style="display: none;"><i class="material-icons icon--left">tune</i> Inbox</a>
+                        <a class="btn btn-sm btn-light ml-8pt" onclick="openNotiModal()">Add New Notifications</a>
+                    </div>
+                    <div class="container page__container page-section">
+
+                        <div class="card mb-32pt">
+
+                            <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-date" data-lists-sort-desc="true" data-lists-values='["js-lists-values-name", "js-lists-values-department", "js-lists-values-status", "js-lists-values-type", "js-lists-values-phone", "js-lists-values-date"]'>
+                                <table class="table mb-0 thead-border-top-0 table-nowrap">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 18px;" class="pr-0">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input js-toggle-check-all" data-target="#employees" id="customCheckAllemployees">
+                                                    <label class="custom-control-label" for="customCheckAllemployees"><span class="text-hide">Toggle all</span></label>
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name">Name</a>
+                                            </th>
+
+                                            <th style="width: 650px;">
+                                                <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name" style="justify-content: center; display: flex;">text</a>
+                                            </th>
+                                            <th style="width: 24px;"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="list" id="employees">
+                                    {% for noti in noti_list %}
+                                        <tr>
+                                            <td class="pr-0">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input js-check-selected-row" id="customCheck1_employees1">
+                                                    <label class="custom-control-label" for="customCheck1_employees1"><span class="text-hide">Check</span></label>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                                    <div class="avatar avatar-sm mr-8pt">
+                                                        <img src="{%static noti.sender.image %}" style="border: 2px solid grey; height:48px;" alt="people" width="56" class="rounded-circle" />
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <div class="d-flex align-items-center">
+                                                            <div class="flex d-flex flex-column">
+                                                                <p class="mb-0"><strong class="js-lists-values-name">{{ noti.sender.first_name }}  {{ noti.sender.last_name }}</strong></p>
+                                                                <small class="js-lists-values-email text-50">{{ noti.sender.email }}</small>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                                    <div class="avatar avatar-sm mr-8pt">
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <div class="d-flex flex-column">
+                                                            {{ noti.text }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="mdk-drawer sub-layout-drawer js-mdk-drawer" data-align="start" id="email-drawer" style="display: none;">
+                    <div class="mdk-drawer__content ">
+                        <div class="sidebar sidebar-left sidebar-light  o-hidden" data-perfect-scrollbar>
+
+                            <div class="navbar">
+                                <div class="search-form form-control-rounded search-form--light">
+                                    <input type="text" class="form-control" placeholder="What are you looking for?" id="searchSample02">
+                                    <button class="btn" type="button" role="button"><i class="material-icons">search</i></button>
+                                </div>
+                            </div>
+
+                            <div class="list-group list-group-flush" style="position: relative; z-index: 0; ">
+
+                                <div class="list-group-item d-flex align-items-start bg-transparent">
+                                    <div class="mr-3 d-flex flex-column align-items-center">
+                                        <a href="#" class="avatar avatar-xs mb-2">
+                                            <img src="{% static 'teacher/assets/images/256_daniel-gaffey-1060698-unsplash.jpg' %}" alt="Avatar" class="avatar-img rounded-circle">
+                                        </a>
+                                        <a href="" class="text-muted"><i class="material-icons icon-16pt">star_border</i></a>
+                                    </div>
+                                    <div class="flex">
+                                        <p class="m-0">
+                                            <span class="d-flex align-items-center mb-1">
+                                                <a href="#" class="text-dark-gray"><strong>Sherri J. Cardenas</strong></a>
+                                                <small class="ml-auto text-muted">Today</small>
+                                            </span>
+                                            <span class="d-flex align-items-end">
+                                                <span class="flex mr-3">
+                                                    <strong class="text-body mb-1">When will Windows 11 come out?</strong><br>
+                                                    <small class="text-muted" style="max-height: 2rem; overflow: hidden; position: relative; display: inline-block;">Answer: Never. There is no Windows 11. Microsoft does not have a team of pro...</small>
+                                                </span>
+                                                <a href="" class="d-flex align-items-center mb-1">
+                                                    <small class="text-muted mr-1">2</small>
+                                                    <i class="material-icons icon-16pt">attachment</i>
+                                                </a>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="list-group-item d-flex align-items-start border-left-3 border-left-primary">
+                                    <div class="mr-3 d-flex flex-column align-items-center">
+                                        <a href="#" class="avatar avatar-xs mb-2">
+                                            <img src="{% static 'teacher/assets/images/256_rsz_1andy-lee-642320-unsplash.jpg' %}" alt="Avatar" class="avatar-img rounded-circle">
+                                        </a>
+                                        <a href=""><i class="material-icons icon-16pt">star</i></a>
+                                    </div>
+                                    <div class="flex">
+                                        <p class="m-0">
+                                            <span class="d-flex align-items-center mb-1">
+                                                <a href="#" class="text-dark-gray"><strong>Jenell D. Matney</strong></a>
+                                                <small class="ml-auto text-muted">March 24</small>
+                                            </span>
+                                            <span class="d-flex align-items-end">
+                                                <span class="flex mr-3">
+                                                    <strong class="text-body mb-1">Thank you for contacting XBody</strong><br>
+                                                    <small class="text-muted" style="max-height: 2rem; overflow: hidden; position: relative; display: inline-block;">Dear Sean, Thank you for showing and interest in our products, we are looking forward to talking to you and welcoming you in the XBody Family ..</small>
+                                                </span>
+                                                <a href="" class="d-flex align-items-center mb-1">
+                                                    <small class="text-muted mr-1">2</small>
+                                                    <i class="material-icons icon-16pt">attachment</i>
+                                                </a>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="list-group-item d-flex align-items-start bg-transparent">
+                                    <div class="mr-3 d-flex flex-column align-items-center">
+                                        <a href="#" class="avatar avatar-xs mb-2">
+                                            <img src="{% static 'teacher/assets/images/256_jeremy-banks-798787-unsplash.jpg' %}" alt="Avatar" class="avatar-img rounded-circle">
+                                        </a>
+                                        <a href="" class="text-muted"><i class="material-icons icon-16pt">star_border</i></a>
+                                    </div>
+                                    <div class="flex">
+                                        <p class="m-0">
+                                            <span class="d-flex align-items-center mb-1">
+                                                <a href="#" class="text-dark-gray"><strong>Joseph S. Ferland</strong></a>
+                                                <small class="ml-auto text-muted">March 23</small>
+                                            </span>
+                                            <span class="d-flex align-items-end">
+                                                <span class="flex mr-3">
+                                                    <strong class="text-body mb-1">Why Designing Your Own UI Style Guide System Matters</strong><br>
+                                                    <small class="text-muted" style="max-height: 2rem; overflow: hidden; position: relative; display: inline-block;">Stories for Sean Todays highlights Why Designing Your Own Style Guide System Matters Before divind deep into desi...</small>
+                                                </span>
+                                                <a href="" class="d-flex align-items-center mb-1">
+                                                    <small class="text-muted mr-1">2</small>
+                                                    <i class="material-icons icon-16pt">attachment</i>
+                                                </a>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="list-group-item d-flex align-items-start bg-transparent">
+                                    <div class="mr-3 d-flex flex-column align-items-center">
+                                        <a href="#" class="avatar avatar-xs mb-2">
+                                            <img src="{% static 'teacher/assets/images/256_joao-silas-636453-unsplash.jpg' %}" alt="Avatar" class="avatar-img rounded-circle">
+                                        </a>
+                                        <a href="" class="text-muted"><i class="material-icons icon-16pt">star_border</i></a>
+                                    </div>
+                                    <div class="flex">
+                                        <p class="m-0">
+                                            <span class="d-flex align-items-center mb-1">
+                                                <a href="#" class="text-dark-gray"><strong>UX Collective</strong></a>
+                                                <small class="ml-auto text-muted">Feb 28</small>
+                                            </span>
+                                            <span class="d-flex align-items-end">
+                                                <span class="flex mr-3">
+                                                    <strong class="text-body mb-1">How to hire UX Researchers</strong><br>
+                                                    <small class="text-muted" style="max-height: 2rem; overflow: hidden; position: relative; display: inline-block;">How to hire UX Researchers &mdash; and more design links this week How to test the skills of a UX researcher...</small>
+                                                </span>
+                                                <a href="" class="d-flex align-items-center mb-1">
+                                                    <small class="text-muted mr-1">2</small>
+                                                    <i class="material-icons icon-16pt">attachment</i>
+                                                </a>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="list-group-item d-flex align-items-start bg-transparent">
+                                    <div class="mr-3 d-flex flex-column align-items-center">
+                                        <a href="#" class="avatar avatar-xs mb-2">
+                                            <img src="{% static 'teacher/assets/images/256_luke-porter-261779-unsplash.jpg' %}" alt="Avatar" class="avatar-img rounded-circle">
+                                        </a>
+                                        <a href="" class="text-muted"><i class="material-icons icon-16pt">star_border</i></a>
+                                    </div>
+                                    <div class="flex">
+                                        <p class="m-0">
+                                            <span class="d-flex align-items-center mb-1">
+                                                <a href="#" class="text-dark-gray"><strong>Elizabeth J. Ohara</strong></a>
+                                                <small class="ml-auto text-muted">Feb 24</small>
+                                            </span>
+                                            <span class="d-flex align-items-end">
+                                                <span class="flex mr-3">
+                                                    <strong class="text-body mb-1">Business Analyst</strong><br>
+                                                    <small class="text-muted" style="max-height: 2rem; overflow: hidden; position: relative; display: inline-block;"></small>
+                                                </span>
+                                                <a href="" class="d-flex align-items-center mb-1">
+                                                    <small class="text-muted mr-1">2</small>
+                                                    <i class="material-icons icon-16pt">attachment</i>
+                                                </a>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="list-group-item d-flex align-items-start bg-transparent">
+                                    <div class="mr-3 d-flex flex-column align-items-center">
+                                        <a href="#" class="avatar avatar-xs mb-2">
+                                            <img src="{% static 'teacher/assets/images/256_michael-dam-258165-unsplash.jpg' %}" alt="Avatar" class="avatar-img rounded-circle">
+                                        </a>
+                                        <a href="" class="text-muted"><i class="material-icons icon-16pt">star_border</i></a>
+                                    </div>
+                                    <div class="flex">
+                                        <p class="m-0">
+                                            <span class="d-flex align-items-center mb-1">
+                                                <a href="#" class="text-dark-gray"><strong>Kaci M. Langston</strong></a>
+                                                <small class="ml-auto text-muted">Feb 22</small>
+                                            </span>
+                                            <span class="d-flex align-items-end">
+                                                <span class="flex mr-3">
+                                                    <strong class="text-body mb-1">Human Resources</strong><br>
+                                                    <small class="text-muted" style="max-height: 2rem; overflow: hidden; position: relative; display: inline-block;"></small>
+                                                </span>
+                                                <a href="" class="d-flex align-items-center mb-1">
+                                                    <small class="text-muted mr-1">2</small>
+                                                    <i class="material-icons icon-16pt">attachment</i>
+                                                </a>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+   
+
+
+
+
+
+
+    <div class="modal fade" id="notiModal" tabindex="-1" role="dialog" aria-labelledby="formModal" aria-hidden="true" style = "padding-top: 12%;">
+          <input type="hidden" id="commentId" value="">
+          <input type="hidden" id="commentType" value="">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content" style="background: white; padding: 30px;border: 1px solid #ccc;">
+              <div class="modal-header">
+                <h5 class="modal-title" id="formModal">Send notifications from here!</h5>
+                <button style=" float: right; margin-top: -30px; margin-bottom: 10px;outline: none; background: no-repeat;border: none;font-size: 20px;" type="button" class="close" data-dismiss="modal" aria-label="Close" >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+
+              <div class="combo-item" style="margin-bottom: 10px;">
+                <select id="course_select" class="combo-box selected-item is-rounded" style="height:30px; margin-right:20px;" onchange="dispStu(this)">
+                    {% for course in course_list %}
+                        <option class="is-focused" value="{{ course.id }}">{{ course.name }}</option>
+                    {% endfor %}
+                </select>
+                <select  id="student_select" class="combo-box selected-item is-rounded" style="height:30px;">
+                    {% for stu in student_list %}
+                        <option class="stu_option is-focused" value="{{ stu.student_id_id }}" data-course="{{ stu.course_id_id }}">{{ stu.student_id.first_name }} {{ stu.student_id.last_name }}</option>
+                    {% endfor %}
+                   
+                </select>
+            </div>
+
+            <textarea rows="4" cols="50" id="noti_text">
+
+            </textarea>
+
+              <div class="modal-body">
+                  <button style="color:#fff; background: green !important; border:0px !important; margin-left:230px; margin-top:25px !important; margin-right:10px; "  type="button" onclick= "send_noti()" class="button buy-button is-raised">Send</button>
+                  <button style="color:#fff; border:0px !important; margin-top:25px !important; background:blue !important;" type="button" onclick= "hideDelModal()" class="button buy-button is-raised">Cancel</button>
+              </div>
+            </div>
+          </div>
+    </div>
+    <script>
+    $(function () {
+        course = $('#course_select').val()
+        console.log("testtesttest",course);
+        $('#noti_text').val('');
+        $('.stu_option').each(function () {
+            if($(this).attr('data-course')*1 == course*1){
+                $(this).css('display','block');
+            } else {
+                $(this).css('display','none');
+            }
+        });
+    })
+
+    function openNotiModal(){
+        $('#notiModal').modal('show');
+        $('.modal-backdrop').css('display','none');
+    }
+
+    function dispStu(obj) {
+        course = $(obj).val()
+        $('.stu_option').each(function () {
+            if($(this).attr('data-course')*1 == course*1){
+                $(this).css('display','block');
+            } else {
+                $(this).css('display','none');
+            }
+        });
+    }
+
+    function send_noti(){
+        url = '/saveNotification/';
+        textis = $('#noti_text').val();
+        console.log("text is: "+textis);
+        $.post(url, {user : $('#student_select').val(), sender:'{{ request.user.id }}', 'text':textis}, function(res){
+            $('#notiModal').modal('hide');
+        })
+    }
+    </script>
+{%  endblock %}

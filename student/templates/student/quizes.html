@@ -1,0 +1,827 @@
+{% extends "student/base.html" %}
+
+{% block title %}
+Quizes
+{% endblock %}
+
+{% block headercontent %}
+    {% with title="My Quizes" %}
+    {% include "./layout/header.html" %}
+    {% endwith %}
+{% endblock %}
+
+{% block content %}
+    {% load static %}
+
+
+            <div class=" page__container ">
+
+            <div class="row card-group-row mb-lg-8pt">
+
+<!--                {% if quizes.count < 0 %}-->
+
+                {% for quiz in quizes %}
+                <div class="col-sm-3 card-group-row__col">
+
+                    <div class="card stack stack--1" style="width: 300px;">
+                        <div class="card-header d-flex align-items-center">
+                            <div class="flex">
+                                <h4 class="card-title">{{ quiz.course.name }}</h4>
+                            </div>
+                        </div>
+                        <div class="progress rounded-0" style="height: 4px;">
+                            <div class="progress-bar bg-primary" role="progressbar" style="margin-bottom:0 !important;width: 74%;background-color: teal !important;" aria-valuenow="37" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <a href="" class="text-body d-flex align-items-center"><strong class="flex">correct answers</strong> <b class="" style="font-weight: 500;color: green;">{{ quiz.right }}</b></a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="" class="text-body d-flex align-items-center"><strong class="flex">Wrong answers</strong> <b class="" style="font-weight: 500;color:red;">{{ quiz.wrong }}</b></a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="" class="text-body d-flex align-items-center"><strong class="flex">Skip</strong> <b class="" style="font-weight: 500;color:brown;">{{ quiz.skip }}</b></a>
+                            </li>
+                            <li class="list-group-item">
+                                <form method="post" action="/video/quiz2/" >
+                                    {% csrf_token %}
+                                    <input type="hidden" name="course_id" value="{{ quiz.course_id }}">
+                                    <input type="hidden" name="quizNo" value="{{ quiz.question_nos }}">
+                                    <input type="hidden" name="right" value="{{ quiz.right }}">
+                                    <input type="hidden" name="wrong" value="{{ quiz.wrong }}">
+                                    <input type="hidden" name="skip" value="{{ quiz.skip }}">
+                                    <button type="submit" class="btn flex" style="background:rgb(23, 117, 240);margin:0 auto;color: white;width: 100%;" >Continue
+                                        <i class="material-icons text-black-20" style="font-weight: 600; color: white !important;font-size: medium;">trending_flat</i>
+                                    </button>
+                                </form>
+
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+                {% endfor %}
+
+<!--                {% else %}-->
+<!--    <div class=" page__container ">-->
+<!--        <div class="row card-group-row mb-lg-8pt">-->
+<!--            {% for i in course_obj %}-->
+<!--            <div class="col-sm-8 card-group-row__col">-->
+
+<!--        <div class="store-sections-6" style="display:flex;flex-direction: column !important;align-items:center !important;justify-content: center !important; ">-->
+<!--            <img src="{%static 'assets/img/no-cart.svg' %}" style="width: 350px;" alt="">-->
+<!--            <h2 style="margin-top: -40px;color: gray;font-size:20px">unfortunately, there are no courses yet in your cart</h2>-->
+<!--            <input style="margin-bottom: 15px;" id="tipue_drop_input" class="input c-input" type="text" placeholder="Search" required>-->
+
+<!--                <a href="index.html" class="button" style="background:#fff;max-width:100% !important;margin-bottom: 20px;">Search &nbsp;<span class="fa fa-search"></span></a>-->
+
+<!--        </div>-->
+
+<!--            </div>-->
+<!--            {% endfor %}-->
+
+<!--            &lt;!&ndash; <div class="col-sm-3 card-group-row__col"> &ndash;&gt;-->
+
+<!--                &lt;!&ndash; <div class="card overlay&#45;&#45;show card-lg overlay&#45;&#45;primary-dodger-blue stack stack&#45;&#45;1 card-group-row__card"> &ndash;&gt;-->
+
+<!--                    &lt;!&ndash; <div class="card-body d-flex flex-column"> &ndash;&gt;-->
+<!--                        &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+
+<!--                            &lt;!&ndash; <div class="flex"> &ndash;&gt;-->
+
+<!--                                &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                    &lt;!&ndash; <div class="rounded mr-12pt z-0 o-hidden"> &ndash;&gt;-->
+<!--                                        &lt;!&ndash; <div class="overlay"> &ndash;&gt;-->
+<!--                                            &lt;!&ndash; <img src="{%static 'student/assets/images/paths/angular_40x40@2x.png' %}" width="40" height="40" alt="Angular" class="rounded"> &ndash;&gt;-->
+
+<!--                                        &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                                    &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                                    &lt;!&ndash; <div class="flex"> &ndash;&gt;-->
+<!--                                        &lt;!&ndash; <div class="card-title">Learn HTML5 and sass with css</div> &ndash;&gt;-->
+<!--                                    &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                                &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+<!--                        &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+
+<!--                        &lt;!&ndash; <div class="d-flex align-items-center mt-8pt"> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <a href="#" class="" data-toggle="swal" data-swal-title="Edit your ratings!" data-swal-text="*****" data-swal-type="warning" data-swal-show-cancel-button="true" data-swal-confirm-button-text="Add rating" data-swal-confirm-cb="#swal-confirm-delete" data-swal-close-on-confirm="false">Edit rating</a> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="rating mr-8pt"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="rating__item"><span class="material-icons ">star</span></span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="rating__item"><span class="material-icons ">star</span></span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="rating__item"><span class="material-icons ">star</span></span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="rating__item"><span class="material-icons ">star</span></span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="rating__item"><span class="material-icons ">star_border</span></span> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <small class="text-black-50">4/5</small> &ndash;&gt;-->
+
+
+<!--                                    &lt;!&ndash; <div id="swal-confirm-delete" class="d-none" data-swal-type="success" data-swal-title="Thanks You!" data-swal-text="You can change your ratings anytime"></div> &ndash;&gt;-->
+
+<!--                                    &lt;!&ndash; <div id="swal-cancel-delete" class="d-none" data-swal-type="error" data-swal-title="Cancelled" data-swal-text="Your imaginary file is safe :)"></div> &ndash;&gt;-->
+
+
+<!--                        &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+<!--                        &lt;!&ndash; <p class="mt-16pt text-black-70 flex">Angular is a platform for building mobile and desktop web applications.</p> &ndash;&gt;-->
+
+<!--                        &lt;!&ndash; <div class="mb-16pt d-none"> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>Fundamentals of working with Angular</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>Create complete Angular applications</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>Working with the Angular CLI</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>Understanding Dependency Injection</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>Testing with Angular</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                        &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+<!--                        &lt;!&ndash; <div class="d-flex align-items-center mb-8pt justify-content-center"> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center mr-8pt"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-4pt">access_time</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>50 minutes left</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-4pt">play_circle_outline</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>12 lessons</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                        &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                        &lt;!&ndash; <div class="d-flex align-items-center justify-content-center"> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <a href="/video/playground" class="btn btn-primary">continue learning</a> &ndash;&gt;-->
+<!--                        &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+<!--                    &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                    &lt;!&ndash; <div class="progress rounded-0" style="height: 4px;border-radius: 0 4px 0 4px !important;"> &ndash;&gt;-->
+<!--                        &lt;!&ndash; <div class="progress-bar bg-primary" role="progressbar" style="width: 74%;background-color: teal !important;" aria-valuenow="37" aria-valuemin="0" aria-valuemax="100"></div> &ndash;&gt;-->
+<!--                    &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+<!--            &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--            &lt;!&ndash; <div class="col-sm-3 card-group-row__col"> &ndash;&gt;-->
+
+<!--                &lt;!&ndash; <div class="card overlay&#45;&#45;show card-lg overlay&#45;&#45;primary-dodger-blue stack stack&#45;&#45;1 card-group-row__card"> &ndash;&gt;-->
+
+<!--                    &lt;!&ndash; <div class="card-body d-flex flex-column"> &ndash;&gt;-->
+<!--                        &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+
+<!--                            &lt;!&ndash; <div class="flex"> &ndash;&gt;-->
+
+<!--                                &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                    &lt;!&ndash; <div class="rounded mr-12pt z-0 o-hidden"> &ndash;&gt;-->
+<!--                                        &lt;!&ndash; <div class="overlay"> &ndash;&gt;-->
+<!--                                            &lt;!&ndash; <img src="{%static 'student/assets/images/paths/angular_40x40@2x.png' %}" width="40" height="40" alt="Angular" class="rounded"> &ndash;&gt;-->
+
+<!--                                        &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                                    &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                                    &lt;!&ndash; <div class="flex"> &ndash;&gt;-->
+<!--                                        &lt;!&ndash; <div class="card-title">Learn HTML5 and sass with css</div> &ndash;&gt;-->
+<!--                                    &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                                &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+<!--                        &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+
+<!--                        &lt;!&ndash; <div class="d-flex align-items-center mt-8pt"> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <a href="#" class="" data-toggle="swal" data-swal-title="Edit your ratings!" data-swal-text="*****" data-swal-type="warning" data-swal-show-cancel-button="true" data-swal-confirm-button-text="Add rating" data-swal-confirm-cb="#swal-confirm-delete" data-swal-close-on-confirm="false">Edit rating</a> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="rating mr-8pt"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="rating__item"><span class="material-icons ">star</span></span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="rating__item"><span class="material-icons ">star</span></span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="rating__item"><span class="material-icons ">star</span></span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="rating__item"><span class="material-icons ">star</span></span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="rating__item"><span class="material-icons ">star_border</span></span> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <small class="text-black-50">4/5</small> &ndash;&gt;-->
+
+
+<!--                                    &lt;!&ndash; <div id="swal-confirm-delete" class="d-none" data-swal-type="success" data-swal-title="Thanks You!" data-swal-text="You can change your ratings anytime"></div> &ndash;&gt;-->
+
+<!--                                    &lt;!&ndash; <div id="swal-cancel-delete" class="d-none" data-swal-type="error" data-swal-title="Cancelled" data-swal-text="Your imaginary file is safe :)"></div> &ndash;&gt;-->
+
+
+<!--                        &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+<!--                        &lt;!&ndash; <p class="mt-16pt text-black-70 flex">Angular is a platform for building mobile and desktop web applications.</p> &ndash;&gt;-->
+
+<!--                        &lt;!&ndash; <div class="mb-16pt d-none"> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>Fundamentals of working with Angular</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>Create complete Angular applications</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>Working with the Angular CLI</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>Understanding Dependency Injection</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>Testing with Angular</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                        &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+<!--                        &lt;!&ndash; <div class="d-flex align-items-center mb-8pt justify-content-center"> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center mr-8pt"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-4pt">access_time</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>50 minutes left</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-4pt">play_circle_outline</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>12 lessons</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                        &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                        &lt;!&ndash; <div class="d-flex align-items-center justify-content-center"> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <a href="/video/playground" class="btn btn-primary">continue learning</a> &ndash;&gt;-->
+<!--                        &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+<!--                    &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                    &lt;!&ndash; <div class="progress rounded-0" style="height: 4px;border-radius: 0 4px 0 4px !important;"> &ndash;&gt;-->
+<!--                        &lt;!&ndash; <div class="progress-bar bg-primary" role="progressbar" style="width: 56%;background-color: orange !important;" aria-valuenow="37" aria-valuemin="0" aria-valuemax="100"></div> &ndash;&gt;-->
+<!--                    &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+<!--            &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+
+
+
+<!--            &lt;!&ndash; <div class="col-sm-3 card-group-row__col"> &ndash;&gt;-->
+
+<!--                &lt;!&ndash; <div class="card overlay&#45;&#45;show card-lg overlay&#45;&#45;primary-dodger-blue stack stack&#45;&#45;1 card-group-row__card"> &ndash;&gt;-->
+
+<!--                    &lt;!&ndash; <div class="card-body d-flex flex-column"> &ndash;&gt;-->
+<!--                        &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+
+<!--                            &lt;!&ndash; <div class="flex"> &ndash;&gt;-->
+
+<!--                                &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                    &lt;!&ndash; <div class="rounded mr-12pt z-0 o-hidden"> &ndash;&gt;-->
+<!--                                        &lt;!&ndash; <div class="overlay"> &ndash;&gt;-->
+<!--                                            &lt;!&ndash; <img src="{%static 'student/assets/images/paths/angular_40x40@2x.png' %}" width="40" height="40" alt="Angular" class="rounded"> &ndash;&gt;-->
+
+<!--                                        &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                                    &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                                    &lt;!&ndash; <div class="flex"> &ndash;&gt;-->
+<!--                                        &lt;!&ndash; <div class="card-title">Learn HTML5 and sass with css</div> &ndash;&gt;-->
+<!--                                    &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                                &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+<!--                        &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+
+<!--                        &lt;!&ndash; <div class="d-flex align-items-center mt-8pt"> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <a href="#" class="" data-toggle="swal" data-swal-title="Edit your ratings!" data-swal-text="*****" data-swal-type="warning" data-swal-show-cancel-button="true" data-swal-confirm-button-text="Add rating" data-swal-confirm-cb="#swal-confirm-delete" data-swal-close-on-confirm="false">Edit rating</a> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="rating mr-8pt"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="rating__item"><span class="material-icons ">star</span></span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="rating__item"><span class="material-icons ">star</span></span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="rating__item"><span class="material-icons ">star</span></span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="rating__item"><span class="material-icons ">star</span></span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="rating__item"><span class="material-icons ">star_border</span></span> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <small class="text-black-50">4/5</small> &ndash;&gt;-->
+
+
+<!--                                    &lt;!&ndash; <div id="swal-confirm-delete" class="d-none" data-swal-type="success" data-swal-title="Thanks You!" data-swal-text="You can change your ratings anytime"></div> &ndash;&gt;-->
+
+<!--                                    &lt;!&ndash; <div id="swal-cancel-delete" class="d-none" data-swal-type="error" data-swal-title="Cancelled" data-swal-text="Your imaginary file is safe :)"></div> &ndash;&gt;-->
+
+
+<!--                        &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+<!--                        &lt;!&ndash; <p class="mt-16pt text-black-70 flex">Angular is a platform for building mobile and desktop web applications.</p> &ndash;&gt;-->
+
+<!--                        &lt;!&ndash; <div class="mb-16pt d-none"> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>Fundamentals of working with Angular</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>Create complete Angular applications</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>Working with the Angular CLI</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>Understanding Dependency Injection</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>Testing with Angular</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                        &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+<!--                        &lt;!&ndash; <div class="d-flex align-items-center mb-8pt justify-content-center"> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center mr-8pt"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-4pt">access_time</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>50 minutes left</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-4pt">play_circle_outline</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>12 lessons</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                        &lt;!&ndash; </div> &ndash;&gt;-->
+
+<!--                        &lt;!&ndash; <div class="d-flex align-items-center justify-content-center"> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <a href="/video/playground" class="btn btn-primary">continue learning</a> &ndash;&gt;-->
+<!--                        &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+<!--                    &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                    &lt;!&ndash; <div class="progress rounded-0" style="height: 4px;border-radius: 0 4px 0 4px !important;"> &ndash;&gt;-->
+<!--                        &lt;!&ndash; <div class="progress-bar bg-primary" role="progressbar" style="width: 6%;background-color: red !important;" aria-valuenow="37" aria-valuemin="0" aria-valuemax="100"></div> &ndash;&gt;-->
+<!--                    &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+<!--            &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+
+
+
+
+
+
+
+
+<!--            &lt;!&ndash; <div class="col-sm-3 card-group-row__col"> &ndash;&gt;-->
+
+<!--                &lt;!&ndash; <div class="card overlay&#45;&#45;show card-lg overlay&#45;&#45;primary-dodger-blue stack stack&#45;&#45;1 card-group-row__card"> &ndash;&gt;-->
+
+<!--                    &lt;!&ndash; <div class="card-body d-flex flex-column"> &ndash;&gt;-->
+<!--                        &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+
+<!--                            &lt;!&ndash; <div class="flex"> &ndash;&gt;-->
+
+<!--                                &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                    &lt;!&ndash; <div class="rounded mr-12pt z-0 o-hidden"> &ndash;&gt;-->
+<!--                                        &lt;!&ndash; <div class="overlay"> &ndash;&gt;-->
+<!--                                            &lt;!&ndash; <img src="{%static 'student/assets/images/paths/angular_40x40@2x.png' %}" width="40" height="40" alt="Angular" class="rounded"> &ndash;&gt;-->
+
+<!--                                        &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                                    &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                                    &lt;!&ndash; <div class="flex"> &ndash;&gt;-->
+<!--                                        &lt;!&ndash; <div class="card-title">Learn HTML5 and sass with css</div> &ndash;&gt;-->
+<!--                                    &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                                &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+<!--                        &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+
+<!--                        &lt;!&ndash; <div class="d-flex align-items-center mt-8pt"> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <a href="#" class="" data-toggle="swal" data-swal-title="Edit your ratings!" data-swal-text="*****" data-swal-type="warning" data-swal-show-cancel-button="true" data-swal-confirm-button-text="Add rating" data-swal-confirm-cb="#swal-confirm-delete" data-swal-close-on-confirm="false">Edit rating</a> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="rating mr-8pt"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="rating__item"><span class="material-icons ">star</span></span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="rating__item"><span class="material-icons ">star</span></span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="rating__item"><span class="material-icons ">star</span></span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="rating__item"><span class="material-icons ">star</span></span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="rating__item"><span class="material-icons ">star_border</span></span> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <small class="text-black-50">4/5</small> &ndash;&gt;-->
+
+
+<!--                                    &lt;!&ndash; <div id="swal-confirm-delete" class="d-none" data-swal-type="success" data-swal-title="Thanks You!" data-swal-text="You can change your ratings anytime"></div> &ndash;&gt;-->
+
+<!--                                    &lt;!&ndash; <div id="swal-cancel-delete" class="d-none" data-swal-type="error" data-swal-title="Cancelled" data-swal-text="Your imaginary file is safe :)"></div> &ndash;&gt;-->
+
+
+<!--                        &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+<!--                        &lt;!&ndash; <p class="mt-16pt text-black-70 flex">Angular is a platform for building mobile and desktop web applications.</p> &ndash;&gt;-->
+
+<!--                        &lt;!&ndash; <div class="mb-16pt d-none"> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>Fundamentals of working with Angular</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>Create complete Angular applications</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>Working with the Angular CLI</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>Understanding Dependency Injection</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>Testing with Angular</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                        &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+<!--                        &lt;!&ndash; <div class="d-flex align-items-center mb-8pt justify-content-center"> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center mr-8pt"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-4pt">access_time</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>50 minutes left</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-4pt">play_circle_outline</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>12 lessons</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                        &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                        &lt;!&ndash; <div class="d-flex align-items-center justify-content-center"> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <a href="/video/playground" class="btn btn-primary">continue learning</a> &ndash;&gt;-->
+<!--                        &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+<!--                    &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                    &lt;!&ndash; <div class="progress rounded-0" style="height: 4px;border-radius: 0 4px 0 4px !important;"> &ndash;&gt;-->
+<!--                        &lt;!&ndash; <div class="progress-bar bg-primary" role="progressbar" style="width: 80%;background-color:green !important;" aria-valuenow="37" aria-valuemin="0" aria-valuemax="100"></div> &ndash;&gt;-->
+<!--                    &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+<!--            &lt;!&ndash; </div> &ndash;&gt;-->
+
+<!--            &lt;!&ndash; <div class="col-sm-3 card-group-row__col"> &ndash;&gt;-->
+
+<!--                &lt;!&ndash; <div class="card overlay&#45;&#45;show card-lg overlay&#45;&#45;primary-dodger-blue stack stack&#45;&#45;1 card-group-row__card"> &ndash;&gt;-->
+
+<!--                    &lt;!&ndash; <div class="card-body d-flex flex-column"> &ndash;&gt;-->
+<!--                        &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+
+<!--                            &lt;!&ndash; <div class="flex"> &ndash;&gt;-->
+
+<!--                                &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                    &lt;!&ndash; <div class="rounded mr-12pt z-0 o-hidden"> &ndash;&gt;-->
+<!--                                        &lt;!&ndash; <div class="overlay"> &ndash;&gt;-->
+<!--                                            &lt;!&ndash; <img src="{%static 'student/assets/images/paths/angular_40x40@2x.png' %}" width="40" height="40" alt="Angular" class="rounded"> &ndash;&gt;-->
+
+<!--                                        &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                                    &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                                    &lt;!&ndash; <div class="flex"> &ndash;&gt;-->
+<!--                                        &lt;!&ndash; <div class="card-title">Learn HTML5 and sass with css</div> &ndash;&gt;-->
+<!--                                    &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                                &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+<!--                        &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+
+<!--                        &lt;!&ndash; <div class="d-flex align-items-center mt-8pt"> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <a href="#" class="" data-toggle="swal" data-swal-title="Edit your ratings!" data-swal-text="*****" data-swal-type="warning" data-swal-show-cancel-button="true" data-swal-confirm-button-text="Add rating" data-swal-confirm-cb="#swal-confirm-delete" data-swal-close-on-confirm="false">Edit rating</a> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="rating mr-8pt"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="rating__item"><span class="material-icons ">star</span></span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="rating__item"><span class="material-icons ">star</span></span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="rating__item"><span class="material-icons ">star</span></span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="rating__item"><span class="material-icons ">star</span></span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="rating__item"><span class="material-icons ">star_border</span></span> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <small class="text-black-50">4/5</small> &ndash;&gt;-->
+
+
+<!--                                    &lt;!&ndash; <div id="swal-confirm-delete" class="d-none" data-swal-type="success" data-swal-title="Thanks You!" data-swal-text="You can change your ratings anytime"></div> &ndash;&gt;-->
+
+<!--                                    &lt;!&ndash; <div id="swal-cancel-delete" class="d-none" data-swal-type="error" data-swal-title="Cancelled" data-swal-text="Your imaginary file is safe :)"></div> &ndash;&gt;-->
+
+
+<!--                        &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+<!--                        &lt;!&ndash; <p class="mt-16pt text-black-70 flex">Angular is a platform for building mobile and desktop web applications.</p> &ndash;&gt;-->
+
+<!--                        &lt;!&ndash; <div class="mb-16pt d-none"> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>Fundamentals of working with Angular</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>Create complete Angular applications</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>Working with the Angular CLI</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>Understanding Dependency Injection</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>Testing with Angular</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                        &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+<!--                        &lt;!&ndash; <div class="d-flex align-items-center mb-8pt justify-content-center"> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center mr-8pt"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-4pt">access_time</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>50 minutes left</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-4pt">play_circle_outline</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>12 lessons</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                        &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                        &lt;!&ndash; <div class="d-flex align-items-center justify-content-center"> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <a href="/video/playground" class="btn btn-primary">continue learning</a> &ndash;&gt;-->
+<!--                        &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+<!--                    &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                    &lt;!&ndash; <div class="progress rounded-0" style="height: 4px;border-radius: 0 4px 0 4px !important;"> &ndash;&gt;-->
+<!--                        &lt;!&ndash; <div class="progress-bar bg-primary" role="progressbar" style="width: 74%;background-color: teal !important;" aria-valuenow="37" aria-valuemin="0" aria-valuemax="100"></div> &ndash;&gt;-->
+<!--                    &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+<!--            &lt;!&ndash; </div> &ndash;&gt;-->
+
+<!--            &lt;!&ndash; <div class="col-sm-3 card-group-row__col"> &ndash;&gt;-->
+
+<!--                &lt;!&ndash; <div class="card overlay&#45;&#45;show card-lg overlay&#45;&#45;primary-dodger-blue stack stack&#45;&#45;1 card-group-row__card"> &ndash;&gt;-->
+
+<!--                    &lt;!&ndash; <div class="card-body d-flex flex-column"> &ndash;&gt;-->
+<!--                        &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+
+<!--                            &lt;!&ndash; <div class="flex"> &ndash;&gt;-->
+
+<!--                                &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                    &lt;!&ndash; <div class="rounded mr-12pt z-0 o-hidden"> &ndash;&gt;-->
+<!--                                        &lt;!&ndash; <div class="overlay"> &ndash;&gt;-->
+<!--                                            &lt;!&ndash; <img src="{%static 'student/assets/images/paths/angular_40x40@2x.png' %}" width="40" height="40" alt="Angular" class="rounded"> &ndash;&gt;-->
+
+<!--                                        &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                                    &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                                    &lt;!&ndash; <div class="flex"> &ndash;&gt;-->
+<!--                                        &lt;!&ndash; <div class="card-title">Learn HTML5 and sass with css</div> &ndash;&gt;-->
+<!--                                    &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                                &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+<!--                        &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+
+<!--                        &lt;!&ndash; <div class="d-flex align-items-center mt-8pt"> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <a href="#" class="" data-toggle="swal" data-swal-title="Edit your ratings!" data-swal-text="*****" data-swal-type="warning" data-swal-show-cancel-button="true" data-swal-confirm-button-text="Add rating" data-swal-confirm-cb="#swal-confirm-delete" data-swal-close-on-confirm="false">Edit rating</a> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="rating mr-8pt"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="rating__item"><span class="material-icons ">star</span></span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="rating__item"><span class="material-icons ">star</span></span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="rating__item"><span class="material-icons ">star</span></span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="rating__item"><span class="material-icons ">star</span></span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="rating__item"><span class="material-icons ">star_border</span></span> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <small class="text-black-50">4/5</small> &ndash;&gt;-->
+
+
+<!--                                    &lt;!&ndash; <div id="swal-confirm-delete" class="d-none" data-swal-type="success" data-swal-title="Thanks You!" data-swal-text="You can change your ratings anytime"></div> &ndash;&gt;-->
+
+<!--                                    &lt;!&ndash; <div id="swal-cancel-delete" class="d-none" data-swal-type="error" data-swal-title="Cancelled" data-swal-text="Your imaginary file is safe :)"></div> &ndash;&gt;-->
+
+
+<!--                        &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+<!--                        &lt;!&ndash; <p class="mt-16pt text-black-70 flex">Angular is a platform for building mobile and desktop web applications.</p> &ndash;&gt;-->
+
+<!--                        &lt;!&ndash; <div class="mb-16pt d-none"> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>Fundamentals of working with Angular</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>Create complete Angular applications</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>Working with the Angular CLI</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>Understanding Dependency Injection</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>Testing with Angular</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                        &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+<!--                        &lt;!&ndash; <div class="d-flex align-items-center mb-8pt justify-content-center"> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center mr-8pt"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-4pt">access_time</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>50 minutes left</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-4pt">play_circle_outline</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>12 lessons</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                        &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                        &lt;!&ndash; <div class="d-flex align-items-center justify-content-center"> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <a href="/video/playground" class="btn btn-primary">continue learning</a> &ndash;&gt;-->
+<!--                        &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+<!--                    &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                    &lt;!&ndash; <div class="progress rounded-0" style="height: 4px;border-radius: 0 4px 0 4px !important;"> &ndash;&gt;-->
+<!--                        &lt;!&ndash; <div class="progress-bar bg-primary" role="progressbar" style="width: 56%;background-color: orange !important;" aria-valuenow="37" aria-valuemin="0" aria-valuemax="100"></div> &ndash;&gt;-->
+<!--                    &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+<!--            &lt;!&ndash; </div> &ndash;&gt;-->
+
+<!--            &lt;!&ndash; <div class="col-sm-3 card-group-row__col"> &ndash;&gt;-->
+
+<!--                &lt;!&ndash; <div class="card overlay&#45;&#45;show card-lg overlay&#45;&#45;primary-dodger-blue stack stack&#45;&#45;1 card-group-row__card"> &ndash;&gt;-->
+
+<!--                    &lt;!&ndash; <div class="card-body d-flex flex-column"> &ndash;&gt;-->
+<!--                        &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+
+<!--                            &lt;!&ndash; <div class="flex"> &ndash;&gt;-->
+
+<!--                                &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                    &lt;!&ndash; <div class="rounded mr-12pt z-0 o-hidden"> &ndash;&gt;-->
+<!--                                        &lt;!&ndash; <div class="overlay"> &ndash;&gt;-->
+<!--                                            &lt;!&ndash; <img src="{%static 'student/assets/images/paths/angular_40x40@2x.png' %}" width="40" height="40" alt="Angular" class="rounded"> &ndash;&gt;-->
+
+<!--                                        &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                                    &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                                    &lt;!&ndash; <div class="flex"> &ndash;&gt;-->
+<!--                                        &lt;!&ndash; <div class="card-title">Learn HTML5 and sass with css</div> &ndash;&gt;-->
+<!--                                    &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                                &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+<!--                        &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+
+<!--                        &lt;!&ndash; <div class="d-flex align-items-center mt-8pt"> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <a href="#" class="" data-toggle="swal" data-swal-title="Edit your ratings!" data-swal-text="*****" data-swal-type="warning" data-swal-show-cancel-button="true" data-swal-confirm-button-text="Add rating" data-swal-confirm-cb="#swal-confirm-delete" data-swal-close-on-confirm="false">Edit rating</a> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="rating mr-8pt"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="rating__item"><span class="material-icons ">star</span></span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="rating__item"><span class="material-icons ">star</span></span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="rating__item"><span class="material-icons ">star</span></span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="rating__item"><span class="material-icons ">star</span></span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="rating__item"><span class="material-icons ">star_border</span></span> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <small class="text-black-50">4/5</small> &ndash;&gt;-->
+
+
+<!--                                    &lt;!&ndash; <div id="swal-confirm-delete" class="d-none" data-swal-type="success" data-swal-title="Thanks You!" data-swal-text="You can change your ratings anytime"></div> &ndash;&gt;-->
+
+<!--                                    &lt;!&ndash; <div id="swal-cancel-delete" class="d-none" data-swal-type="error" data-swal-title="Cancelled" data-swal-text="Your imaginary file is safe :)"></div> &ndash;&gt;-->
+
+
+<!--                        &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+<!--                        &lt;!&ndash; <p class="mt-16pt text-black-70 flex">Angular is a platform for building mobile and desktop web applications.</p> &ndash;&gt;-->
+
+<!--                        &lt;!&ndash; <div class="mb-16pt d-none"> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>Fundamentals of working with Angular</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>Create complete Angular applications</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>Working with the Angular CLI</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>Understanding Dependency Injection</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>Testing with Angular</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                        &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+<!--                        &lt;!&ndash; <div class="d-flex align-items-center mb-8pt justify-content-center"> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center mr-8pt"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-4pt">access_time</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>50 minutes left</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <div class="d-flex align-items-center"> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <span class="material-icons icon-16pt text-black-50 mr-4pt">play_circle_outline</span> &ndash;&gt;-->
+<!--                                &lt;!&ndash; <p class="flex text-black-50 lh-1 mb-0"><small>12 lessons</small></p> &ndash;&gt;-->
+<!--                            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                        &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                        &lt;!&ndash; <div class="d-flex align-items-center justify-content-center"> &ndash;&gt;-->
+<!--                            &lt;!&ndash; <a href="/video/playground" class="btn btn-primary">continue learning</a> &ndash;&gt;-->
+<!--                        &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+<!--                    &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                    &lt;!&ndash; <div class="progress rounded-0" style="height: 4px;border-radius: 0 4px 0 4px !important;"> &ndash;&gt;-->
+<!--                        &lt;!&ndash; <div class="progress-bar bg-primary" role="progressbar" style="width: 6%;background-color: red !important;" aria-valuenow="37" aria-valuemin="0" aria-valuemax="100"></div> &ndash;&gt;-->
+<!--                    &lt;!&ndash; </div> &ndash;&gt;-->
+<!--                &lt;!&ndash; </div> &ndash;&gt;-->
+
+
+<!--            &lt;!&ndash; </div> &ndash;&gt;-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--                {% endif %}-->
+            </div>
+
+        </div>
+
+            <div class=" page__container page-section">
+
+
+                <center>
+                    <nav class="pagination is-centered " role="navigation " aria-label="pagination " style="margin-bottom: 20px; ">
+
+                        <ul class="pagination-list ">
+                            <li>
+                                <a class="pagination-previous " style="background-color: white; border-radius: 50% "><span class="fa fa-arrow-left "></span>&nbsp;
+
+                                        </a>
+                            </li>
+                            <li><a class="pagination-link " style="background-color: white;  border-radius: 50% !important;width:43px;height:43px" aria-label="Page 1 " aria-current="page ">1..</a></li>
+                            <li><a class="pagination-link is-current " style="color:white; border-radius: 50% !important;width:43px;height:43px" aria-label="Page 1 " aria-current="page ">10</a></li>
+                            <li><a class="pagination-link " style="background-color: white;  border-radius: 50% !important;width:43px;height:43px" aria-label="Page 1 " aria-current="page ">..43</a></li>
+                            <li>
+                                <a class="pagination-next " style="background-color: white; border-radius: 50%">
+                                    <span class="fa fa-arrow-right "></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </center>
+
+               
+
+            </div>
+
+
+{%  endblock %}

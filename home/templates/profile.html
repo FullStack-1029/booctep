@@ -1,0 +1,1440 @@
+{% extends "base.html" %} {% load static %} {% block head %}
+    <style>
+        .schedule video {
+            width: 100% !important;
+        }
+
+        .plyr--video {
+            width: 100%;
+        }
+
+        .modal-open {
+            overflow: hidden;
+        }
+
+
+        .modal {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: @zindex-modal;
+            display: none;
+            overflow: hidden;
+            -webkit-overflow-scrolling: touch;
+
+            outline: 0;
+
+        &
+        .fade .modal-dialog {
+        . translate(0, - 25 %);
+        . transition-transform(~ "0.3s ease-out");
+        }
+
+        &
+        .in .modal-dialog {
+        . translate(0, 0);
+        }
+
+        }
+        .modal-open .modal {
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+
+        .modal-dialog {
+            position: relative;
+            width: auto;
+            margin: 10px;
+        }
+
+
+        .modal-content {
+            position: relative;
+            background-color: @modal-content-bg;
+            background-clip: padding-box;
+            border: 1px solid @modal-content-fallback-border-color;
+        / / old browsers fallback (ie8 etc) border: 1 px solid @modal-content-border-color;
+            border-radius: @border-radius-large;
+        . box-shadow(0 3 px 9 px rgba(0, 0, 0, .5));
+            outline: 0;
+        }
+
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: @zindex-modal-background;
+            background-color: @modal-backdrop-bg;
+
+        &
+        .fade {
+        . opacity(0);
+        }
+
+        &
+        .in {
+        . opacity(@modal-backdrop-opacity);
+        }
+
+        }
+
+
+        .modal-header {
+            padding: @modal-title-padding;
+            border-bottom: 1px solid @modal-header-border-color;
+            &: extend(.clearfix all);
+        }
+
+        .modal-header .close {
+            margin-top: -2px;
+        }
+
+
+        .modal-title {
+            margin: 0;
+            line-height: @modal-title-line-height;
+        }
+
+        .modal-body {
+            position: relative;
+            padding: @modal-inner-padding;
+        }
+
+        .modal-footer {
+            padding: @modal-inner-padding;
+            text-align: right;
+            border-top: 1px solid @modal-footer-border-color;
+            &: extend(.clearfix all);
+
+
+        .btn + .btn {
+            margin-bottom: 0;
+            margin-left: 5px;
+        }
+
+        .btn-group .btn + .btn {
+            margin-left: -1px;
+        }
+
+        .btn-block + .btn-block {
+            margin-left: 0;
+        }
+
+        }
+
+
+        .modal-scrollbar-measure {
+            position: absolute;
+            top: -9999px;
+            width: 50px;
+            height: 50px;
+            overflow: scroll;
+        }
+
+
+        @media (min-width: @screen-sm-min) {
+
+            .modal-dialog {
+                width: @modal-md;
+                margin: 30px auto;
+            }
+
+            .modal-content {
+            . box-shadow(0 5 px 15 px rgba(0, 0, 0, .5));
+            }
+
+
+            .modal-sm {
+                width: @modal-sm;
+            }
+        }
+
+        @media (min-width: @screen-md-min) {
+            .modal-lg {
+                width: @modal-lg;
+            }
+        }
+
+        textarea {
+            text-align: left;
+        }
+
+    </style>
+
+
+
+<style>
+    .loading::after {
+        display: block;
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        transform: translateX(-100%);
+        background: -webkit-gradient(linear, left top, right top, from(transparent), color-stop(rgba(255, 255, 255, 0.2)), to(transparent));
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        /* Adding animation */
+        animation: loading 1s infinite;
+    }
+    /* Loading Animation */
+
+    @keyframes loading {
+        100% {
+            transform: translateX(100%);
+        }
+    }
+
+
+
+    .dancin-bc{
+    background: white !important;
+    height: 100%;
+    width: 100%;
+
+    }
+    .dancing-lao {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+.dancing-lao:after {
+  display: block;
+  width: 150px;
+  height: 2px;
+  margin-top: 10px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  background: rgb(43, 148, 209);
+  content: "";
+  -webkit-animation: 1s border infinite;
+          animation: 1s border infinite;
+  -webkit-animation-timing-function: cubic-bezier(0.92, 0.18, 0.04, 0.92);
+          animation-timing-function: cubic-bezier(0.92, 0.18, 0.04, 0.92);
+}
+.dancing-lao .left-dots {
+  position: absolute;
+  bottom: 20%;
+  left: 20%;
+}
+.dancing-lao .right-dots {
+  position: absolute;
+  bottom: 20%;
+  right: 20%;
+  -webkit-transform: scale(-1, 1);
+          transform: scale(-1, 1);
+}
+.dancing-lao .dot {
+  display: inline-block;
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgb(43, 148, 209);
+  opacity: 0;
+}
+.dancing-lao .dot-1 {
+  -webkit-animation: 1s dot infinite;
+          animation: 1s dot infinite;
+  -webkit-animation-delay: .5s;
+          animation-delay: .5s;
+}
+.dancing-lao .dot-2 {
+  -webkit-animation: 1s dot-2 infinite;
+          animation: 1s dot-2 infinite;
+  -webkit-animation-delay: .5s;
+          animation-delay: .5s;
+}
+.dancing-lao .circle-dot {
+  display: inline-block;
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 2px solid rgb(43, 148, 209);
+  -webkit-animation: 1s cirle-dot infinite;
+          animation: 1s cirle-dot infinite;
+  -webkit-animation-delay: .5s;
+          animation-delay: .5s;
+  opacity: 0;
+}
+.dancing-lao img {
+  display: block;
+  margin: auto;
+  width: 90px;
+  height: 80px;
+  margin-bottom: 20px;
+  -webkit-animation: 1s dance infinite;
+          animation: 1s dance infinite;
+  -webkit-animation-timing-function: cubic-bezier(0.92, 0.18, 0.04, 0.92);
+          animation-timing-function: cubic-bezier(0.92, 0.18, 0.04, 0.92);
+  -webkit-animation-direction: alternate;
+          animation-direction: alternate;
+}
+
+@-webkit-keyframes dance {
+  0% {
+    -webkit-transform: translate3d(-10px, -100px, 0) rotate(-15deg) scaleY(1.1);
+            transform: translate3d(-10px, -100px, 0) rotate(-15deg) scaleY(1.1);
+  }
+  50% {
+    -webkit-transform: translate3d(0, 8px, 0) scaleY(0.85);
+            transform: translate3d(0, 8px, 0) scaleY(0.85);
+  }
+  100% {
+    -webkit-transform: translate3d(10px, -100px, 0) rotate(15deg) scaleY(1.1);
+            transform: translate3d(10px, -100px, 0) rotate(15deg) scaleY(1.1);
+  }
+}
+
+@keyframes dance {
+  0% {
+    -webkit-transform: translate3d(-10px, -100px, 0) rotate(-15deg) scaleY(1.1);
+            transform: translate3d(-10px, -100px, 0) rotate(-15deg) scaleY(1.1);
+  }
+  50% {
+    -webkit-transform: translate3d(0, 8px, 0) scaleY(0.85);
+            transform: translate3d(0, 8px, 0) scaleY(0.85);
+  }
+  100% {
+    -webkit-transform: translate3d(10px, -100px, 0) rotate(15deg) scaleY(1.1);
+            transform: translate3d(10px, -100px, 0) rotate(15deg) scaleY(1.1);
+  }
+}
+@-webkit-keyframes border {
+  0% {
+    -webkit-transform: scaleX(1);
+            transform: scaleX(1);
+    opacity: 0.5;
+  }
+  50% {
+    -webkit-transform: scaleX(0.6);
+            transform: scaleX(0.6);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scaleX(1);
+            transform: scaleX(1);
+    opacity: 0.5;
+  }
+}
+@keyframes border {
+  0% {
+    -webkit-transform: scaleX(1);
+            transform: scaleX(1);
+    opacity: 0.5;
+  }
+  50% {
+    -webkit-transform: scaleX(0.6);
+            transform: scaleX(0.6);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scaleX(1);
+            transform: scaleX(1);
+    opacity: 0.5;
+  }
+}
+@-webkit-keyframes dot {
+  0% {
+    opacity: 0;
+  }
+  1% {
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+  }
+  50% {
+    -webkit-transform: scale(1) translate3d(-50px, -70px, 0);
+            transform: scale(1) translate3d(-50px, -70px, 0);
+    opacity: .8;
+  }
+  100% {
+    -webkit-transform: scale(1) translate3d(-50px, -70px, 0);
+            transform: scale(1) translate3d(-50px, -70px, 0);
+    opacity: 0;
+  }
+}
+@keyframes dot {
+  0% {
+    opacity: 0;
+  }
+  1% {
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+  }
+  50% {
+    -webkit-transform: scale(1) translate3d(-50px, -70px, 0);
+            transform: scale(1) translate3d(-50px, -70px, 0);
+    opacity: .8;
+  }
+  100% {
+    -webkit-transform: scale(1) translate3d(-50px, -70px, 0);
+            transform: scale(1) translate3d(-50px, -70px, 0);
+    opacity: 0;
+  }
+}
+@-webkit-keyframes dot-2 {
+  0% {
+    opacity: 0;
+  }
+  1% {
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+  }
+  70% {
+    -webkit-transform: scale(0.7) translate3d(-50px, -50px, 0);
+            transform: scale(0.7) translate3d(-50px, -50px, 0);
+    opacity: .8;
+  }
+  100% {
+    -webkit-transform: scale(0.7) translate3d(-50px, -50px, 0);
+            transform: scale(0.7) translate3d(-50px, -50px, 0);
+    opacity: 0;
+  }
+}
+@keyframes dot-2 {
+  0% {
+    opacity: 0;
+  }
+  1% {
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+  }
+  70% {
+    -webkit-transform: scale(0.7) translate3d(-50px, -50px, 0);
+            transform: scale(0.7) translate3d(-50px, -50px, 0);
+    opacity: .8;
+  }
+  100% {
+    -webkit-transform: scale(0.7) translate3d(-50px, -50px, 0);
+            transform: scale(0.7) translate3d(-50px, -50px, 0);
+    opacity: 0;
+  }
+}
+@-webkit-keyframes cirle-dot {
+  0% {
+    opacity: 0;
+  }
+  1% {
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+  }
+  80% {
+    -webkit-transform: scale(1) translate3d(-80px, -40px, 0);
+            transform: scale(1) translate3d(-80px, -40px, 0);
+    opacity: .8;
+  }
+  100% {
+    -webkit-transform: scale(1) translate3d(-80px, -40px, 0);
+            transform: scale(1) translate3d(-80px, -40px, 0);
+    opacity: 0;
+  }
+}
+@keyframes cirle-dot {
+  0% {
+    opacity: 0;
+  }
+  1% {
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+  }
+  80% {
+    -webkit-transform: scale(1) translate3d(-80px, -40px, 0);
+            transform: scale(1) translate3d(-80px, -40px, 0);
+    opacity: .8;
+  }
+  100% {
+    -webkit-transform: scale(1) translate3d(-80px, -40px, 0);
+            transform: scale(1) translate3d(-80px, -40px, 0);
+    opacity: 0;
+  }
+}
+
+.cover-bg{
+  max-width: 100% !important
+}
+
+</style>
+
+{% endblock %}
+{% block content %}
+
+<div class="products-navigation" style="display: none;"></div>
+
+        <!-- Container -->
+
+        <!-- Profile page main wrapper -->
+        <div id="profile-about" class="view-wrapper " style="padding-top: 30px;">
+            <!-- Left side column -->
+            <div class="column is-paddingless">
+                <!-- Timeline Header -->
+                {% if user.group_id == 3 %}
+                <div class="cover-bg">
+                    <img class="cover-image" src="{%static 'assets/img/free.jpg' %}" data-demo-src="assets/img/demo/bg/4.png"
+                         alt="" style="height: 350px;background-size:cover">
+                    <div class="avatar">
+                        <img id="user-avatar" class="avatar-image" src="{% static teacher.image %}"
+                             data-demo-src="assets/img/avatars/jenna.png" alt="" style="border: 2px solid #ccc">
+                    </div>
+
+                </div>
+                {% else %}
+
+                            <div class="cover-bg">
+                                <img class="cover-image" src="{%static 'assets/img/free.jpg' %}" data-demo-src="assets/img/demo/bg/4.png" alt="">
+                                <div class="avatar">
+
+                        <img id="user-avatar" class="avatar-image" src="{% static teacher.image %}"
+                             data-demo-src="assets/img/avatars/jenna.png" alt="" style="border: 2px solid #ccc">
+
+
+                                </div>
+                                <!--/html/partials/pages/profile/timeline/dropdowns/timeline-mobile-dropdown.html-->
+                                <div class="dropdown is-spaced is-right is-accent dropdown-trigger timeline-mobile-dropdown is-hidden-desktop">
+                                    <div>
+                                        <div class="button">
+                                            <i data-feather="more-vertical"></i>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-menu" role="menu">
+                                        <div class="dropdown-content">
+                                            <a href="/profile-main.html" class="dropdown-item">
+                                                <div class="media">
+                                                    <i data-feather="activity"></i>
+                                                    <div class="media-content">
+                                                        <h3>Timeline</h3>
+                                                        <small>Open Timeline.</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a href="/profile-about.html" class="dropdown-item">
+                                                <div class="media">
+                                                    <i data-feather="align-right"></i>
+                                                    <div class="media-content">
+                                                        <h3>About</h3>
+                                                        <small>See about info.</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a href="/profile-friends.html" class="dropdown-item">
+                                                <div class="media">
+                                                    <i data-feather="heart"></i>
+                                                    <div class="media-content">
+                                                        <h3>Friends</h3>
+                                                        <small>See friends.</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a href="/profile-photos.html" class="dropdown-item">
+                                                <div class="media">
+                                                    <i data-feather="image"></i>
+                                                    <div class="media-content">
+                                                        <h3>Photos</h3>
+                                                        <small>See all photos.</small>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                {% endif %}
+
+                <!-- This one -->
+
+
+            </div>
+
+
+            <div class="column">
+
+                <div class="container">
+                    <!-- About sections -->
+                    <div class="profile-about side-menu">
+                        <div class="left-menu"
+                             style="height: 140px;border-radius: 5px;border: 1px solid rgb(219, 219, 219) !important;">
+                            <div class="left-menu-inner" style="margin-bottom: 20px;">
+                                <div class="menu-item is-active" data-content="overview-content">
+                                    <div class="menu-icon">
+                                        <i class="mdi mdi-account-card-details"></i>
+                                        <span>Overview</span>
+                                    </div>
+                                </div>
+                                <div class="menu-item" data-content="personal-content">
+                                    <div class="menu-icon">
+                                        <i class="mdi mdi-star-circle"></i>
+                                        <span>Reviews</span>
+                                    </div>
+                                </div>
+                                <div class="menu-item " data-content="education-content">
+                                    <div class="menu-icon">
+                                        <i class="mdi mdi-camcorder-box"></i>
+                                        <span>Courses</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="right-content">
+                            <div id="overview-content" class="content-section is-active">
+
+
+                                <!-- Friends about card -->
+                                <div class="about-card">
+                                    <!-- Header -->
+                                    <div class="header">
+                                        <div class="icon-title" style="width: 180px">
+                                            <h3>About teacher</h3>
+                                        </div>
+
+                                        <hr>
+                                    </div>
+                                    <div class="body">
+                                        <div class="columns friends-columns ">
+                                            <!-- Friend -->
+                                            <div class="column is-5" style="margin-left:15px">
+
+                                                <div class="about-block">
+                                                    <div class="block-content">
+                                                        <div class="meta" style="margin-bottom: 20px;">
+                                                            <h4>{{ teacher.first_name }} {{ teacher.last_name }}<b style="color: rgb(216, 105, 1);">4.3
+                                                                <span class="fa fa-star"></span></b></h4>
+                                                            <h3 style="font-weight: 500;">Programmer</h3>
+                                                        </div>
+                                                        <div class="meta">
+                                                            <h3 style="font-weight: 500;">About Me:</h3>
+                                                            <span style="text-align: justify;">{{ teacher.profile.bio }}</span>
+                                                        </div>
+                                                        <div class="meta" style="margin-top: 20px;">
+                                                            <h3 style="font-weight: 500;">Special list at:</h3>
+                                                            <span style="text-align: justify;">{{ teacher.profile.subCatStr }}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div id="education-content" class="content-section">
+
+                                <!-- Friends about card -->
+                                <div class="about-card">
+                                    <!-- Header -->
+                                    <div class="header">
+                                        <div class="icon-title" style="width: 180px">
+                                            <h3>Teacher's courses</h3>
+                                        </div>
+
+                                        <hr>
+                                    </div>
+                                    <div class="body has-flex-list">
+                                        <!-- Places -->
+                                        <div class="place-list">
+                                            <!-- Place item -->
+                                            {% for course in teacher.courses %}
+                                            <div class="place-wrapper">
+                                                <img style="height: 160px;" src="{% static 'assets/img/courses/pc.jpg' %}"
+                                                     data-demo-src="assets/img/courses/pg.jpg" alt="">
+                                                <div class="foot">
+                                                    <a href="#" class="place-name">{{ course.name }}</a>
+                                                    {% if course.price == 0 %}
+                                                    <b style="color: green;">Free</b>
+                                                    {% else %}
+                                                    <b style="color: rgb(255, 238, 80);">${{ course.price }}</b>
+                                                    {% endif %}
+                                                    <br>
+                                                    <div class="rating" style="margin-top: 10px;">
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <b>{{ course.rating }}</b>
+                                                        <a href="single_course/{{ course.id }}" class="button"
+                                                           style="position: absolute;right: 10px;background-color: blue;color: white;bottom: 5px;">details</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+
+
+                <center>
+                    <nav class="pagination is-centered " role="navigation " aria-label="pagination " style="margin-bottom: 20px; ">
+
+                        <ul class="pagination-list ">
+                            <li>
+                                <a class="pagination-previous " style="background-color: white; border-radius: 50% "><span class="fa fa-arrow-left "></span>&nbsp;
+
+                                        </a>
+                            </li>
+                            <li><a class="pagination-link " style="background-color: white;  border-radius: 50% !important;width:43px;height:43px" aria-label="Page 1 " aria-current="page ">1..</a></li>
+                            <li><a class="pagination-link is-current " style=" border-radius: 50% !important;width:43px;height:43px" aria-label="Page 1 " aria-current="page ">10</a></li>
+                            <li><a class="pagination-link " style="background-color: white;  border-radius: 50% !important;width:43px;height:43px" aria-label="Page 1 " aria-current="page ">..43</a></li>
+                            <li>
+                                <a class="pagination-next " style="background-color: white; border-radius: 50%">
+                                    <span class="fa fa-arrow-right "></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </center>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+                            <!-- Personal tab -->
+                            <div id="personal-content" class="content-section">
+                                <!-- Friends about card -->
+                                <div class="about-card">
+                                    <!-- Header -->
+                                    <div class="header">
+                                        <div class="icon-title" style="width: 180px">
+                                            <h3>Students Reviews</h3>
+                                        </div>
+
+                                        <hr>
+                                    </div>
+                                    <div class="body">
+                                        <div class="columns friends-columns is-multiline">
+                                            <!-- Friend -->
+                                            <div class="column is-9">
+                                                <h1 style="font-size: x-large;font-weight: 500;margin-left: 15px;">Total
+                                                    :<span class="fa fa-star" style="color: orange;"></span>({{ teacher.reviewCnt }} Reviews)</h1>
+                                            </div>
+{#                                            <div class="column is-3">#}
+{#                                                <div class="field">#}
+{#                                                    <div class="control">#}
+{#                                                        <div class="select">#}
+{#                                                            <select>#}
+{#                                                                <option>All Reviews</option>#}
+{#                                                                <option>New Reviews</option>#}
+{#                                                                <option>Old Reviews</option>#}
+{#                                                            </select>#}
+{#                                                        </div>#}
+{#                                                    </div>#}
+{#                                                </div>#}
+{#                                            </div>#}
+                                            {% for i in teacher.review %}
+                                            <div class="column is-6">
+                                                <div class="card" style="margin-bottom: 15px !important;width: 95%;margin:0 auto;-webkit-box-shadow: 5px 3px 15px 5px #F0F0F0;
+                                                        box-shadow: 5px 3px 15px 5px #F0F0F0;">
+                                                    <div class="card-body" style="display:flex;flex-direction:row">
+                                                        <img style="width: 40px;height:auto;border-radius: 50%;border: 2px solid grey;margin-right: 10px;"
+                                                             src="{% static i.user.image %}"
+                                                             data-demo-src="assets/images/avatars/stella.jpg"
+                                                             data-user-popover="2" alt="">
+                                                        <h3>{{ i.user.first_name }} {{ i.user.last_name }}</h3>
+                                                        <b style="color: orange;margin-left: 10px;">{{ i.rating }}<span
+                                                                class="fa fa-star"></span></b>
+                                                    </div>
+                                                    <div class="card-footter">
+                                                        <p style="font-size: small;width: 100%;padding-left:15px;padding-top: 15px;padding-bottom: 15px;border-top: 1px solid rgb(231, 231, 231);margin: 0 auto;">{{ i.comment }}</p>
+                                                        <p style="padding-left: 15px;font-size: small;font-weight: 500;padding-bottom: 10px;color: grey;">
+                                                            420 Students like this<i class="fa fa-thumbs-up"></i></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="side-right">
+
+                            <div class="content-section is-active">
+
+
+                                <!-- Friends about card -->
+                                <div class="about-card">
+                                    <!-- Header -->
+                                    <div class="header">
+                                        <div class="icon-title" style="width: 180px">
+                                            <h3>About teacher</h3>
+                                        </div>
+
+                                        <hr>
+                                    </div>
+                                    <div class="body">
+                                        <div class="columns friends-columns ">
+                                            <!-- Friend -->
+                                            <div class="column is-5" style="margin-left:15px">
+
+                                                <div class="about-block">
+                                                    <div class="block-content">
+                                                        <div class="meta" style="margin-bottom: 20px;">
+                                                            <h4>Elzubair Mohammed <b style="color: rgb(216, 105, 1);">4.3
+                                                                <span class="fa fa-star"></span></b></h4>
+                                                            <h3 style="font-weight: 500;">Programmer</h3>
+                                                        </div>
+                                                        <div class="meta">
+                                                            <h3 style="font-weight: 500;">About Me:</h3>
+                                                            <span style="text-align: justify;">{{ teacher.first_name }}</span>
+                                                        </div>
+                                                        <div class="meta" style="margin-top: 20px;">
+                                                            <h3 style="font-weight: 500;">Special list at:</h3>
+                                                            <span style="text-align: justify;">#Java, #php, #Programmer, #C++, #HTML5, #Js, #Css3.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="column is-6">
+                                                <div class="about-block">
+                                                    <div class="block-content">
+                                                        <div class="meta" style="margin-bottom: 20px;">
+                                                            <h3 style="font-weight: 500;">Contact Info:</h3>
+                                                        </div>
+                                                        <div class="flex-inner">
+                                                            <i data-feather="twitter"
+                                                               style="color: rgb(59, 143, 177);"></i>
+                                                            <span><a target=”_blank”
+                                                                     href="http://www.twitter.com/booctep"
+                                                                     style="text-decoration: underline;color: rgb(59, 143, 177);font-size: medium;">wwww.twitter.com/booctep</a></span>
+                                                        </div>
+                                                        <div class="flex-inner">
+                                                            <i data-feather="instagram"
+                                                               style="color: rgb(150, 0, 75);"></i>
+                                                            <span><a target=”_blank”
+                                                                     href="https://www.instagram.com/booctep"
+                                                                     style="text-decoration: underline;color: rgb(150, 0, 75);">wwww.instagram.com/booctep</a></span>
+                                                        </div>
+                                                        <div class="flex-inner">
+                                                            <i data-feather="facebook"
+                                                               style="color: rgb(35, 61, 204);"></i>
+                                                            <span><a target=”_blank”
+                                                                     href="http://wwww.facebook.com/booctep"
+                                                                     style="text-decoration: underline;color: rgb(35, 61, 204);font-size: medium;">wwww.facebook.com/booctep</a></span>
+                                                        </div>
+                                                        <div class="flex-inner">
+                                                            <i data-feather="globe" style="color: black;"></i>
+                                                            <span><a target=”_blank” href="https://Booctep.com"
+                                                                     style="text-decoration: underline;color: black;font-size: medium;">www.booctep.com</a></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="content-section is-active">
+
+                                <!-- Friends about card -->
+                                <div class="about-card">
+                                    <!-- Header -->
+                                    <div class="header">
+                                        <div class="icon-title" style="width: 180px">
+                                            <h3>Teacher's courses</h3>
+                                        </div>
+
+                                        <hr>
+                                    </div>
+                                    <div class="body has-flex-list">
+                                        <!-- Places -->
+                                        <div class="place-list">
+                                            <!-- Place item -->
+                                            <div class="place-wrapper">
+                                                <img style="height: 160px;" src="assets/img/courses/pc.jpg"
+                                                     data-demo-src="assets/img/courses/pg.jpg" alt="">
+                                                <div class="foot">
+                                                    <a href="#" class="place-name">Learn HTML5 and css with sass and
+                                                        javascript.</a>
+                                                    <b style="color: green;">Free</b>
+                                                    <br>
+                                                    <div class="rating" style="margin-top: 10px;">
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <b>4.9</b>
+                                                        <a href="single_course.html" class="button"
+                                                           style="position: absolute;right: 10px;background-color: blue;color: white;bottom: 5px;">details</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Place item -->
+                                            <div class="place-wrapper">
+                                                <img style="height: 160px;" src="assets/img/courses/pc.jpg"
+                                                     data-demo-src="assets/img/courses/pg.jpg" alt="">
+                                                <div class="foot">
+                                                    <a href="#" class="place-name">Learn HTML5 and css with sass and
+                                                        javascript.</a>
+                                                    <b style="color: green;">Free</b>
+                                                    <br>
+                                                    <div class="rating" style="margin-top: 10px;">
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <b>4.9</b>
+                                                        <a href="single_course.html" class="button"
+                                                           style="position: absolute;right: 10px;background-color: blue;color: white;bottom: 5px;">details</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Place item -->
+                                            <div class="place-wrapper">
+                                                <img style="height: 160px;" src="assets/img/courses/pc.jpg"
+                                                     data-demo-src="assets/img/courses/pg.jpg" alt="">
+                                                <div class="foot">
+                                                    <a href="#" class="place-name">Learn HTML5 and css with sass and
+                                                        javascript.</a>
+                                                    <b style="color: green;">Free</b>
+                                                    <br>
+                                                    <div class="rating" style="margin-top: 10px;">
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <b>4.9</b>
+                                                        <a href="single_course.html" class="button"
+                                                           style="position: absolute;right: 10px;background-color: blue;color: white;bottom: 5px;">details</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Place item -->
+                                            <div class="place-wrapper">
+                                                <img style="height: 160px;" src="assets/img/courses/pc.jpg"
+                                                     data-demo-src="assets/img/courses/pg.jpg" alt="">
+                                                <div class="foot">
+                                                    <a href="#" class="place-name">Learn HTML5 and css with sass and
+                                                        javascript.</a>
+                                                    <b style="color: green;">Free</b>
+                                                    <br>
+                                                    <div class="rating" style="margin-top: 10px;">
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <b>4.9</b>
+                                                        <a href="single_course.html" class="button"
+                                                           style="position: absolute;right: 10px;background-color: blue;color: white;bottom: 5px;">details</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Place item -->
+                                            <div class="place-wrapper">
+                                                <img style="height: 160px;" src="assets/img/courses/pc.jpg"
+                                                     data-demo-src="assets/img/courses/pg.jpg" alt="">
+                                                <div class="foot">
+                                                    <a href="#" class="place-name">Learn HTML5 and css with sass and
+                                                        javascript.</a>
+                                                    <b style="color: green;">Free</b>
+                                                    <br>
+                                                    <div class="rating" style="margin-top: 10px;">
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <b>4.9</b>
+                                                        <a href="single_course.html" class="button"
+                                                           style="position: absolute;right: 10px;background-color: blue;color: white;bottom: 5px;">details</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Place item -->
+                                            <div class="place-wrapper">
+                                                <img style="height: 160px;" src="assets/img/courses/pc.jpg"
+                                                     data-demo-src="assets/img/courses/pg.jpg" alt="">
+                                                <div class="foot">
+                                                    <a href="#" class="place-name">Learn HTML5 and css with sass and
+                                                        javascript.</a>
+                                                    <b style="color: green;">Free</b>
+                                                    <br>
+                                                    <div class="rating" style="margin-top: 10px;">
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <b>4.9</b>
+                                                        <a href="single_course.html" class="button"
+                                                           style="position: absolute;right: 10px;background-color: blue;color: white;bottom: 5px;">details</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Place item -->
+                                            <div class="place-wrapper">
+                                                <img style="height: 160px;" src="assets/img/courses/pc.jpg"
+                                                     data-demo-src="assets/img/courses/pg.jpg" alt="">
+                                                <div class="foot">
+                                                    <a href="#" class="place-name">Learn HTML5 and css with sass and
+                                                        javascript.</a>
+                                                    <b style="color: green;">Free</b>
+                                                    <br>
+                                                    <div class="rating" style="margin-top: 10px;">
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <b>4.9</b>
+                                                        <a href="single_course.html" class="button"
+                                                           style="position: absolute;right: 10px;background-color: blue;color: white;bottom: 5px;">details</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Place item -->
+                                            <div class="place-wrapper">
+                                                <img style="height: 160px;" src="assets/img/courses/pc.jpg"
+                                                     data-demo-src="assets/img/courses/pg.jpg" alt="">
+                                                <div class="foot">
+                                                    <a href="#" class="place-name">Learn HTML5 and css with sass and
+                                                        javascript.</a>
+                                                    <b style="color: green;">Free</b>
+                                                    <br>
+                                                    <div class="rating" style="margin-top: 10px;">
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <b>4.9</b>
+                                                        <a href="single_course.html" class="button"
+                                                           style="position: absolute;right: 10px;background-color: blue;color: white;bottom: 5px;">details</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Place item -->
+                                            <div class="place-wrapper">
+                                                <img style="height: 160px;" src="assets/img/courses/pc.jpg"
+                                                     data-demo-src="assets/img/courses/pg.jpg" alt="">
+                                                <div class="foot">
+                                                    <a href="#" class="place-name">Learn HTML5 and css with sass and
+                                                        javascript.</a>
+                                                    <b style="color: green;">Free</b>
+                                                    <br>
+                                                    <div class="rating" style="margin-top: 10px;">
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <i class="is-checked" data-feather="star"></i>
+                                                        <b>4.9</b>
+                                                        <a href="single_course.html" class="button"
+                                                           style="position: absolute;right: 10px;background-color: blue;color: white;bottom: 5px;">details</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                <center>
+                    <nav class="pagination is-centered " role="navigation " aria-label="pagination " style="margin-bottom: 20px; ">
+
+                        <ul class="pagination-list ">
+                            <li>
+                                <a class="pagination-previous " style="background-color: white; border-radius: 50% "><span class="fa fa-arrow-left "></span>&nbsp;
+
+                                        </a>
+                            </li>
+                            <li><a class="pagination-link " style="background-color: white;  border-radius: 50% !important;width:43px;height:43px" aria-label="Page 1 " aria-current="page ">1..</a></li>
+                            <li><a class="pagination-link is-current " style=" border-radius: 50% !important;width:43px;height:43px" aria-label="Page 1 " aria-current="page ">10</a></li>
+                            <li><a class="pagination-link " style="background-color: white;  border-radius: 50% !important;width:43px;height:43px" aria-label="Page 1 " aria-current="page ">..43</a></li>
+                            <li>
+                                <a class="pagination-next " style="background-color: white; border-radius: 50%">
+                                    <span class="fa fa-arrow-right "></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </center>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+                            <!-- Personal tab -->
+                            <div class="content-section is-active">
+                                <!-- Friends about card -->
+                                <div class="about-card">
+                                    <!-- Header -->
+                                    <div class="header">
+                                        <div class="icon-title" style="width: 180px">
+                                            <h3>Students Reviews</h3>
+                                        </div>
+
+                                        <hr>
+                                    </div>
+                                    <div class="body">
+                                        <div class="columns friends-columns is-multiline">
+                                            <!-- Friend -->
+                                            <div class="column is-9">
+                                                <h1 style="font-size: x-large;font-weight: 500;margin-left: 15px;">Total
+                                                    Reviews 4.7 <span class="fa fa-star" style="color: orange;"></span>(
+                                                    178,900 )</h1>
+                                            </div>
+                                            <div class="column is-3">
+                                                <div class="field">
+                                                    <div class="control">
+                                                        <div class="select">
+                                                            <select>
+                                                                <option>All Reviews</option>
+                                                                <option>New Reviews</option>
+                                                                <option>Old Reviews</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="column is-6">
+                                                <div class="card" style="margin-bottom: 15px !important;width: 95%;margin:0 auto;-webkit-box-shadow: 5px 3px 15px 5px #F0F0F0;
+                                                        box-shadow: 5px 3px 15px 5px #F0F0F0;">
+                                                    <div class="card-body" style="display:flex;flex-direction:row">
+                                                        <img style="width: 40px;height:auto;border-radius: 50%;border: 2px solid grey;margin-right: 10px;"
+                                                             src="assets/img/man.jpg"
+                                                             data-demo-src="assets/images/avatars/stella.jpg"
+                                                             data-user-popover="2" alt="">
+                                                        <h3>Elzubair Mohammed</h3>
+                                                        <b style="color: orange;margin-left: 10px;">4.5<span
+                                                                class="fa fa-star"></span></b>
+                                                    </div>
+                                                    <div class="card-footter">
+                                                        <p style="font-size: small;width: 100%;padding-left:15px;padding-top: 15px;padding-bottom: 15px;border-top: 1px solid rgb(231, 231, 231);margin: 0 auto;">
+                                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Non
+                                                            harum cum ullam eveniet veniam? Natus modi aliquid eaque,
+                                                            delectus impedit eum qui perspiciatis deleniti dolorem
+                                                            ratione veritatis architecto nam rerum!</p>
+                                                        <p style="padding-left: 15px;font-size: small;font-weight: 500;padding-bottom: 10px;color: grey;">
+                                                            420 Students like this<i class="fa fa-thumbs-up"></i></p>
+                                                    </div>
+                                                </div>
+                                                <div class="card" style="margin-bottom: 15px !important;width: 95%;margin:0 auto;-webkit-box-shadow: 5px 3px 15px 5px #F0F0F0;
+                                                        box-shadow: 5px 3px 15px 5px #F0F0F0;">
+                                                    <div class="card-body" style="display:flex;flex-direction:row">
+                                                        <img style="width: 40px;height:auto;border-radius: 50%;border: 2px solid grey;margin-right: 10px;"
+                                                             src="assets/img/man.jpg"
+                                                             data-demo-src="assets/images/avatars/stella.jpg"
+                                                             data-user-popover="2" alt="">
+                                                        <h3>Elzubair Mohammed</h3>
+                                                        <b style="color: orange;margin-left: 10px;">4.5<span
+                                                                class="fa fa-star"></span></b>
+                                                    </div>
+                                                    <div class="card-footter">
+                                                        <p style="font-size: small;width: 100%;padding-left:15px;padding-top: 15px;padding-bottom: 15px;border-top: 1px solid rgb(231, 231, 231);margin: 0 auto;">
+                                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Non
+                                                            harum cum ullam eveniet veniam? Natus modi aliquid eaque,
+                                                            delectus impedit eum qui perspiciatis deleniti dolorem
+                                                            ratione veritatis architecto nam rerum!</p>
+                                                        <p style="padding-left: 15px;font-size: small;font-weight: 500;padding-bottom: 10px;color: grey;">
+                                                            420 Students like this<i class="fa fa-thumbs-up"></i></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="column is-6">
+                                                <div class="card" style="margin-bottom: 15px !important;width: 95%;margin:0 auto;-webkit-box-shadow: 5px 3px 15px 5px #F0F0F0;
+                                                        box-shadow: 5px 3px 15px 5px #F0F0F0;">
+                                                    <div class="card-body" style="display:flex;flex-direction:row">
+                                                        <img style="width: 40px;height:auto;border-radius: 50%;border: 2px solid grey;margin-right: 10px;"
+                                                             src="assets/img/man.jpg"
+                                                             data-demo-src="assets/images/avatars/stella.jpg"
+                                                             data-user-popover="2" alt="">
+                                                        <h3>Elzubair Mohammed</h3>
+                                                        <b style="color: orange;margin-left: 10px;">4.5<span
+                                                                class="fa fa-star"></span></b>
+                                                    </div>
+                                                    <div class="card-footter">
+                                                        <p style="font-size: small;width: 100%;padding-left:15px;padding-top: 15px;padding-bottom: 15px;border-top: 1px solid rgb(231, 231, 231);margin: 0 auto;">
+                                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Non
+                                                            harum cum ullam eveniet veniam? Natus modi aliquid eaque,
+                                                            delectus impedit eum qui perspiciatis deleniti dolorem
+                                                            ratione veritatis architecto nam rerum!</p>
+                                                        <p style="padding-left: 15px;font-size: small;font-weight: 500;padding-bottom: 10px;color: grey;">
+                                                            420 Students like this<i class="fa fa-thumbs-up"></i></p>
+                                                    </div>
+                                                </div>
+                                                <div class="card" style="margin-bottom: 15px !important;width: 95%;margin:0 auto;-webkit-box-shadow: 5px 3px 15px 5px #F0F0F0;
+                                                        box-shadow: 5px 3px 15px 5px #F0F0F0;">
+                                                    <div class="card-body" style="display:flex;flex-direction:row">
+                                                        <img style="width: 40px;height:auto;border-radius: 50%;border: 2px solid grey;margin-right: 10px;"
+                                                             src="assets/img/man.jpg"
+                                                             data-demo-src="assets/images/avatars/stella.jpg"
+                                                             data-user-popover="2" alt="">
+                                                        <h3>Elzubair Mohammed</h3>
+                                                        <b style="color: orange;margin-left: 10px;">4.5<span
+                                                                class="fa fa-star"></span></b>
+                                                    </div>
+                                                    <div class="card-footter">
+                                                        <p style="font-size: small;width: 100%;padding-left:15px;padding-top: 15px;padding-bottom: 15px;border-top: 1px solid rgb(231, 231, 231);margin: 0 auto;">
+                                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Non
+                                                            harum cum ullam eveniet veniam? Natus modi aliquid eaque,
+                                                            delectus impedit eum qui perspiciatis deleniti dolorem
+                                                            ratione veritatis architecto nam rerum!</p>
+                                                        <p style="padding-left: 15px;font-size: small;font-weight: 500;padding-bottom: 10px;color: grey;">
+                                                            420 Students like this<i class="fa fa-thumbs-up"></i></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+    <!-- Login Modal Start -->
+    <div id="product-quickview" class="modal product-quickview is-xsmall has-light-bg">
+        <div class="modal-background quickview-background"></div>
+        <div class="modal-content">
+            <div class="card">
+                <div class="quickview-loader is-active">
+                    <div class="loader is-loading"></div>
+                </div>
+                <div class="right">
+                  <span class="close-modal close-modal-2">
+                      <i data-feather="x"></i>
+                  </span>
+                    <div class="header">
+                        <div class="product-info">
+                            <img class="Loginmodal-img" src="assets/img/favicon.png" alt="">
+                            <h3 id="quickview-name">Login</h3>
+                            <p style="margin-bottom: 10px;">Welcome Back</p>
+                            <a href="#" class="button is-fullwidth"
+                               style="margin-bottom: 5px;background-color: rgb(218, 1, 1);color: #fff;">Login via Gmail
+                                &nbsp;<i class="mdi mdi-gmail"></i>
+                            </a>
+                            <a href="#" class="button is-fullwidth"
+                               style="background-color: rgb(61, 136, 206);color: #fff;">Login via Twitter
+                                &nbsp;<i class="mdi mdi-twitter"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="signup-panel-2" class="process-panel-wrap is-narrow">
+                        <div class="form-panel">
+                            <div class="search-filter" style="margin-bottom: 10px;">
+                                <div class="control has-icon">
+                                    <input type="text" class="input is-fade" placeholder="Enter username or email">
+                                    <div class="form-icon">
+                                        <i class="fa fa-user" style="font-size: x-small;"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="search-filter" style="margin-bottom: 10px;">
+                                <div class="control has-icon">
+                                    <input type="password" class="input is-fade" placeholder="Enter your password">
+                                    <div class="form-icon">
+                                        <i class="fa fa-key" style="font-size: x-small;"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="control">
+                                    <p style="font-size: small;"><input type="checkbox"> Remember me</p>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="control">
+                                    <button class="button primary-button raised is-fullwidth">
+                                        <p>Login</p>
+                                    </button>
+                                </div>
+                            </div>
+                            <p> Already have an account ? <a href="signup.html">Sign up</a></p>
+                            <div class="has-text-centered" style="margin-top: 10px;">
+                                <a class=" modal-trigger " data-modal="albums-help-modal">Forget Password</a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Login Modal End -->
+
+    <!-- Forget Password -->
+    <div id="albums-help-modal" class="modal albums-help-modal is-xsmall has-light-bg">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+
+            <div class="card">
+                <div class="card-heading">
+                    <h3>Forget Password</h3>
+                    <!-- Close X button -->
+                    <div class="close-wrap">
+                        <span class="close-modal">
+                            <i data-feather="x"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="content-block is-active"
+                         style="margin-left: -35px;text-align: center;align-items: center;">
+                        <img src="assets/img/forget_email.svg" alt="">
+                        <div class="help-text">
+                            <p style="margin-bottom: 10px;color: rgb(29, 29, 29);">Enter your Email address.</p>
+                            <input type="text" style="margin-bottom: 10px;" class="input is-fade"
+                                   placeholder="Enter your Email">
+                            <a href="#" style="background-color:rgb(0, 81, 128);color: #fff;"
+                               class="button is-fullwidth">Send link</a>
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="content-block">
+                    </div>
+
+                    <div class="slide-dots">
+                        <div class="column is-12">
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <p style="font-size: small;margin-top: 10px;font-weight: 400;">Forgot which email address you signed
+                        up with? <a href="support.html">Get help!</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Forget Password -->
+
+
+
+
+
+    <script>
+        $(document).ready(function () {
+
+        });
+
+        function model_open(obj) {
+
+            var type = $(obj).attr('data-type');
+            $('#commentId').val($(obj).attr('data-id'));
+            $('#commentDeleteId').val($(obj).attr('data-id'));
+            if (type == 'add') {
+                $('#exampleModal').modal('show');
+                $("#user_comment").val("");
+                $("#user_comment").focus();
+            } else if (type == 'edit') {
+                $('#exampleModal').modal('show');
+                $("#user_comment").val($(obj).attr('data-comment'));
+                $("#user_comment").focus();
+            } else if (type == 'delete') {
+                $('#deleteModal').modal('show');
+            }
+
+        }
+
+        function save_comment() {
+
+            var course_id = '{{course.id}}'
+            var comment = $("#user_comment").val();
+            var user_id = '{{user_id}}'
+            var comment_id = $('#commentId').val();
+
+            if (comment == 0) {
+                swal("Please Add Comment!", {
+                    icon: "info",
+                    button: "Ok",
+                    closeOnClickOutside: false,
+                }).then(function () {
+                });
+            } else {
+                $.ajax({
+                    method: "POST",
+                    url: "/add_comment/",
+                    data: {
+                        'comment': comment,
+                        'user_id': user_id,
+                        'course_id': course_id,
+                        'comment_id': comment_id,
+                    },
+                    success: function (response) {
+                        if (response == "success") {
+                            swal("Comment Added successfully!", {
+                                icon: "success",
+                                button: "Ok",
+                                closeOnClickOutside: false,
+                            }).then(function () {
+                                location.reload()
+                            });
+                        }
+                    }
+                });
+            }
+        }
+
+        function delete_comment() {
+            var id = $('#commentDeleteId').val();
+            $.ajax({
+                method: "POST",
+                url: "/delete_comment/",
+                data: {
+                    'id': id,
+                },
+                success: function (response) {
+                    if (response == "success") {
+                        swal("Comment Deleted succfully!", {
+                            icon: "success",
+                            button: "Ok",
+                            closeOnClickOutside: false,
+                        }).then(function () {
+                            location.reload()
+                        });
+                    }
+                }
+            });
+        }
+
+        function addToCartList() {
+            var course_id = '{{ course.id }}';
+            var user_id = '{{ request.user.id }}';
+            var url = '/student_Cart_courses/';
+            $.post(url, {student: user_id, course: course_id}, function (res) {
+            });
+        }
+
+    </script>
+
+{% endblock %} {% block script %}
+    <!-- App JS -->
+    <script src="{% static 'assets/js/sideb.js' %}"></script>
+    <!-- Page and UI related js -->
+    <script src="{% static 'assets/js/videos.js' %}"></script>
+    <script src="{% static 'assets/js/settings.js' %}"></script>
+{% endblock %}

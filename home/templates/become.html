@@ -1,0 +1,605 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+{% load i18n %}
+
+
+
+    <style>
+
+    .combo-box {
+        right: 0px !important;
+        top: 4px;
+        padding: 0;
+        width : 200px;
+        background: #fff !important;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        height: 35px;
+        cursor: pointer;
+        width: 20%;
+        -webkit-transition: all .3s;
+        transition: all .3s;
+    }
+
+
+<style>
+    .loading::after {
+        display: block;
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        transform: translateX(-100%);
+        background: -webkit-gradient(linear, left top, right top, from(transparent), color-stop(rgba(255, 255, 255, 0.2)), to(transparent));
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        /* Adding animation */
+        animation: loading 1s infinite;
+    }
+    /* Loading Animation */
+
+    @keyframes loading {
+        100% {
+            transform: translateX(100%);
+        }
+    }
+
+
+
+    .dancin-bc{
+    background: white !important;
+    height: 100%;
+    width: 100%;
+
+    }
+    .dancing-lao {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+.dancing-lao:after {
+  display: block;
+  width: 150px;
+  height: 2px;
+  margin-top: 10px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  background: rgb(43, 148, 209);
+  content: "";
+  -webkit-animation: 1s border infinite;
+          animation: 1s border infinite;
+  -webkit-animation-timing-function: cubic-bezier(0.92, 0.18, 0.04, 0.92);
+          animation-timing-function: cubic-bezier(0.92, 0.18, 0.04, 0.92);
+}
+.dancing-lao .left-dots {
+  position: absolute;
+  bottom: 20%;
+  left: 20%;
+}
+.dancing-lao .right-dots {
+  position: absolute;
+  bottom: 20%;
+  right: 20%;
+  -webkit-transform: scale(-1, 1);
+          transform: scale(-1, 1);
+}
+.dancing-lao .dot {
+  display: inline-block;
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgb(43, 148, 209);
+  opacity: 0;
+}
+.dancing-lao .dot-1 {
+  -webkit-animation: 1s dot infinite;
+          animation: 1s dot infinite;
+  -webkit-animation-delay: .5s;
+          animation-delay: .5s;
+}
+.dancing-lao .dot-2 {
+  -webkit-animation: 1s dot-2 infinite;
+          animation: 1s dot-2 infinite;
+  -webkit-animation-delay: .5s;
+          animation-delay: .5s;
+}
+.dancing-lao .circle-dot {
+  display: inline-block;
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 2px solid rgb(43, 148, 209);
+  -webkit-animation: 1s cirle-dot infinite;
+          animation: 1s cirle-dot infinite;
+  -webkit-animation-delay: .5s;
+          animation-delay: .5s;
+  opacity: 0;
+}
+.dancing-lao img {
+  display: block;
+  margin: auto;
+  width: 90px;
+  height: 80px;
+  margin-bottom: 20px;
+  -webkit-animation: 1s dance infinite;
+          animation: 1s dance infinite;
+  -webkit-animation-timing-function: cubic-bezier(0.92, 0.18, 0.04, 0.92);
+          animation-timing-function: cubic-bezier(0.92, 0.18, 0.04, 0.92);
+  -webkit-animation-direction: alternate;
+          animation-direction: alternate;
+}
+
+@-webkit-keyframes dance {
+  0% {
+    -webkit-transform: translate3d(-10px, -100px, 0) rotate(-15deg) scaleY(1.1);
+            transform: translate3d(-10px, -100px, 0) rotate(-15deg) scaleY(1.1);
+  }
+  50% {
+    -webkit-transform: translate3d(0, 8px, 0) scaleY(0.85);
+            transform: translate3d(0, 8px, 0) scaleY(0.85);
+  }
+  100% {
+    -webkit-transform: translate3d(10px, -100px, 0) rotate(15deg) scaleY(1.1);
+            transform: translate3d(10px, -100px, 0) rotate(15deg) scaleY(1.1);
+  }
+}
+
+@keyframes dance {
+  0% {
+    -webkit-transform: translate3d(-10px, -100px, 0) rotate(-15deg) scaleY(1.1);
+            transform: translate3d(-10px, -100px, 0) rotate(-15deg) scaleY(1.1);
+  }
+  50% {
+    -webkit-transform: translate3d(0, 8px, 0) scaleY(0.85);
+            transform: translate3d(0, 8px, 0) scaleY(0.85);
+  }
+  100% {
+    -webkit-transform: translate3d(10px, -100px, 0) rotate(15deg) scaleY(1.1);
+            transform: translate3d(10px, -100px, 0) rotate(15deg) scaleY(1.1);
+  }
+}
+@-webkit-keyframes border {
+  0% {
+    -webkit-transform: scaleX(1);
+            transform: scaleX(1);
+    opacity: 0.5;
+  }
+  50% {
+    -webkit-transform: scaleX(0.6);
+            transform: scaleX(0.6);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scaleX(1);
+            transform: scaleX(1);
+    opacity: 0.5;
+  }
+}
+@keyframes border {
+  0% {
+    -webkit-transform: scaleX(1);
+            transform: scaleX(1);
+    opacity: 0.5;
+  }
+  50% {
+    -webkit-transform: scaleX(0.6);
+            transform: scaleX(0.6);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scaleX(1);
+            transform: scaleX(1);
+    opacity: 0.5;
+  }
+}
+@-webkit-keyframes dot {
+  0% {
+    opacity: 0;
+  }
+  1% {
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+  }
+  50% {
+    -webkit-transform: scale(1) translate3d(-50px, -70px, 0);
+            transform: scale(1) translate3d(-50px, -70px, 0);
+    opacity: .8;
+  }
+  100% {
+    -webkit-transform: scale(1) translate3d(-50px, -70px, 0);
+            transform: scale(1) translate3d(-50px, -70px, 0);
+    opacity: 0;
+  }
+}
+@keyframes dot {
+  0% {
+    opacity: 0;
+  }
+  1% {
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+  }
+  50% {
+    -webkit-transform: scale(1) translate3d(-50px, -70px, 0);
+            transform: scale(1) translate3d(-50px, -70px, 0);
+    opacity: .8;
+  }
+  100% {
+    -webkit-transform: scale(1) translate3d(-50px, -70px, 0);
+            transform: scale(1) translate3d(-50px, -70px, 0);
+    opacity: 0;
+  }
+}
+@-webkit-keyframes dot-2 {
+  0% {
+    opacity: 0;
+  }
+  1% {
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+  }
+  70% {
+    -webkit-transform: scale(0.7) translate3d(-50px, -50px, 0);
+            transform: scale(0.7) translate3d(-50px, -50px, 0);
+    opacity: .8;
+  }
+  100% {
+    -webkit-transform: scale(0.7) translate3d(-50px, -50px, 0);
+            transform: scale(0.7) translate3d(-50px, -50px, 0);
+    opacity: 0;
+  }
+}
+@keyframes dot-2 {
+  0% {
+    opacity: 0;
+  }
+  1% {
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+  }
+  70% {
+    -webkit-transform: scale(0.7) translate3d(-50px, -50px, 0);
+            transform: scale(0.7) translate3d(-50px, -50px, 0);
+    opacity: .8;
+  }
+  100% {
+    -webkit-transform: scale(0.7) translate3d(-50px, -50px, 0);
+            transform: scale(0.7) translate3d(-50px, -50px, 0);
+    opacity: 0;
+  }
+}
+@-webkit-keyframes cirle-dot {
+  0% {
+    opacity: 0;
+  }
+  1% {
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+  }
+  80% {
+    -webkit-transform: scale(1) translate3d(-80px, -40px, 0);
+            transform: scale(1) translate3d(-80px, -40px, 0);
+    opacity: .8;
+  }
+  100% {
+    -webkit-transform: scale(1) translate3d(-80px, -40px, 0);
+            transform: scale(1) translate3d(-80px, -40px, 0);
+    opacity: 0;
+  }
+}
+@keyframes cirle-dot {
+  0% {
+    opacity: 0;
+  }
+  1% {
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+  }
+  80% {
+    -webkit-transform: scale(1) translate3d(-80px, -40px, 0);
+            transform: scale(1) translate3d(-80px, -40px, 0);
+    opacity: .8;
+  }
+  100% {
+    -webkit-transform: scale(1) translate3d(-80px, -40px, 0);
+            transform: scale(1) translate3d(-80px, -40px, 0);
+    opacity: 0;
+  }
+}
+
+</style>
+
+
+    </style>
+    <div class="products-navigation" style="display: none;">
+    </div>
+
+    <!-- Section -->
+    <div id="shop-page" class="shop-wrapper">
+
+    <div class="store-sections store-sections-2">
+
+            <!-- Brands -->
+        <div id="brands-tab" class="store-tab-pane is-active">
+                   <!-- Timeline -->
+                   <section class="hero is-small is-bold hero-become-2">
+                    <div class="hero-body">
+                      <div class="container">
+                        <div class="hero-becom-flex">
+                        <h1 class="booctep-1" data-shadow='Booctep'>{% trans 'Become a teacher' %}</h1>
+                        <h2 class="booctep-h2">{% trans 'Teach what you learn and earn money now, see this step for how to be a teacher than sign as a teacher.' %}</h2>
+                        <a href="/{{lang}}become_a_teacher" class="button is-light">{% trans 'Become a teacher' %}</a>
+                    </div>
+                </div>
+                    </div>
+                  </section>
+
+                  <div id="landing-start" class="section-m landing-wrapper">
+                    <div class="container">
+                        <div class="made-with" style="margin-top: -70px;">
+                            <div class="made-block-2">
+                                <div class="block-icon is-box-reveal">
+                                  <i class="fa fa-arrow-down"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+    <section class="timeline timeline-dark">
+        <ul>
+          <li>
+            <div>
+              <time>{% trans 'Step 1' %}</time>
+                <h2 style="font-weight: 500;">{% trans 'Sign up as a teacher.' %}</h2>
+            </div>
+          </li>
+            <li>
+              <div>
+                <time>{% trans 'Step 2' %}</time>
+                  <h2 style="font-weight: 500;">{% trans 'Set up your profile information.' %}</h2>
+              </div>
+            </li>
+            <li>
+              <div>
+                <time>{% trans 'Step 3' %}</time>
+                  <h2 style="font-weight: 500;">{% trans 'Set up your payments methods to collect your income and manage your money.' %}</h2>
+              </div>
+            </li>
+            <li>
+              <div>
+                <time>{% trans 'Step 4' %}</time>
+                  <h2 style="font-weight: 500;">{% trans 'Test your Videos and Audios Quality by sending your videos to our team via test course page.' %}</h2>
+              </div>
+            </li>
+            <li>
+              <div>
+                <time>{% trans 'Step 5' %}</time>
+                  <h2 style="font-weight: 500;"> {% trans 'Be Spacific when you choose your target students when you set up your profile.' %}</h2>
+              </div>
+            </li>
+            <li>
+              <div>
+                <time>{% trans 'Step 6' %}</time>
+                  <h2 style="font-weight: 500;">{% trans "Read our Teacher's Terms and Privacy." %}</h2>
+              </div>
+            </li>
+            <li>
+              <div>
+                <time>{% trans 'Step 7' %}</time>
+                  <h2 style="font-weight: 500;"> {% trans 'Get help if you want in your dashboard.' %}</h2>
+              </div>
+            </li>
+        </ul>
+      </section>
+      <!-- Timeline -->
+            </div>
+
+        </div>
+
+        <section class="hero is-small is-bold hero-become-3" >
+            <div class="hero-body">
+                <div class="section side-feature">
+                    <div class="container">
+
+                        <h3 style="font-size: xx-large;margin-bottom: 0px !important;color: #fff !important;text-align: center;">{% trans 'How it works!' %}</h3>
+
+                    <div class="section side-feature" style="margin-top: 0px;">
+                        <div class="container">
+                            <div class="columns">
+                                <div class="column is-8 is-offset-2" style="border: 2px solid rgb(36, 2, 100);border-radius: 3px;
+                                -webkit-box-shadow: -1px 4px 9px 9px rgba(5, 5, 54, 0.2);
+                                -moz-box-shadow: -1px 4px 9px 9px rgba(5, 5, 54, 0.2);
+                                box-shadow: -1px 4px 9px 9px rgba(5, 5, 54, 0.2);">
+                                  <video poster="{% static 'assets/img/setting.jpg' %}" id="player" playsinline controls>
+                                    <source src="{% static 'assets/img/vid/fortnite.webm' %}" type="video/webm" />
+                                    <!-- Captions are optional -->
+                                    <track kind="captions" label="English captions" src="/path/to/captions.vtt" srclang="en" default />
+                                  </video>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    </div>
+                </div>
+            </div>
+          </section>
+
+    </div>
+
+<!--    <div class="modal fade" id="becomeModal" tabindex="-1" role="dialog" aria-labelledby="formModal"-->
+<!--          aria-hidden="true" style = "padding-top: 12%;">-->
+<!--          <input type="hidden" id="commentId" value="">-->
+<!--          <input type="hidden" id="commentType" value="">-->
+<!--          <div class="modal-dialog" role="document">-->
+<!--            <div class="modal-content" style="background: white; padding: 30px;border: 1px solid #ccc;">-->
+<!--              <div class="modal-header">-->
+<!--                <h2 class="modal-title" id="formModal" style="text-align: center; font-weight: bold;">What you will teach?</h2>-->
+<!--                <button style=" float: right; margin-top: -30px; margin-bottom: 10px;outline: none; background: no-repeat;border: none;font-size: 20px;" type="button" class="close" data-dismiss="modal" aria-label="Close" >-->
+<!--                  <span aria-hidden="true">&times;</span>-->
+<!--                </button>-->
+<!--              </div>-->
+<!--              <div class="modal-body">-->
+<!--                <form class="">-->
+<!--                  <div class="form-group">-->
+<!--                    <div class="input-group">-->
+<!--                        <div class="box-inner">-->
+<!--                            <div class="combo-item">-->
+<!--                                &lt;!&ndash; <span class="selected-item"></span> &ndash;&gt;-->
+<!--                                <select class="combo-box selected-item" id="category_id" onchange="getsubcategory()" style="right:180px!important; width:35%;">-->
+<!--                                    {% for cate in catList %}-->
+<!--                                    <option value="{{ cate.id }}">{{ cate.name }}</option>-->
+<!--                                    {% endfor %}-->
+<!--                                </select>-->
+<!--                                <select class="combo-box selected-item" id="category_id_2"  style="width:35%;">-->
+
+<!--                                </select>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--				    </div>-->
+<!--                  </div>-->
+
+<!--                  <button style="color:#fff;background:blue;" type="button" onclick= "submitBecome()" class="button buy-button is-raised">submit</button>-->
+<!--                </form>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+
+<div id="user-photos-modal" class="modal user-photos-modal is-medium has-light-bg">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+        <!-- Card -->
+        <div class="card card-dark">
+            <div class="card-heading">
+                <h3>{% trans 'What will you teach?' %}</h3>
+                <!-- Close X button -->
+                <div class="close-wrap">
+                    <span class="close-modal">
+                    <i data-feather="x"></i>
+                </span>
+                </div>
+            </div>
+            <!-- Card body -->
+            <div class="card-body">
+                <!-- Tabs -->
+                <div class="nav-tabs-wrapper">
+
+                    <!-- Recent Photos -->
+                    <div id="recent-photos" class="tab-content has-slimscroll-md is-active">
+                        <!-- Grid -->
+                        <div class="albums-grid">
+                            <div class="columns is-multiline">
+                                <!-- Album item -->
+                                {% for c in objC %}
+                                <div class="column is-4" onclick="return subCategory('{{c.id}}')">
+                                    <div class="album-wrapper" data-album="album-photos-{{c.id}}">
+                                        <div class="album-image">
+                                            <img src="/static/{{c.image}}" data-demo-src="{%static 'assets5/img/demo/unsplash/35.jpg' %}" alt="">
+                                        </div>
+                                        <div class="album-meta">
+                                            <div class="album-title">
+                                                <span>{{c.name}}</span>
+                                            </div>
+                                            <div class="image-count">
+                                                <i data-feather="grid"></i>
+                                                <span>8</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+
+                            </div>
+                        </div>
+
+                        <!-- Hidden Grid | Design and colors -->
+                        <div id="album-photos-1" class="album-image-grid is-hidden">
+                            <div class="album-info">
+                                <h4 id="album_header"></h4><a class="close-nested-photos">{% trans 'Go Back' %}</a></div>
+                            <div class="columns is-multiline" id="album_content">
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="card-footer">
+                <button class="button is-solid accent-button replace-button is-disabled" onclick="return addSubCategory()">{% trans 'Add' %}</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!--- Categories Modal end-->
+</div>
+
+<!-- FAQs Modal -->
+
+<script>
+    const player = new Plyr('#player'); 
+    console.log("here it is: "+player);
+
+    $(function(){
+        getsubcategory()
+    })
+
+    function openBecomeModal(){
+        // $('#becomeModal').modal('show');
+        $('#user-photos-modal').modal('show');
+    }
+    function getsubcategory(){
+        url = '/getsubcategory';
+        cat_id = $('#category_id').val()
+        $.post(url, { category_id: cat_id }, function(res){
+            data = res.subcat_list
+            html = '';
+            for(idx in data){
+                console.log("123123", idx)
+                html += '<option value='+data[idx].id+'>'+data[idx].name+'</option>';
+            }
+            $('#category_id_2').children().remove()
+            $('#category_id_2').append(html)
+        });
+    }
+
+    function submitBecome(){
+        url = '/becomeTeacher/';
+        id = {{ request.user.id }};
+        cat_id = $('#category_id').val();
+        sub_catid = '';
+        $('#category_id_2 option').each(function(){
+            sub_catid += $(this).val();
+            sub_catid += ',';
+        })
+
+        $.post(url, { id:id, cat_id:cat_id, sub_catid : sub_catid }, function (res) {
+            swal("Request Submitted successfully!", {
+                    icon: "success",
+                    button: "Ok",
+                    closeOnClickOutside: false,
+                    }).then(
+                        function(){
+                            $('#becomeModal').modal('hide')
+                        }
+                    );
+        });
+    }
+</script>
+<!-- Concatenated js plugins and jQuery -->
+<script src="{% static 'assets/js/timeline.js' %}"></script>
+<script src="{% static 'assets/js/videos.js' %}"></script>
+<script src="{% static 'assets/js/settings.js' %}"></script>
+
+
+
+{% endblock %}

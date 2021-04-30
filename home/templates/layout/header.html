@@ -1,0 +1,979 @@
+{% load static %}
+{% load i18n %}
+
+<!-- <script type="text/javascript" SRC="javascript/jquery.cookie.js"></script> -->
+<!-- <script src="https://kenwheeler.github.io/slick/slick/slick.js"></script> -->
+
+<script>
+    var userid = {{request.user.id}};
+
+</script>
+
+
+
+<style>
+
+
+.banner {
+  background: linear-gradient(90deg, rgba(69,181,151,1) 0%, rgba(73,148,238,1) 42%, rgba(32,136,221,1) 65%, rgba(0,212,255,1) 100%);
+    position: fixed;
+    width: 100%;
+    z-index: 99999999999999;
+}
+
+.banner__content {
+  max-width: 100%;
+  padding: 10px 0px 10px 0;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+.banner__text {
+  flex-grow: 1;
+  line-height: 1.4;
+  font-family: "Quicksand", sans-serif;
+}
+
+.banner__close {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.banner__text,
+.banner__close > span {
+  color: #ffffff;
+}
+
+
+
+</style>
+
+
+<!--  <div class="banner">-->
+<!--    <div class="container ">-->
+<!--    <div class="banner__content">-->
+<!--      <div class="banner__text">-->
+<!--          <b>Get any course by 20 SR now in 3 days 19 Hours 12 Minutes.</b>-->
+<!--      </div>-->
+<!--      <button class="banner__close" type="button">-->
+<!--        <span class="material-icons">-->
+<!--          close-->
+<!--        </span>-->
+<!--      </button>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  </div>-->
+
+
+
+<div id="main-navbar" class="navbar navbar-dark is-inline-flex no-shadow is-hidden-mobile"  ><!-- style="margin-top:49px" -->
+
+
+
+
+
+    <div class="container ">
+
+        <div class="navbar-brand">
+            <a href="/{{lang}}" class="navbar-item logo">
+                <!-- <img src="{%static 'assets/img/logo/booctep-tran.png' %}" alt=""  /> -->
+                <img class="mode_images" src="/static/{{ lang }}assets/img/logo/booctep-tran.png" alt="" />
+            </a>
+        </div>
+        <div id="mobile-explorer-trigger" class="navbar-item is-icon is-dark-icon">
+            <a class="icon-link is-primary">
+                <i class="mdi mdi-apps"></i>
+            </a>
+        </div>
+		<div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+				<div class="navbar-item">
+                    <div id="global-search" class="control control-is-dark">
+
+                        <form action="/search" method="GET" id="searchform">
+
+                            <input id="tipue_drop_input" name="searchkeyword" class="input" type="text" placeholder="{% trans 'Search course' %}" required>
+                       </form>
+                        <span id="clear-search" class="reset-search">
+                            <i data-feather="x"></i>
+                        </span>
+                        <span class="search-icon">
+                            <i data-feather="search"></i>
+                        </span>
+                    </div>
+                </div>
+
+
+                <label id="toggler" class="animated-toggle" style="margin-right:30px !important">
+                    <input type="checkbox" id="toggle_check">
+                    <input type="hidden"id="mode_text" value="light">
+                    <span class="toggler">
+                        <span class="dark">
+                            <i data-feather="moon"></i>
+                        </span>
+                        <span class="light">
+                            <i data-feather="sun"></i>
+                        </span>
+                    </span>
+                </label>
+
+                {% if request.session.user_type == 'student' %}
+                <div class="navbar-item">
+                    <a href="/{{lang}}become" class="button-become-a-teacher button-become-a-teacher-dark button is-light" data-lang="about">
+                        {% trans 'Become a teacher' %}
+                    </a>
+                </div>
+                {% elif request.session.user_type == 'teacher' %}
+                <div class="navbar-item">
+                    <a href="/{{lang}}teacher/dashboard/" class="button-become-a-teacher button-become-a-teacher-dark button is-light" data-lang="about">
+                        {% trans 'Add a course' %}
+                    </a>
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+        {% if user.is_authenticated %}
+        <div class="navbar-end">
+            <div class="navbar-item is-cart is-dark-cart" style="margin-left: -20px;">
+                {% if noti_cnt > 0 %}
+                <div class="cart-button">
+                    <i class="fa fa-bell"></i>
+                    <div class="cart-count">
+                        <span>{{ noti_cnt }}</span>
+                    </div>
+                </div>
+                {% else %}
+                <div class="cart-button">
+                    <i class="fa fa-bell"></i>
+                </div>
+                {% endif %}
+
+                <!-- Cart dropdown -->
+                <div class="shopping-cart dropdownnotdisplay">
+                    <div class="cart-inner">
+                        <!--Loader-->
+                        <div class="navbar-cart-loader is-active">
+                            <div class="loader is-loading"></div>
+                        </div>
+
+                         {% if noti_cnt > 0 %}
+
+                        <div class="shopping-cart-header">
+							<u style="color: rgb(204, 0, 61);cursor:pointer;" onclick = "set_count_zero()">Mark all as read</u>
+							<div class="shopping-cart-total" style="color: rgb(204, 0, 61);cursor:not-allowed;">
+                                <span class="lighter-text">{% trans 'Total:' %}</span>
+                                <span class="main-color-text">{{noti_cnt}} Notifications</span>
+                            </div>
+                        </div>
+
+
+                        <ul class="shopping-cart-items">
+                            {% for noti in noti_list %}
+                            <li class="cart-row">
+                                <img src="{%static noti.sender.image %}" alt="" />
+                                <span class="item-meta">
+                                    <span class="item-name"><a>{{ noti.sender.first_name }} {{ noti.sender.first_name }}</a></span>
+                                    <span class="meta-info">
+                                        <span class="item-price" style="color:black"><a href="/{{lang}}student/notifications">{{ noti.title }}</a></span>
+                                     </span>
+                                </span>
+                                <span class="item-meta" style="margin-left:auto !important">
+                                    <span class="meta-info">
+                                        <a href="#">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                        </a>
+                                    </span>
+                                </span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+
+
+
+
+                        {% else %}
+
+
+
+                        <div class="shopping-cart-header">
+							<u style="color: #c0c0c0;;cursor:not-allowed;">Mark all as read</u>
+							<div class="shopping-cart-total">
+                                <span class="lighter-text" style="color: #c0c0c0;cursor:not-allowed;">{% trans 'Total:' %}</span>
+                                <span class="main-color-text" style="color: #c0c0c0;cursor:not-allowed;">{% trans '0 Notifications' %}</span>
+                            </div>
+                        </div>
+
+
+
+                                    <ul class="shopping-cart-items-2">
+                                        <li class="cart-row-2">
+                                            <img src="{%static 'assets/img/illstrators/no-not.png' %}" alt="" />
+                                            <span class="item-name" style="color: grey;">There are no notifications yet.</span>
+
+                                        </li>
+
+                                    </ul>
+
+
+
+                        {% endif %}
+
+
+
+						{% if user.group_id == 2 %}
+
+                        <a href="/{{lang}}teacher/notifications" class="button primary-button is-raised" >{% trans 'View all Notifications' %}</a>
+
+						{% else %}
+
+						<a href="/{{lang}}student/notifications" class="button primary-button is-raised">{% trans 'View all Notifications' %}</a>
+
+						{% endif %}
+
+					</div>
+                </div>
+
+            </div>
+
+
+
+            <div class="navbar-item is-cart is-dark-cart" style="margin-left: -20px;">
+                {% if noti_cnt > 0 %}
+                <div class="cart-button">
+                    <i class="fa fa-comment-alt"></i>
+                    <div class="cart-count">
+                        <span>{{ noti_cnt }}</span>
+                    </div>
+                </div>
+                {% else %}
+                <div class="cart-button">
+                    <i class="fa fa-comment-alt"></i>
+                </div>
+                {% endif %}
+
+                <!-- Cart dropdown -->
+                <div class="shopping-cart">
+                    <div class="cart-inner">
+
+                        <!--Loader-->
+                        <div class="navbar-cart-loader is-active">
+                            <div class="loader is-loading"></div>
+                        </div>
+
+<!--                        {% if noti_cnt > 0 %}-->
+<!--                        <div class="shopping-cart-header">-->
+<!--                            -->
+<!--						<u style="color: rgb(204, 0, 61);cursor:pointer;" onclick = "set_count_zero()">Mark all as read</u>-->
+<!--{#                            <div class="shopping-cart-total">#}-->
+<!--{#                                <span class="lighter-text">Total:</span>#}-->
+<!--{#                                <span class="main-color-text"><div></div></span>#}-->
+<!--{#                            </div>#}-->
+<!--                        </div>-->
+<!--                        {% else %}-->
+
+                         {% if noti_cnt < 0 %}
+
+                        <div class="shopping-cart-header">
+							<u style="color: #c0c0c0;;cursor:not-allowed;">Mark all as read</u>
+							<div class="shopping-cart-total">
+                                <span class="lighter-text">{% trans 'Total:' %}</span>
+                                <span class="main-color-text">{% trans '0 Messages' %}</span>
+                            </div>
+                        </div>
+
+                        {% else %}
+
+
+
+                        <div class="shopping-cart-header">
+							<u style="color: #c0c0c0;;cursor:not-allowed;">Mark all as read</u>
+							<div class="shopping-cart-total">
+                                <span class="lighter-text" style="color: #c0c0c0;cursor:not-allowed;">{% trans 'Total:' %}</span>
+                                <span class="main-color-text" style="color: #c0c0c0;cursor:not-allowed;">{% trans '0 Messages' %}</span>
+                            </div>
+                        </div>
+
+                         <ul class="shopping-cart-items-2">
+                                        <li class="cart-row-2">
+                                            <img src="{%static 'assets/img/illstrators/no-msg.png' %}" alt="" />
+                                            <span class="item-name" style="color: grey;">There are no Messages yet.</span>
+
+                                        </li>
+                         </ul>
+
+
+
+
+
+                        {% endif %}
+
+
+
+<!--                        {% endif %}-->
+
+                       	{% if user.group_id == 2 %}
+
+                        <a href="/{{lang}}teacher/messages" class="button primary-button is-raised" onclick="set_count_zero()">{% trans 'View all Messages' %}</a>
+
+						{% else %}
+
+						<a href="/{{lang}}student/messages" class="button primary-button is-raised" onclick="set_count_zero()">{% trans 'View all Messages' %}</a>
+
+						{% endif %}
+				  </div>
+                </div>
+            </div>
+
+
+
+            <div class="navbar-item is-cart is-dark-cart" style="margin-left: -20px;">
+                {% if favCnt > 0 %}
+                <div class="cart-button">
+                    <i class="fa fa-heart"></i>
+                    <div class="cart-count">
+                        <span class="favtotalcourses" id="favtotalcoursesid">{{ favCnt }}</span>
+                    </div>
+                </div>
+                {% elif favCnt == 0 %}
+                <div class="cart-button">
+                    <i class="fa fa-heart"></i>
+                </div>
+                {% endif %}
+
+
+                <!-- Cart dropdown -->
+                <div class="shopping-cart">
+                    <div class="cart-inner">
+                        <!--Loader-->
+                        <div class="navbar-cart-loader is-active">
+                            <div class="loader is-loading"></div>
+                        </div>
+
+                        {% if favCnt > 0 %}
+
+                        <div class="shopping-cart-header favzerovanish">
+                                <a href="#" class="deleteallfavcourse"><u style="color: blue;">Delete all courses</u></a>
+                                <div class="shopping-cart-total">
+                                    <span class="lighter-text">Total:</span>
+                                    <span class="main-color-text"><b class="favtotalcourses">{{ favCnt }}</b> courses</span>
+                                </div>
+                        </div>
+
+                        <ul class="shopping-cart-items-2 favzeroopen" style="display: none;">
+                            <li class="cart-row-2">
+                                <img src="{%static 'assets/img/illstrators/no-fave.png' %}" alt="" />
+                                <span class="item-name" style="color: grey;">Sorry there are no courses yet..</span>
+                            </li>
+                        </ul>
+
+                        <!--end shopping-cart-header -->
+                        <ul class="shopping-cart-items favitemparent">
+                            {% for favourite in favList %}
+                            <li class="cart-row favitem" data-id="{{ favourite.course_id.id }}">
+                                <img src="{%static 'assets/img/products/pg.jpg' %}" alt="" />
+                                <span class="item-meta">
+                                    <span class="item-name"><a href="#">{{ favourite.course_id.name }}</a></span>
+                                    <span class="meta-info">
+                                        <span class="item-price">${{ favourite.course_id.price }}</span>
+                                    </span>
+                                </span>
+                                <span class="item-meta" style="margin-left:auto !important">
+                                        <span class="meta-info">
+                                            <p class="deletefromfav" style="cursor: pointer;" data-id="{{favourite.course_id.id }}">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </p>
+                                        </span>
+                                </span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+
+                        <a href="/showfavlist" class="button primary-button is-raised favzerovanish">Show FavList</a>
+
+                        {% else %}
+
+
+
+                        <div class="shopping-cart-header">
+							<u style="color: #c0c0c0;;cursor:not-allowed;">Delete all courses</u>
+							<div class="shopping-cart-total">
+                                <span class="lighter-text" style="color: #c0c0c0;cursor:not-allowed;">{% trans 'Total:' %}</span>
+                                <span class="main-color-text" style="color: #c0c0c0;cursor:not-allowed;">{% trans '0 Courses' %}</span>
+                            </div>
+                        </div>
+
+                         <ul class="shopping-cart-items-2">
+                                        <li class="cart-row-2">
+                                            <img src="{%static 'assets/img/illstrators/no-fave.png' %}" alt="" />
+                                            <span class="item-name" style="color: grey;">There are no courses yet.</span>
+
+                                        </li>
+                         </ul>
+
+
+
+
+
+
+
+                       	{% if user.group_id == 2 %}
+
+                        <a class="button primary-button is-raised" style="background:#DCDCDC !important;border:1px solid #D2D2D2 ;color: #7F7F7F;;cursor:not-allowed;" onclick="set_count_zero()">{% trans 'View favorite page' %}</a>
+
+						{% else %}
+
+						<a class="button primary-button is-raised" style="background:#DCDCDC !important;border:1px solid #D2D2D2 ;color: #7F7F7F;;cursor:not-allowed;" onclick="set_count_zero()">{% trans 'View favorite page' %}</a>
+
+						{% endif %}
+						{% endif %}
+
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="navbar-item is-cart is-dark-cart nvabar-last-item">
+                {% if cartCnt > 0 %}
+                <div class="cart-button">
+                    <i class="fa fa-shopping-cart"></i>
+                    <div class="cart-count cart-count-available">
+                        <span class="carttotalcourses" id="cartcounterfirst">{{ cartCnt }}</span>
+                    </div>
+                </div>
+                {% elif cartCnt == 0 %}
+                <div class="cart-button">
+                    <i class="fa fa-shopping-cart"></i>
+                </div>
+                {% endif %}
+
+
+                <!-- Cart dropdown -->
+                <div class="shopping-cart">
+                    <div class="cart-inner">
+                        <!--Loader-->
+                        <div class="navbar-cart-loader is-active">
+                            <div class="loader is-loading"></div>
+                        </div>
+
+
+                        {% if cartCnt > 0 %}
+                            <div class="shopping-cart-header cartzerovanish">
+                                <a href="#" class="deleteallcartcourse"><u style="color: blue;">Delete all courses</u></a>
+                                <div class="shopping-cart-total">
+                                    <span class="lighter-text">Total:</span>
+                                    <span class="main-color-text"><b class="carttotalcourses">{{ cartCnt }}</b> courses</span>
+                                </div>
+                            </div>
+
+                             <ul class="shopping-cart-items-2 cartzeroopen" style="display: none;">
+                                <li class="cart-row-2">
+                                    <img src="{%static 'assets/img/no-cart.svg' %}" alt="" />
+                                    <span class="item-name" style="color: grey;">Sorry there are no courses yet in your cart.</span>
+                                </li>
+                             </ul>
+
+                            <!--end shopping-cart-header -->
+                            <ul class="shopping-cart-items cartitemparent">
+
+                                {% for cart in cartList %}
+                                <li class="cart-row cartitem" data-id="{{ cart.course_id.id }}">
+                                    <img src="{%static cart.course_id.cover_img %}" alt="" />
+                                    <span class="item-meta">
+                                        <span class="item-name"><a>{{ cart.course_id.name }}</a></span>
+                                        <span class="meta-info">
+                                            <span class="item-price">${{ cart.course_id.price }}</span>
+                                         </span>
+                                    </span>
+                                    <span class="item-meta" style="margin-left:auto !important">
+                                        <span class="meta-info">
+                                            <p class="deletefromcart" style="cursor: pointer;" data-id="{{ cart.course_id.id }}">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </p>
+                                        </span>
+                                    </span>
+                                </li>
+                                {% endfor %}
+                            </ul>
+
+                            <a href="/showcartlist" class="button primary-button is-raised cartzerovanish">Show CartList</a>
+
+
+
+                        {% else %}
+
+
+
+                        <div class="shopping-cart-header">
+							<u style="color: #c0c0c0;;cursor:not-allowed;">Delete all courses</u>
+							<div class="shopping-cart-total">
+                                <span class="lighter-text" style="color: #c0c0c0;cursor:not-allowed;">{% trans 'Total:' %}</span>
+                                <span class="main-color-text" style="color: #c0c0c0;cursor:not-allowed;">{% trans '0 Courses' %}</span>
+                            </div>
+                        </div>
+
+                         <ul class="shopping-cart-items-2">
+                                        <li class="cart-row-2">
+                                            <img src="{%static 'assets/img/illstrators/ez.png' %}" alt="" />
+                                            <span class="item-name" style="color: grey;">There are no courses yet.</span>
+
+                                        </li>
+                         </ul>
+
+
+
+
+
+
+
+                       	{% if user.group_id == 2 %}
+
+                        <a class="button primary-button is-raised" style="background:#DCDCDC !important;border:1px solid #D2D2D2 ;color: #7F7F7F;;cursor:not-allowed;" onclick="set_count_zero()">{% trans 'View cart page' %}</a>
+
+						{% else %}
+
+						<a class="button primary-button is-raised" style="background:#DCDCDC !important;border:1px solid #D2D2D2 ;color: #7F7F7F;;cursor:not-allowed;" onclick="set_count_zero()">{% trans 'View cart page' %}</a>
+
+						{% endif %}
+                        {% endif %}
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div id="account-dropdown" class="navbar-item is-account drop-trigger has-caret">
+
+                <div class="small-avatar1">
+                    <!-- <img class="avatar" src="/static{{user.image}}" style="border: 2px solid #ccc;" data-demo-src="{%static 'assets/img/avatars/jenna.png' %}" data-user-popover="0" alt=""> -->
+                    <img class="avatar" src="/static{{user.image}}" style="border: 2px solid #ccc;" data-demo-src="{%static 'assets/img/avatars/jenna.png' %}" data-user-popover="0" alt="">
+                </div>
+
+                <div class="nav-drop is-account-dropdown dropdownnotdisplay">
+                    <div class="inner">
+                        <div class="nav-drop-header" style="height: 100%;display:flex;flex-direction:column">
+                            <b class="" style="font-size: 15px;text-align:left;justify-content: flex-start;margin-bottom:5px">{{user.first_name}} {{user.last_name}}</b>
+                            <p class="" style="font-size: 12px;">{{user.email}}</p>
+                        </div>
+                        <div class="nav-drop-body account-items">
+                            {% if user.group_id == 1 %}
+                            <a href="/{{lang}}account" class="account-item">
+                                <div class="media">
+                                    <div class="icon-wrap">
+                                        <i data-feather="settings"></i>
+                                    </div>
+                                    <div class="media-content">
+                                        <h3>{% trans 'Settings' %}</h3>
+                                    </div>
+                                </div>
+                            </a>
+                            {% elif user.group_id == 2 %}
+                            <a href="/{{lang}}teacher/account" class="account-item">
+                                <div class="media">
+                                    <div class="icon-wrap">
+                                        <i data-feather="settings"></i>
+                                    </div>
+                                    <div class="media-content">
+                                        <h3>{% trans 'Settings' %}</h3>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="/{{lang}}teacher/payout" class="account-item">
+                                <div class="media">
+                                    <div class="icon-wrap">
+                                        <i data-feather="settings"></i>
+                                    </div>
+                                    <div class="media-content">
+                                        <h3>{% trans 'Payout' %}</h3>
+                                    </div>
+                                </div>
+                            </a>
+                            {% endif %}
+                            {% if user.group_id == 2 %}
+                            <a href="/{{lang}}teacher/courses" class="account-item">
+                                <div class="media">
+                                    <div class="icon-wrap">
+                                        <i data-feather="life-buoy"></i>
+                                    </div>
+                                    <div class="media-content">
+                                        <h3>{% trans 'My courses' %}</h3>
+                                    </div>
+                                </div>
+                            </a>
+                            {% else %}
+                            <a href="/{{lang}}courses" class="account-item">
+
+                                <div class="media">
+                                    <div class="icon-wrap">
+                                        <i data-feather="life-buoy"></i>
+                                    </div>
+                                    <div class="media-content">
+                                        <h3>{% trans 'My courses' %}</h3>
+                                    </div>
+                                </div>
+                            </a>
+                            {% endif %}
+                            <a href="/{{lang}}help" class="account-item">
+                                <div class="media">
+                                    <div class="icon-wrap">
+                                        <i data-feather="life-buoy"></i>
+                                    </div>
+                                    <div class="media-content">
+                                        <h3>{% trans 'Help' %}</h3>
+                                    </div>
+                                </div>
+                            </a>
+
+                            {% if user.group_id == 2 %}
+                            <a href="/{{lang}}teacher/messages" class="account-item">
+                                <div class="media">
+                                    <div class="icon-wrap">
+                                        <i data-feather="life-buoy"></i>
+                                    </div>
+                                    <div class="media-content">
+                                        <h3>{% trans 'messages' %}</h3>
+                                    </div>
+                                </div>
+                            </a>
+                            {% else %}
+                            <a href="/{{lang}}student/messages" class="account-item">
+                                <div class="media">
+                                    <div class="icon-wrap">
+                                        <i data-feather="life-buoy"></i>
+                                    </div>
+                                    <div class="media-content">
+                                        <h3>{% trans 'messages' %}</h3>
+                                    </div>
+                                </div>
+                            </a>
+                            {% endif %}
+                            <a class="account-item" href="/logoutfromhere">
+                                <div class="media media1">
+
+                                    <div class="icon-wrap">
+                                        <i data-feather="power" style="color:rgb(236, 11, 11) !important;"></i>
+                                    </div>
+                                    <div class="media-content">
+                                        <h3 style="color: rgb(236, 11, 11);">{% trans 'Log out' %}</h3>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+
+        <div class="navbar-end">
+
+
+            <div class="navbar-item is-cart is-dark-cart nvabar-last-item">
+               {% if cartCnt > 0 %}
+                <div class="cart-button" style="margin-right:60px">
+                    <i class="fa fa-shopping-cart"></i>
+                    <div class="cart-count">
+                        <span>{{ cartCnt }}</span>
+                    </div>
+                </div>
+                {% else %}
+                <div class="cart-button" style="margin-right:60px">
+                    <i class="fa fa-shopping-cart"></i>
+                </div>
+                {% endif %}
+
+                <!-- Cart dropdown -->
+                <div class="shopping-cart" style="margin-right:60px">
+                    <div class="cart-inner">
+                        <!--Loader-->
+                        <div class="navbar-cart-loader is-active">
+                            <div class="loader is-loading"></div>
+                        </div>
+
+
+                        {% if cartCnt > 0 %}
+                        <div class="shopping-cart-header">
+                            <a href="#"><u style="color: blue;">Delete all courses</u></a>
+                            <div class="shopping-cart-total">
+                                <span class="lighter-text">Total:</span>
+                                <span class="main-color-text">{{ cartCnt }} courses</span>
+                            </div>
+                        </div>
+                        <!--end shopping-cart-header -->
+                        <ul class="shopping-cart-items">
+
+                            {% for cart in cartList %}
+                            <li class="cart-row">
+                                <img src="{%static cart.course_id.cover_img %}" alt="" />
+                                <span class="item-meta">
+                                    <span class="item-name"><a>{{ cart.course_id.name }}</a></span>
+                                    <span class="meta-info">
+                                        <span class="item-price">${{ cart.course_id.price }}</span>
+                                     </span>
+                                </span>
+                                <span class="item-meta" style="margin-left:auto !important">
+                                    <span class="meta-info">
+                                        <a href="#">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                        </a>
+                                    </span>
+                                </span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+
+
+
+                        {% else %}
+
+                        <div class="shopping-cart-header">
+                            <a href="#"><u style="color: #c0c0c0;;cursor:not-allowed;">Delete all courses</u></a>
+							<div class="shopping-cart-total">
+                                <span class="lighter-text" style="color: #c0c0c0;;cursor:not-allowed;">{% trans 'Total:' %}</span>
+                                <span class="main-color-text" style="color: #c0c0c0;;cursor:not-allowed;">{% trans '0' %}</span>
+                            </div>
+                        </div>
+
+                         <ul class="shopping-cart-items-2">
+                                        <li class="cart-row-2">
+                                            <img src="{%static 'assets/img/illstrators/ez.png' %}" alt="" />
+                                            <span class="item-name" style="color: grey;">There are no courses yet.</span>
+
+                                        </li>
+                         </ul>
+
+                        {% endif %}
+
+{#                        <a href="#" class="button primary-button is-raised">Checkout</a>#}
+                        <a href="/showcartlist" class="button primary-button is-raised">Show CartList</a>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="navbar-item">
+                <div class="buttons ">
+                    <a href="/{{lang}}signup" class="button signup-button-is-dark im-button" style="background-color: #efecec">
+                        <p>{% trans 'Sign up' %}</p>
+                    </a>
+                    <a id="login_btn" style="margin-right:-13px" class="button primary-button login-button-is-dark raised quickview-trigger process-button">
+                        <p>{% trans 'Log in' %}</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        {% endif %}
+    </div>
+</div>
+<!-- Main Navbar -->
+
+
+
+{% if user.is_active == True %}
+
+<!-- Mobile Navbar -->
+<nav class="navbar mobile-navbar navbar-dark is-hidden-desktop" aria-label="main navigation">
+    <!-- Brand -->
+    <div class="navbar-brand">
+        <a class="navbar-item2" href="/{{lang}}">
+            <img class="mobile-logo" src="{%static 'assets/img/favicon.png' %}" alt="">
+        </a>
+
+
+        <div id="mobile-explorer-trigger" class="navbar-item is-icon">
+            <a class="icon-link is-primary">
+                <i class="mdi mdi-apps"></i>
+            </a>
+        </div>
+
+        <!-- Mobile menu toggler icon -->
+        <div class="navbar-burger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+
+    <!-- Navbar mobile menu -->
+    <div class="navbar-menu">
+        <!-- Account -->
+        <div class="navbar-item has-dropdown ">
+            <div class="navbar-link">
+                <img src="/static{{user.image}}" data-demo-src="{%static 'assets/img/avatars/jenna.png' %}" alt="">
+                <span class="is-heading">{{user.first_name}} {{user.last_name}}</span>
+            </div>
+
+            <div class="navbar-item">
+                <div id="global-search" class="control">
+                    <!-- <input id="tipue_drop_input" class="input " type="text" placeholder="Search" required> -->
+                    <input id="tipue_drop_input" class="input " type="text" placeholder="Search" required>
+                    <span id="clear-search" class="reset-search">
+                        <i data-feather="x"></i>
+                    </span>
+                    <span class="search-icon">
+                        <i data-feather="search"></i>
+                    </span>
+                </div>
+
+            </div>
+
+            <!-- Mobile Dropdown -->
+            <div class="navbar-dropdown">
+                <a href="#" class="navbar-item is-flex is-mobile-icon">
+                    <span><i data-feather="user"></i>Profile</span>
+                </a>
+                <a href="#" class="navbar-item is-flex is-mobile-icon">
+                    <span><i data-feather="shopping-cart"></i>Cart</span>
+                    <span class="menu-badge">{{cartCnt}}</span>
+                </a>
+                <a href="#" class="navbar-item is-flex is-mobile-icon">
+                    <span><i data-feather="heart"></i>Favorites</span>
+                    <span class="menu-badge">{{favCnt}}</span>
+                </a>
+                <a href="#" class="navbar-item is-flex is-mobile-icon">
+                    <span><i data-feather="heart"></i>Notifications</span>
+                    <span class="menu-badge">{{noti_cnt}}</span>
+                </a>
+                <a href="#" class="navbar-item is-flex is-mobile-icon">
+                    <span><i data-feather="heart"></i>Messages</span>
+                    <span class="menu-badge">{{noti_cnt}}</span>
+                </a>
+                <a href="#" class="navbar-item is-flex is-mobile-icon">
+                    <span><i data-feather="settings"></i>Settings</span>
+                </a>
+                <a href="/logoutfromhere" class="navbar-item is-flex is-mobile-icon">
+                    <span style="color:red !important"><i data-feather="hexagon"></i>Logout</span>
+                </a>
+
+<!--                <div class="buttons">-->
+<!--                    <a class="button second-button">-->
+<!--                        <p>Sign up</p>-->
+<!--                    </a>-->
+<!--                    <a class="button primary-button raised quickview-trigger process-button">-->
+<!--                        <p>Log in</p>-->
+<!--                    </a>-->
+<!--                </div>-->
+
+
+            </div>
+        </div>
+    </div>
+</nav>
+<!-- Mobile Navbar -->
+
+{% else %}
+
+
+<!-- Mobile Navbar -->
+<nav class="navbar mobile-navbar navbar-dark is-hidden-desktop" aria-label="main navigation">
+    <!-- Brand -->
+    <div class="navbar-brand">
+        <a class="navbar-item2" href="/{{lang}}">
+            <img class="mobile-logo" src="{%static 'assets/img/favicon.png' %}" alt="">
+        </a>
+
+
+        <div id="mobile-explorer-trigger" class="navbar-item is-icon">
+            <a class="icon-link is-primary">
+                <i class="mdi mdi-apps"></i>
+            </a>
+        </div>
+
+        <!-- Mobile menu toggler icon -->
+        <div class="navbar-burger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+
+    <!-- Navbar mobile menu -->
+    <div class="navbar-menu">
+        <!-- Account -->
+        <div class="navbar-item has-dropdown ">
+<!--            <div class="navbar-link">-->
+<!--                <img src="/static{{user.image}}" data-demo-src="{%static 'assets/img/avatars/jenna.png' %}" alt="">-->
+<!--                <span class="is-heading">{{user.first_name}} {{user.last_name}}</span>-->
+<!--            </div>-->
+
+            <div class="navbar-item">
+                <div id="global-search" class="control">
+                    <!-- <input id="tipue_drop_input" class="input " type="text" placeholder="Search" required> -->
+                    <input id="tipue_drop_input" class="input " type="text" placeholder="Search" required>
+                    <span id="clear-search" class="reset-search">
+                        <i data-feather="x"></i>
+                    </span>
+                    <span class="search-icon">
+                        <i data-feather="search"></i>
+                    </span>
+                </div>
+
+            </div>
+
+            <!-- Mobile Dropdown -->
+            <div class="navbar-dropdown">
+                <a href="#" class="navbar-item is-flex is-mobile-icon">
+                    <span><i data-feather="user"></i>About us</span>
+                </a>
+                <a href="#" class="navbar-item is-flex is-mobile-icon">
+                    <span><i data-feather="settings"></i>FAQs</span>
+                </a>
+                <a href="#" class="navbar-item is-flex is-mobile-icon">
+                    <span><i data-feather="settings"></i>Support</span>
+                </a>
+                <a href="#" class="navbar-item is-flex is-mobile-icon">
+                    <span><i data-feather="settings"></i>Become a teacher</span>
+                </a>
+
+                <div class="buttons">
+                    <a class="button second-button" href="/{{lang}}signup">
+                        <p>{% trans 'Sign up' %}</p>
+                    </a>
+                    <a id="login_btn" class="button primary-button raised quickview-trigger process-button">
+                        <p>{% trans 'Log in' %}</p>
+                    </a>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</nav>
+<!-- Mobile Navbar -->
+
+{% endif %}
+
+<!--<script>-->
+<!--    $(document).ready(function() {-->
+
+<!--  // .scroll() creates an event when the user scrolls-->
+<!--  $(window).scroll(function() {-->
+
+<!--    // .scrollTop() retrieves vertical position of the scroll bar for the first element in a set of matched elements-->
+<!--    var scroll = $(window).scrollTop();-->
+
+<!--    var objectSelect = $('#section2');-->
+
+<!--    // .offset() retrieves current position of element relative to document-->
+<!--    var objectPosition = objectSelect.offset().top;-->
+
+<!--    if (scroll > objectPosition) {-->
+<!--      $('.im-button').addClass('displayNav');-->
+<!--    } else {-->
+<!--      $('.im-button').removeClass('displayNav');-->
+<!--    }-->
+<!--  });-->
+<!--});-->
+
+
+
+<!--document.querySelector(".banner__close").addEventListener("click", function () {-->
+<!--  this.closest(".banner").style.display = "none";-->
+<!--});-->
+
+
+<!--</script>-->

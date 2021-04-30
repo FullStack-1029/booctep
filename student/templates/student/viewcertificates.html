@@ -1,0 +1,29 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>PDF.js Example</title>
+  
+  {% load static %}
+<script src="{% static 'pdf.js' %}"></script>
+<script src="{% static 'simple.js' %}"></script>
+
+
+  
+</head>
+<body>
+
+
+  <canvas id="pdf"></canvas>
+
+
+  <script type="text/javascript">
+  		showpdfdoc(PDFJS,"Volpone.pdf");
+  </script>
+
+
+
+</body>
+</html>

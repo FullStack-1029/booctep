@@ -1,0 +1,602 @@
+{% extends "base.html" %} {% block content %} {% load static %} {% load i18n %}
+
+
+<style>
+
+
+@media only screen and (max-width: 600px) {
+
+
+    .made-with{
+       width: 27%;
+       align-items: center !important;
+       float:left;
+    }
+
+    }
+
+    .loading::after {
+        display: block;
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        transform: translateX(-100%);
+        background: -webkit-gradient(linear, left top, right top, from(transparent), color-stop(rgba(255, 255, 255, 0.2)), to(transparent));
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        /* Adding animation */
+        animation: loading 1s infinite;
+    }
+    /* Loading Animation */
+
+    @keyframes loading {
+        100% {
+            transform: translateX(100%);
+        }
+    }
+
+
+
+    .dancin-bc{
+    background: white !important;
+    height: 100%;
+    width: 100%;
+
+    }
+    .dancing-lao {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+.dancing-lao:after {
+  display: block;
+  width: 150px;
+  height: 2px;
+  margin-top: 10px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  background: rgb(43, 148, 209);
+  content: "";
+  -webkit-animation: 1s border infinite;
+          animation: 1s border infinite;
+  -webkit-animation-timing-function: cubic-bezier(0.92, 0.18, 0.04, 0.92);
+          animation-timing-function: cubic-bezier(0.92, 0.18, 0.04, 0.92);
+}
+.dancing-lao .left-dots {
+  position: absolute;
+  bottom: 20%;
+  left: 20%;
+}
+.dancing-lao .right-dots {
+  position: absolute;
+  bottom: 20%;
+  right: 20%;
+  -webkit-transform: scale(-1, 1);
+          transform: scale(-1, 1);
+}
+.dancing-lao .dot {
+  display: inline-block;
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgb(43, 148, 209);
+  opacity: 0;
+}
+.dancing-lao .dot-1 {
+  -webkit-animation: 1s dot infinite;
+          animation: 1s dot infinite;
+  -webkit-animation-delay: .5s;
+          animation-delay: .5s;
+}
+.dancing-lao .dot-2 {
+  -webkit-animation: 1s dot-2 infinite;
+          animation: 1s dot-2 infinite;
+  -webkit-animation-delay: .5s;
+          animation-delay: .5s;
+}
+.dancing-lao .circle-dot {
+  display: inline-block;
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 2px solid rgb(43, 148, 209);
+  -webkit-animation: 1s cirle-dot infinite;
+          animation: 1s cirle-dot infinite;
+  -webkit-animation-delay: .5s;
+          animation-delay: .5s;
+  opacity: 0;
+}
+.dancing-lao img {
+  display: block;
+  margin: auto;
+  width: 90px;
+  height: 80px;
+  margin-bottom: 20px;
+  -webkit-animation: 1s dance infinite;
+          animation: 1s dance infinite;
+  -webkit-animation-timing-function: cubic-bezier(0.92, 0.18, 0.04, 0.92);
+          animation-timing-function: cubic-bezier(0.92, 0.18, 0.04, 0.92);
+  -webkit-animation-direction: alternate;
+          animation-direction: alternate;
+}
+
+@-webkit-keyframes dance {
+  0% {
+    -webkit-transform: translate3d(-10px, -100px, 0) rotate(-15deg) scaleY(1.1);
+            transform: translate3d(-10px, -100px, 0) rotate(-15deg) scaleY(1.1);
+  }
+  50% {
+    -webkit-transform: translate3d(0, 8px, 0) scaleY(0.85);
+            transform: translate3d(0, 8px, 0) scaleY(0.85);
+  }
+  100% {
+    -webkit-transform: translate3d(10px, -100px, 0) rotate(15deg) scaleY(1.1);
+            transform: translate3d(10px, -100px, 0) rotate(15deg) scaleY(1.1);
+  }
+}
+
+@keyframes dance {
+  0% {
+    -webkit-transform: translate3d(-10px, -100px, 0) rotate(-15deg) scaleY(1.1);
+            transform: translate3d(-10px, -100px, 0) rotate(-15deg) scaleY(1.1);
+  }
+  50% {
+    -webkit-transform: translate3d(0, 8px, 0) scaleY(0.85);
+            transform: translate3d(0, 8px, 0) scaleY(0.85);
+  }
+  100% {
+    -webkit-transform: translate3d(10px, -100px, 0) rotate(15deg) scaleY(1.1);
+            transform: translate3d(10px, -100px, 0) rotate(15deg) scaleY(1.1);
+  }
+}
+@-webkit-keyframes border {
+  0% {
+    -webkit-transform: scaleX(1);
+            transform: scaleX(1);
+    opacity: 0.5;
+  }
+  50% {
+    -webkit-transform: scaleX(0.6);
+            transform: scaleX(0.6);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scaleX(1);
+            transform: scaleX(1);
+    opacity: 0.5;
+  }
+}
+@keyframes border {
+  0% {
+    -webkit-transform: scaleX(1);
+            transform: scaleX(1);
+    opacity: 0.5;
+  }
+  50% {
+    -webkit-transform: scaleX(0.6);
+            transform: scaleX(0.6);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scaleX(1);
+            transform: scaleX(1);
+    opacity: 0.5;
+  }
+}
+@-webkit-keyframes dot {
+  0% {
+    opacity: 0;
+  }
+  1% {
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+  }
+  50% {
+    -webkit-transform: scale(1) translate3d(-50px, -70px, 0);
+            transform: scale(1) translate3d(-50px, -70px, 0);
+    opacity: .8;
+  }
+  100% {
+    -webkit-transform: scale(1) translate3d(-50px, -70px, 0);
+            transform: scale(1) translate3d(-50px, -70px, 0);
+    opacity: 0;
+  }
+}
+@keyframes dot {
+  0% {
+    opacity: 0;
+  }
+  1% {
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+  }
+  50% {
+    -webkit-transform: scale(1) translate3d(-50px, -70px, 0);
+            transform: scale(1) translate3d(-50px, -70px, 0);
+    opacity: .8;
+  }
+  100% {
+    -webkit-transform: scale(1) translate3d(-50px, -70px, 0);
+            transform: scale(1) translate3d(-50px, -70px, 0);
+    opacity: 0;
+  }
+}
+@-webkit-keyframes dot-2 {
+  0% {
+    opacity: 0;
+  }
+  1% {
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+  }
+  70% {
+    -webkit-transform: scale(0.7) translate3d(-50px, -50px, 0);
+            transform: scale(0.7) translate3d(-50px, -50px, 0);
+    opacity: .8;
+  }
+  100% {
+    -webkit-transform: scale(0.7) translate3d(-50px, -50px, 0);
+            transform: scale(0.7) translate3d(-50px, -50px, 0);
+    opacity: 0;
+  }
+}
+@keyframes dot-2 {
+  0% {
+    opacity: 0;
+  }
+  1% {
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+  }
+  70% {
+    -webkit-transform: scale(0.7) translate3d(-50px, -50px, 0);
+            transform: scale(0.7) translate3d(-50px, -50px, 0);
+    opacity: .8;
+  }
+  100% {
+    -webkit-transform: scale(0.7) translate3d(-50px, -50px, 0);
+            transform: scale(0.7) translate3d(-50px, -50px, 0);
+    opacity: 0;
+  }
+}
+@-webkit-keyframes cirle-dot {
+  0% {
+    opacity: 0;
+  }
+  1% {
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+  }
+  80% {
+    -webkit-transform: scale(1) translate3d(-80px, -40px, 0);
+            transform: scale(1) translate3d(-80px, -40px, 0);
+    opacity: .8;
+  }
+  100% {
+    -webkit-transform: scale(1) translate3d(-80px, -40px, 0);
+            transform: scale(1) translate3d(-80px, -40px, 0);
+    opacity: 0;
+  }
+}
+@keyframes cirle-dot {
+  0% {
+    opacity: 0;
+  }
+  1% {
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+  }
+  80% {
+    -webkit-transform: scale(1) translate3d(-80px, -40px, 0);
+            transform: scale(1) translate3d(-80px, -40px, 0);
+    opacity: .8;
+  }
+  100% {
+    -webkit-transform: scale(1) translate3d(-80px, -40px, 0);
+            transform: scale(1) translate3d(-80px, -40px, 0);
+    opacity: 0;
+  }
+}
+
+</style>
+
+
+<div class="aboutus aboutus-dark">
+
+
+
+    <div class="products-navigation" style="display: none;">
+    </div>
+
+    <!-- Section -->
+    <div id="shop-page" class="shop-wrapper">
+
+
+    <div class="store-sections  store-sections-2"><!-- <div class="store-sections store-sections-2"> -->
+
+
+            <!--Products-->
+            <div id="products-tab" class="store-tab-pane store-tab-pane-2 is-active" id="demo">
+
+                <section class="hero is-small is-bold hero-about">
+                    <div class="hero-body">
+                      <div class="container">
+
+                        <h1 class="booctep" data-shadow='Booctep'>Booctep</h1>
+
+                        <h2 class="booctep-h2">
+                          Booctep is a web design course that will keep you signed in the booming e-commerce and IT sectors. Our course teaches you everything you need to create practical and attractive web pages. As web designers become more in demand, you will definitely thank yourself for choosing this course.
+                        </h2>
+
+                      </div>
+                    </div>
+                  </section>
+
+
+                <div class="view-wrapper">
+
+
+
+
+
+                    <div id="landing-start" class="section landing-wrapper">
+                        <div class="container">
+                            <div class="made-with" class="blocksabout" style="margin-top: -130px;">
+                                <div id="made-with-bulma" class="made-block">
+                                    <div class="block-icon is-box-reveal">
+                                        <img src="{%static 'assets/img/about/step1.png' %}" alt="" style="width: 90%;" >
+                                    </div>
+                                    <div class="block-title" style="border-bottom: 1px solid rgb(10, 70, 161);">
+                                        <h3>+400,000 Students</h3>
+                                    </div>
+                                </div>
+                                <div class="made-block">
+                                    <div class="block-icon is-box-reveal">
+                                        <img src="{%static 'assets/img/about/step3.png' %}" alt="" style="width: 90%;" >
+                                    </div>
+                                    <div class="block-title" style="border-bottom: 1px solid rgb(10, 70, 161);">
+                                        <h3>+19,000 Courses </h3>
+                                    </div>
+                                </div>
+                                <div class="made-block">
+                                    <div class="block-icon is-box-reveal">
+                                        <img src="{%static 'assets/img/about/step2.png' %}" alt="" style="width: 90%;" >
+                                    </div>
+                                    <div class="block-title" style="border-bottom: 1px solid rgb(10, 70, 161);">
+                                        <h3>+10,000 Quizzes</h3>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+
+
+
+                  <div class="section-about side-feature">
+                      <div class="container">
+                        <div class="columns">
+                            <div class="column is-12 is-offset-5">
+                                <h3>How it works!</h3>
+                            </div>
+                        </div>
+                          <div class="columns">
+                              <div class="column is-8 is-offset-2" style="border: 2px solid rgb(238, 238, 238);border-radius: 3px;-webkit-box-shadow: -1px 4px 9px 9px rgba(245,245,245,1);
+                              -moz-box-shadow: -1px 4px 9px 9px rgba(245,245,245,1);
+                              box-shadow: -1px 4px 9px 9px rgba(245,245,245,1);">
+
+                                <video poster="{%static 'assets/img/setting.jpg' %}" id="player" playsinline controls>
+                                  <source src="{%static 'assets/img/vid/fortnite.webm" type="video/webm" />
+
+                                  <!-- Captions are optional -->
+                                  <track kind="captions" label="English captions" src="/path/to/captions.vtt" srclang="en" default />
+                              </video>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+
+
+                    <div class="section-about side-feature">
+                        <div class="container">
+                            <div class="columns is-vcentered" style="margin-bottom: 55px;">
+                                <div class="column is-5 ">
+                                    <h3>Many new courses</h3>
+                                    <p>We have many courses from scratch to proffessional be more educated and join us now, we have up to 15 categories you can search what you want.</p>
+                                </div>
+                                <div class="column is-7">
+                                    <img src="{%static 'assets/img/about/about-1.png' %}" class="booctep-2" alt="">
+                                </div>
+                            </div>
+                            <div class="columns is-vcentered" style="margin-bottom: 55px;">
+                                <div class="column is-6  is-hidden-mobile">
+                                    <img src="{%static 'assets/img/download.png' %}" class="booctep-2" alt="">
+                                </div>
+                                <div class="column is-6">
+                                    <h3>Take Quizzes</h3>
+                                    <p>Take quizzes and get your certificate after you done the quize, easy dashboard to deal with it.</p>
+                                </div>
+                                <div class="column is-5 is-offset-1 is-hidden-desktop">
+                                    <img src="{%static 'assets/images/illustrations/ui/layouts.png' %}" alt="">
+                                </div>
+                            </div>
+                            <div class="columns is-vcentered" style="margin-bottom: 55px;">
+                                <div class="column is-5 ">
+                                    <h3>Learn what you love</h3>
+                                    <p>We have many courses from scratch to proffessional be more educated and join us now, we have up to 15 categories you can search what you want.</p>
+                                </div>
+                                <div class="column is-7">
+                                    <img src="{%static 'assets/img/about/about-3.png' %}" class="booctep-2" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+                  <div class="section-about-feat side-feature" style="margin-bottom: 30px">
+                    <div class="container">
+                        <div class="columns">
+                            <div class="column is-12 is-offset-4">
+                                <h3 class="section-about-feat-h3" style="margin-bottom:15px">Booctep's Features</h3>
+                            </div>
+                        </div>
+                      <div class="columns ">
+
+
+
+                        <div class="card-features">
+
+
+
+
+
+                            <div class="card-features-row">
+                                <div class="card-featuress card-features-1">
+                                <div class="card-features-rro">
+                                <i class="fa fa-universal-access card-features-i"></i>
+                                <h3>Lifetime Access</h3>
+                                </div>
+                                <p class="rro-p">Access anytime you want one you enrol to any course.</p>
+                            </div>
+                        </div>
+
+
+                              <div class="card-features-row ">
+                                <div class="card-featuress card-features-2">
+                                <div class="card-features-rro">
+                                <i class="fa fa-award card-features-i"></i>
+                                <h3>Get Certificate</h3>
+                                 </div>
+                                <p class="rro-p">Get certificate when you finish your course.</p>
+                                 </div>
+                              </div>
+
+                              <div class="card-features-row">
+                                <div class="card-featuress card-features-3">
+                                <div class="card-features-rro">
+                                <i class="fa fa-wallet card-features-i"></i>
+                                <h3>Money Back</h3>
+                              </div>
+                                <p class="rro-p">Take your money back if you have a problem with the course.</p>
+                                </div>
+                            </div>
+
+
+                              <div class="card-features-row">
+                                <div class="card-featuress card-features-4">
+                                <div class="card-features-rro">
+                                <i class="fa fa-project-diagram card-features-i"></i>
+                                <h3>Easy Dashboard</h3>
+                              </div>
+                                <p class="rro-p">Easy dashboard to do your quizzes and watch your courses anytime you want.</p>
+                                </div>
+                            </div>
+
+                            </div>
+                        </div>
+                        <div class="columns ">
+
+
+                        <div class="card-features">
+                              <div class="card-features-row">
+                                <div class="card-featuress card-features-5">
+                                <div class="card-features-rro">
+                                <i class="fa fa-pencil-alt card-features-i"></i>
+                                <h3>Quick Quizzes</h3>
+                              </div>
+                                <p class="rro-p">Take a very quick Quize before you get your certificate.</p>
+                                </div>
+                            </div>
+
+
+                              <div class="card-features-row">
+                                <div class="card-featuress card-features-6">
+                                <div class="card-features-rro">
+                                <i class="fa fa-video card-features-i"></i>
+                                <h3>Many Subjects</h3>
+                              </div>
+                                <p class="rro-p">we got many subjects in all major subjects in the world.</p>
+                                </div>
+                            </div>
+
+
+
+                              <div class="card-features-row">
+                                <div class="card-featuress card-features-7">
+                                <div class="card-features-rro">
+                                <i class="fa fa-closed-captioning card-features-i"></i>
+                                <h3>Video Translate</h3>
+                              </div>
+                                <p class="rro-p">We translate all English videos for our students.</p>
+                                </div>
+                            </div>
+
+
+                              <div class="card-features-row">
+                                <div class="card-featuress card-features-8">
+                                <div class="card-features-rro">
+                                <i class="fa fa-smile card-features-i"></i>
+                                <h3>Free courses</h3>
+                                </div>
+                                <p class="rro-p">From each 10 paid courses we have at least 1 course free.</p>
+                            </div>
+                        </div>
+
+
+                        </div>
+
+
+                      </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+
+
+
+            </div>
+
+
+
+        </div>
+
+        <section class="hero is-small is-bold hero-become">
+            <div class="hero-body">
+                <div class="section-bec side-feature">
+                    <h3 style="font-weight: 600;">How to become a teacher?</h3>
+                    <a href="become.html" class="button">Take a quick Look</a>
+
+                </div>
+            </div>
+          </section>
+
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

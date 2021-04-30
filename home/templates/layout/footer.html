@@ -1,0 +1,348 @@
+{% load static %}
+{% load i18n %}
+<!-- Footer -->
+
+<style>
+
+.social{
+  margin-left:-65px
+}
+
+.social-follow{
+
+}
+
+
+.cookiees {
+  display: flex;
+  position: fixed;
+  bottom:25px;
+  left:25px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  flex-wrap: nowrap;
+  background: #0c528c;
+  z-index: 999999999 ;
+  height: 80px;
+  padding: 22px 22px 22px 20px;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(65, 72, 86, 0.06);
+  transition: all 400ms ease-in-out;
+}
+
+.cookiees-icon {
+  height: 36px;
+  width: 36px;
+  animation: spin 2s linear infinite;
+}
+
+.cookiees-message {
+  height: 36px;
+  padding: 0px 10px;
+  line-height: 36px;
+  color: #FFFFFF;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.cookiees-accept {
+  height: 30px;
+  padding: 0 10px;
+  line-height: 30px;
+  border: none;
+  border-radius: 10px;
+  color: #FFFFFF;
+  font-weight: 700;
+  font-size: 14px;
+  text-align: center;
+  background: #616B75;
+  cursor: pointer;
+  outline: none;
+  transition: background 250ms ease-in-out;
+  font-family: 'Montserrat', sans-serif;
+  user-select: none;
+}
+
+.cookiees-accept:hover {
+  background: #0071FF;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+</style>
+
+
+<!--<div class="cookiees">-->
+<!--  <img class="cookiees-icon" src="https://raw.githubusercontent.com/s1mpson/-/master/codepen/we-use-cookies/cookie.png">-->
+<!--  <span class="cookiees-message">We are using cookies to give you best experience.</span>-->
+<!--  <button class="cookiees-accept">OK</button>-->
+<!--</div>-->
+
+
+<footer class="footer dark-footer">
+    <div class="container">
+
+        <div class="columns">
+            <!-- Column -->
+            <div class="column is-2">
+                <div class="logo-footer">
+                    <img src="{%static 'assets/img/logo/logo-booctep.png' %}" alt="Footer Logo - English" >
+                </div>
+            </div>
+            <!-- Column -->
+            <div class="column is-6 is-offset-1">
+                <div class="footer-columns columns" style="border-bottom: 1px solid rgb(226, 226, 226);">
+                    <!-- Column -->
+                    <div class="column">
+                        <ul class="footer-column footer-column-dark">
+                            <div class="column" >
+                                <a href="/{{lang}}about" style="font-weight: 400;">{% trans 'About us' %}</a>
+                            </div>
+                        </ul>
+                    </div>
+                    <!-- Column -->
+                    <div class="column">
+                        <ul class="footer-column footer-column-dark">
+                            <div class="column" >
+                                <a href="/{{lang}}faqs" style="font-weight: 400;">{% trans 'FAQs' %}</a>
+                            </div>
+                        </ul>
+                    </div>
+                    <!-- Column -->
+                    <div class="column">
+                        <ul class="footer-column footer-column-dark">
+                            <div class="column" >
+                                <a href="/{{lang}}help" style="font-weight: 400;">{% trans 'Help' %}</a>
+                            </div>
+                        </ul>
+                    </div>
+                    <!-- Column -->
+                    <div class="column">
+                        <ul class="footer-column footer-column-dark">
+                            <div class="column" >
+                                <a href="/{{lang}}terms" style="font-weight: 400;">{% trans 'Terms' %}</a>
+                            </div>
+                        </ul>
+                    </div>
+
+                </div>
+                <div class="footer-columns columns">
+                    <!-- Column -->
+                    <div class="column is-offset-2">
+                        <ul class="footer-column footer-column-dark" >
+                            <div class="column" >
+                                <a href="/{{lang}}become" style="font-weight: 400;margin: 0 auto;">{% trans 'Become a teacher' %}</a>
+                            </div>
+                        </ul>
+                    </div>
+                    <!-- Column -->
+                    <div class="column">
+                        <ul class="footer-column footer-column-dark">
+                            <div class="column" >
+                                {% if user.is_active %}
+                                <a href="/{{lang}}courses" style="font-weight: 400;">{% trans 'My courses' %}</a>
+                                {% else %}
+                                <a href="/{{lang}}signup" style="font-weight: 400;">{% trans 'My courses' %}</a>
+                                {% endif %}
+                            </div>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="column is-2 is-offset-1">
+                
+
+                <div class="control-language-parent">
+
+                <div class="control-language is-combo is-combo-dark">
+                    <div class="combo-box">
+                        <div class="box-inner">
+                            <div class="combo-item">
+							<input type="hidden" id="language" value='{{lang}}' >
+                                <i class="combo-item-i fa fa-language"></i>
+                                <span class="combo-item-span selected-item" selected="selected">
+                                    {% if lang == "ar/" %}
+                                    {% trans 'Arabic' %}
+                                    {% else %}
+                                    English
+                                    {% endif %}                                    
+                                </span>
+                            </div>
+                        </div>
+                        <div class="box-chevron">
+                            <i data-feather="chevron-down" class="box-chevron-i"></i>
+                        </div>
+                        <div class="box-dropdown" id="directionSwitch">
+                            <div class="dropdown-inner has-slimscroll">
+                                <ul>
+                                    {% if lang == 'ar/' %}
+                                    <li class="">
+                                        <a href="/" style="width: 100%; display: flex;">
+                                            <span class="item-icon">
+                                            </span>
+                                            <span class="item-name translate"  class="" id="en">English</span>
+                                            <span class="checkmark">
+                                                <i data-feather="check"></i>
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li class="is-active">
+                                        <!-- <a href="/ar" style="width: 100%; display: flex;"> -->
+                                        <a style="width: 100%; display: flex;" >
+                                            <span class="item-icon">
+                                            </span>
+                                            <span class="item-name translate" class="" id="ar">{% trans 'Arabic' %}</span>
+                                            <span class="checkmark">
+                                                <i data-feather="check"></i>
+                                            </span>
+                                        </a>                                        
+                                    </li>
+                                    {% else %}
+                                    <li class="is-active">
+                                        <!-- <a href="/" style="width: 100%; display: flex;" id="en_page"> -->
+                                        <a style="width: 100%; display: flex;">
+                                            <span class="item-icon">
+                                            </span>
+                                            <span class="item-name translate"  class="" id="en1">English</span>
+                                            <span class="checkmark">
+                                                <i data-feather="check"></i>
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/ar" style="width: 100%; display: flex;">
+                                            <span class="item-icon">
+                                            </span>
+                                            <span class="item-name translate" class="" id="ar1">{% trans 'Arabic' %}</span>
+                                            <span class="checkmark">
+                                                <i data-feather="check"></i>
+                                            </span>
+                                        </a>                                        
+                                    </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                </div>
+
+                <br />
+                <br />
+                <div class="social">
+                    <p class="social-follow">Follow us <span style="font-size:20px">&#128075;</span></p>
+                    <a href="https://www.instagram.com/booctep/" target="_blank"><img style="margin-top:10px;" src="{%static 'assets/img/instagram.png' %}" width="25" height="25" style="cursor:pointer" alt="Instagram Booctep" /></a>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+</footer>
+<div class="copyright">
+    <div class="container">
+        <p style="font-size:14px"> {% trans 'Made with' %} <span class="fa fa-heart" style="color: red;"></span>&nbsp; {% trans "By Booctep's Designers." %}</p>
+    </div>
+</div> 
+<!-- Footer --> 
+
+
+<div id="deletefromcartmodal" class="modal">
+          <div class="modal-background"></div>
+          <div class="modal-card">
+            <header class="modal-card-head">
+              <p class="modal-card-title"></p>
+              
+              <button class="delete deletecartmodalclose" aria-label="close"></button>
+            </header>
+            <section class="modal-card-body">
+             <p class="modal-card-title">Do you want to delete this course from your cart?</p>
+            </section>
+            <footer class="modal-card-foot">
+              <button class="button is-danger deletecartconfirm">Yes, Delete</button>
+              <button class="button deletecartmodalclose">Cancel</button>
+            </footer>
+          </div>
+</div>
+
+<div id="deleteAllfromcartmodal" class="modal">
+          <div class="modal-background"></div>
+          <div class="modal-card">
+            <header class="modal-card-head">
+              <p class="modal-card-title"></p>
+              
+              <button class="delete deleteAllcartmodalclose" aria-label="close"></button>
+            </header>
+            <section class="modal-card-body">
+             <p class="modal-card-title">Do you want to delete all courses from your cart?</p>
+            </section>
+            <footer class="modal-card-foot">
+              <button class="button is-danger deleteAllcartconfirm">Yes, Delete All</button>
+              <button class="button deleteAllcartmodalclose">Cancel</button>
+            </footer>
+          </div>
+</div>
+
+
+<div id="deletefromfavmodal" class="modal">
+          <div class="modal-background"></div>
+          <div class="modal-card">
+            <header class="modal-card-head">
+              <p class="modal-card-title"></p>
+              
+              <button class="delete deletefavmodalclose" aria-label="close"></button>
+            </header>
+            <section class="modal-card-body">
+             <p class="modal-card-title">Do you want to delete this course from your wishlist?</p>
+            </section>
+            <footer class="modal-card-foot">
+              <button class="button is-danger deletefavconfirm">Yes, Delete</button>
+              <button class="button deletefavmodalclose">Cancel</button>
+            </footer>
+          </div>
+</div>
+
+
+<div id="deleteAllfromfavmodal" class="modal">
+          <div class="modal-background"></div>
+          <div class="modal-card">
+            <header class="modal-card-head">
+              <p class="modal-card-title"></p>
+              
+              <button class="delete deleteAllfavmodalclose" aria-label="close"></button>
+            </header>
+            <section class="modal-card-body">
+             <p class="modal-card-title">Do you want to delete all courses from your wishlist?</p>
+            </section>
+            <footer class="modal-card-foot">
+              <button class="button is-danger deleteAllfavconfirm">Yes, Delete All</button>
+              <button class="button deleteAllfavmodalclose">Cancel</button>
+            </footer>
+          </div>
+</div>
+
+<script>
+
+<!--const $ = (seleecting) => document.querySelector(seleecting)-->
+
+<!--$('.cookiees-accept').addEventListener('click', e => {-->
+<!--  $('.cookiees').style.transform = 'translateY(60%) scale(0.8)'-->
+<!--  $('.cookiees').style.opacity = '0'-->
+<!--  $('.cookiees').style.filter = 'blur(3px)'-->
+<!--})-->
+
+</script>

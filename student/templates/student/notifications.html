@@ -1,0 +1,160 @@
+{% extends "student/base.html" %}
+{% load static %}
+{% block title %}
+Messages
+{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'assets/css/sweetalert.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div data-push data-responsive-width="768px" data-has-scrollable-region data-fullbleed class="mdk-drawer-layout js-mdk-drawer-layout">
+        <div class="mdk-drawer-layout__content" data-perfect-scrollbar>
+            <div class="app-messages__container d-flex flex-column h-100 pb-4">
+                <div class="navbar navbar-light bg-white navbar-expand-sm navbar-shadow z-1" id="messages-navbar">
+                    <div class="container-fluid flex-wrap px-sm-0" style="height:90px; justify-content: flex-start;">
+                        <div class="nav py-2">
+                            <div class="nav-item d-flex align-items-center mr-3">
+                                <input type = "hidden" value = "" id = "teacher_id">
+                                <input type = "hidden" value = "" id = "course_id">
+                                <input type = "hidden" value = "" id = "course_name">
+                                <input type = "hidden" value = "" id = "teacher_name">
+                                <input type = "hidden" value = "" id = "teacher_img">
+                                <input type = "hidden" value = "{{user_id}}" id = "student_id">
+                                <!-- <div class="mr-3"> -->
+                                    <!-- <div class="avatar avatar-online avatar-sm"> -->
+                                        <!-- <img src="{%static 'teacher/assets/images/people/110/woman-5.jpg' %}" alt="people" class="avatar-img rounded-circle"> -->
+                                    <!-- </div> -->
+                                <!-- </div> -->
+
+                                <div class="mr-3">
+                                <div class="avatar avatar-online avatar-sm">
+                                    <img class="avatar-img rounded-circle">
+                                </div>
+                                </div>
+
+                                <div class="d-flex flex-column" style="max-width: 200px; font-size: 15px">
+                                    <strong class="text-body"><div id = "name_teacher"></div></strong>
+                                    <span class="text-50 text-ellipsis"><div id  = "name_course"></div></span>
+                                </div>
+
+                                <div class="" style="position: absolute;top: 15px;right: 25px; display: none;">
+                                    <a href="#" class="btn btn-sm btn-light ml-8pt" data-toggle="swal" data-swal-title="Leave your rating here!" data-swal-text="*****" data-swal-type="warning" data-swal-show-cancel-button="true" data-swal-confirm-button-text="Add rating" data-swal-confirm-cb="#swal-confirm-delete" data-swal-close-on-confirm="false"><i class="material-icons icon--left">add</i> New Messages</a>
+
+                                    <div id="swal-confirm-delete" class="d-none" data-swal-type="success" data-swal-title="Great!" data-swal-text="Your message has sent successfuly!"></div>
+
+                                    <div id="swal-cancel-delete" class="d-none" data-swal-type="error" data-swal-title="Cancelled" data-swal-text="Your imaginary file is safe :)"></div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <h1>Unread Notifications</h1>
+                    </div>
+                </div>
+
+                <div class="flex pt-4" style="position: relative; position: relative;height: 300px; bottom: 80px; margin-top: 59px!important; " data-perfect-scrollbar>
+                    <div class="container page__container page__container">
+
+                        {% if noti_list %}
+                       <table class="table" style="margin-top: 50px;">
+                          <thead class="thead-dark">
+                            <tr>
+                              <th scope="col">#</th>
+                              <th scope="col">Notification Sender</th>
+                              <th scope="col">Notifications</th>
+                              <th scope="col">Date & time</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for i in noti_list%}
+                            <tr>
+                              <th scope="row">{{ forloop.counter }}</th>
+                              <td>{{ i.sendername }}</td>
+                              <td>{{ i.text }}</td>
+                              <td>{{ i.dateformat }}</td>
+                            </tr>
+                            {% endfor %}
+                            
+                            
+                          </tbody>
+                        </table>
+                        {% else %}
+
+                            <h2 style="margin-top: 150px;">You have no unread notifications</h2>
+
+                        {% endif %}
+
+                        <div id="student_msg_div">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container page__container page__container" style=" bottom: 50px; position: absolute; height: 40px;">
+
+                </div>
+
+            </div>
+        </div>
+        <div class="mdk-drawer js-mdk-drawer" data-align="end" id="messages-drawer">
+            <div class="mdk-drawer__content top-0">
+                <div class="sidebar sidebar-right sidebar-light bg-white o-hidden">
+                    <div class="d-flex flex-column h-100">
+                        <div class="sidebar-heading" style="height: 40px;padding-top: 10px;">Course Teachers</div>
+                        <div class="flex" data-perfect-scrollbar>
+                            <ul class="list-group list-group-flush mb-3">
+                            {% for i in teacher_list %}
+                                <li class="list-group-item px-3 py-12pt ">
+                                    <div class="d-flex align-items-center position-relative" onclick = "teacher_info(this)" data-teacher-id = "{{i.teacher_id}}" data-course-id = "{{i.course_id}}" data-teacher-name = "{{i.teacher_name}}" data-course-name = "{{i.course_name}}" data-teacher-img = "{{i.teacher_image}}" id = "{{i.course_id}}_student_side_div">
+                                        <span class="avatar avatar-xs avatar-online mr-3 flex-shrink-0">
+                                            <img src="../../../static{{i.teacher_image}}" alt="Avatar" class="avatar-img rounded-circle">
+                                        </span>
+                                        <span class="flex d-flex flex-column" style="max-width: 175px;">
+                                            <strong class="text-body" style = "cursor: pointer;">{{i.teacher_name}}</strong>
+                                            <span class="text-muted text-ellipsis" style = "cursor: pointer;">{{i.course_name}}</span>
+                                        </span>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{%  endblock %}
+
+{% block script %}
+<script id="template-message" type="text/x-jsrender">
+    <li class="message d-inline-flex">
+<div class="message__aside">
+  <a href="mini-profile.html" class="avatar avatar-sm">
+    <img src="./../static{{user.image}}" alt="people" class="avatar-img rounded-circle">
+  </a>
+</div>
+<div class="message__body card">
+  <div class="card-body">
+    <div class="d-flex align-items-center">
+      <div class="flex mr-3">
+        <a href="mini-profile.html" class="text-body"><strong>{{user.first_name}}</strong></a>
+      </div>
+      <div>
+        <small class="text-muted">{{now}}</small>
+      </div>
+    </div>
+    <span class="text-black-70">{{message}}</span>
+  </div>
+</div>
+</li>
+</script>
+<script src="{%static 'teacher/assets/js/messages.js' %}"></script>
+<!-- Sweet Alert -->
+{#<script src="{%static 'teacher/assets/vendor/sweetalert.min.js' %}"></script>#}
+{#<script src="{%static 'teacher/assets/vendor/sweetalert.js' %}"></script>#}
+
+ <!-- Highlight.js -->
+ <script src="assets/js/hljs.js"></script>
+{% endblock %}
+

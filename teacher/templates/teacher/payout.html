@@ -1,0 +1,61 @@
+{% extends "teacher/base.html" %}
+
+
+{% block title %}
+Payments
+{% endblock %}
+
+{% block headercontent %}
+    {% with title="Payments" %}
+        {% include "./layout/header.html" %}
+    {% endwith %}
+{% endblock %}
+
+{% block content %}
+    {% load static %}
+
+        <div class=" page__container " style="margin-top: 0px;height: 100vh;">
+            <div class="col-lg-6 p-6" style="margin-top: 25px;">
+                <div class="list-group list-group-form">
+                    <div class="list-group-item d-flex align-items-center">
+                        <img src="{%static 'student/assets/images/visa.svg' %}" alt="visa" width="38" class="mr-16pt">
+                        <div class="flex">Your current payment method is <strong>Visa ending with 2819</strong></div>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="form-group row align-items-center mb-0">
+                            <label class="col-form-label form-label col-sm-3">Card name</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" placeholder="Card name" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="form-group row align-items-center mb-0">
+                            <label class="col-form-label form-label col-sm-3">Card number</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" placeholder="Credit / debit card number" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="form-group row align-items-center mb-0">
+                            <div class="col-sm-3"></div>
+                            <div class="col-sm-9">
+                                <a href="" class="btn btn-primary">Save changes</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 p-6" style="margin-top: 25px;">
+                <div class="list-group list-group-form">
+                    <div class="list-group-item d-flex align-items-center">
+                        <img src="{%static 'student/assets/images/paypal.png' %}" alt="visa" height="70" width="90" class="mr-16pt">
+                        <div class="flex" style="margin-left:10px"><strong>Not Connected</strong></div>
+                        <div class="flex" style="position: absolute; right:20px;background:#EFEFEF;padding:0px 20px 0px 10px;border:1px solid #DFDFDF"><strong><a href="#" style="margin-top:5px"><img src="{%static 'student/assets/images/payp.png' %}" alt="visa" height="35" width="35" class="">Connect</a></strong></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{%  endblock %}

@@ -1,0 +1,143 @@
+{% extends "student/base.html" %}
+
+{% block title %}
+Privacy
+{% endblock %}
+
+{% block headercontent %}
+    {% with title="Privacy" %}
+    {% include "./layout/header.html" %}
+    {% endwith %}
+{% endblock %}
+{% block content %}
+    {% load static %}
+            <div class=" page__container " style="margin-top: 15px;margin-bottom: 25px;">
+
+                <div class="col-lg-8 d-flex align-items-center" style="">
+                </div>
+                
+                <div class="col-md-7 pt-3">
+
+        <div class="alert alert-soft-primary alert-dismissible fade show" role="alert" style="width:60%">
+
+            <div class="d-flex flex-wrap align-items-start">
+                <div class="mr-8pt">
+                    <i class="material-icons">help</i>
+                </div>
+                <div class="flex" style="min-width: 180px">
+                    <small class="text-black-100">
+                        <b style="margin-top: 10px !important;color: blue;" >In case you stop reciveing notifications you might lose gifts, coupons from your teachers.</b>
+                    </small>
+                </div>
+            </div>
+        </div>
+
+                    <div class="form-group" style="margin-bottom: 20px !important">
+                        <div class="custom-control custom-checkbox-toggle custom-control-inline mr-1">
+                                <input style="font-size:5px !important;margin-top:-10px !important" checked="" type="checkbox" id="changelang" class="custom-control-input" style="font-size: x-small;">
+                                <label class="custom-control-label" for="changelang">Yes</label>
+                            </div>
+                            <b style="color:black; margin-top:3px !important">Recieve notifications.</b><br />
+                            <small style="color:blue;margin-top:5px;margin-left: 55px">Stop recieve or Recieve notifications.</small>
+                    </div>
+
+
+        <div class="alert alert-soft-primary alert-dismissible fade show" role="alert" style="width:60%">
+
+            <div class="d-flex flex-wrap align-items-start">
+                <div class="mr-8pt">
+                    <i class="material-icons">help</i>
+                </div>
+                <div class="flex" style="min-width: 180px">
+                    <small class="text-black-100">
+                        <b style="margin-top: 10px !important;color: blue;" >In case you stop reciveing automatic emails you will not be able to see invoice, course details emails.</b>
+                    </small>
+                </div>
+            </div>
+        </div>
+
+
+                    <div class="form-group" style="margin-bottom: 20px !important">
+                        <div class="custom-control custom-checkbox-toggle custom-control-inline mr-1">
+                                <input style="font-size:5px !important;margin-top:-10px !important" checked="" type="checkbox" id="changelang" class="custom-control-input" style="font-size: x-small;">
+                                <label class="custom-control-label" for="changelang">Yes</label>
+                            </div>
+                            <b style="color:black; margin-top:3px !important">Recieve automatic emails.</b><br />
+                            <small style="color:blue;margin-top:5px;margin-left: 55px">Stop recieve or recieve emails.</small>
+                    </div>
+
+
+        <div class="alert alert-soft-primary alert-dismissible fade show" role="alert" style="width:60%">
+
+            <div class="d-flex flex-wrap align-items-start">
+                <div class="mr-8pt">
+                    <i class="material-icons">help</i>
+                </div>
+                <div class="flex" style="min-width: 180px">
+                    <small class="text-black-100">
+                        <b style="margin-top: 10px !important;color: blue;" >In case you stop reciveing updates emails you will not be able to see our new news, offers emails.</b>
+                    </small>
+                </div>
+            </div>
+        </div>
+
+
+                    <div class="form-group" style="margin-bottom: 20px !important">
+                        <div class="custom-control custom-checkbox-toggle custom-control-inline mr-1">
+                                <input style="font-size:5px !important;margin-top:-10px !important" checked="" type="checkbox" id="changelang" class="custom-control-input" style="font-size: x-small;">
+                                <label class="custom-control-label" for="changelang">Yes</label>
+                            </div>
+                            <b style="color:black; margin-top:3px !important">Recieve news emails.</b><br />
+                            <small style="color:blue;margin-top:5px;margin-left: 55px">Stop recieve or recieve emails.</small>
+                    </div>
+
+
+                    <!-- <div class="form-group" style="margin-bottom: 20px !important">
+
+                        <div class="custom-control custom-checkbox-toggle custom-control-inline mr-1">
+                                <input style="font-size:5px !important;margin-top:-10px !important" checked="" type="checkbox" id="subscribe" class="custom-control-input" style="font-size: x-small;">
+                                <label class="custom-control-label" for="subscribe">Yes</label>
+                            </div>
+                            <b style="margin-top:3px !important">Set the default  ( Light ).</b>
+                    </div> -->
+
+<!--                     <div class="form-group" style="margin-bottom: 20px !important">
+                        <div class="custom-control custom-checkbox-toggle custom-control-inline mr-1">
+                                <input style="font-size:5px !important;margin-top:-10px !important" checked="" type="checkbox" id="subscribe" class="custom-control-input" style="font-size: x-small;">
+                                <label class="custom-control-label" for="subscribe">Yes</label>
+                            </div>
+                            <b style="margin-top:3px !important">Make the default mode ( Light ).</b>
+                    </div> -->
+
+<!--                     <div class="form-group" style="margin-bottom: 30px !important">
+                        <div class="custom-control custom-checkbox-toggle custom-control-inline mr-1">
+                                <input style="font-size:5px !important;margin-top:-10px !important" checked="" type="checkbox" id="subscribe" class="custom-control-input" style="font-size: x-small;">
+                                <label class="custom-control-label" for="subscribe">Yes</label>
+                            </div>
+                            <b style="margin-top:3px !important">Make the default mode ( Light ).</b>
+                    </div> -->
+
+
+
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+
+
+        </div>
+    <script>
+    function deleteAccount() {
+        id = '{{ user_id }}'
+        url = '/deleteAccount/'
+
+        $.post(url,{id:id},function(res){
+            swal("deleted successfully!", {
+            icon: "success",
+            button: "Ok",
+            closeOnClickOutside: false,
+            }).then(function() {
+                document.location.href = '/logout/';
+            });
+        })
+    }
+    </script>
+{% endblock %}

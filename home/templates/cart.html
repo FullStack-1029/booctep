@@ -1,0 +1,1052 @@
+{% extends "base.html" %}
+{% load static %} {% block head %}
+<style>
+    .schedule video {
+        width: 100% !important;
+    }
+
+    .plyr--video {
+        width: 100%;
+    }
+
+.modal-open {
+ overflow: hidden;
+}
+
+
+.modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: @zindex-modal;
+    display: none;
+    overflow: hidden;
+    -webkit-overflow-scrolling: touch;
+
+    outline: 0;
+
+ &.fade .modal-dialog {
+   .translate(0, -25%);
+   .transition-transform(~"0.3s ease-out");
+ }
+ &.in .modal-dialog { .translate(0, 0); }
+}
+.modal-open .modal {
+ overflow-x: hidden;
+ overflow-y: auto;
+}
+
+
+.modal-dialog {
+ position: relative;
+ width: auto;
+ margin: 10px;
+}
+
+
+.modal-content {
+ position: relative;
+ background-color: @modal-content-bg;
+ background-clip: padding-box;
+ border: 1px solid @modal-content-fallback-border-color; //old browsers fallback (ie8 etc)
+ border: 1px solid @modal-content-border-color;
+ border-radius: @border-radius-large;
+ .box-shadow(0 3px 9px rgba(0, 0, 0, .5));
+ outline: 0;
+}
+.modal-backdrop {
+ position: fixed;
+ top: 0;
+ right: 0;
+ bottom: 0;
+ left: 0;
+ z-index: @zindex-modal-background;
+ background-color: @modal-backdrop-bg;
+
+ &.fade { .opacity(0); }
+ &.in { .opacity(@modal-backdrop-opacity); }
+}
+
+
+.modal-header {
+ padding: @modal-title-padding;
+ border-bottom: 1px solid @modal-header-border-color;
+ &:extend(.clearfix all);
+}
+
+.modal-header .close {
+ margin-top: -2px;
+}
+
+
+.modal-title {
+ margin: 0;
+ line-height: @modal-title-line-height;
+}
+
+.modal-body {
+ position: relative;
+ padding: @modal-inner-padding;
+}
+
+.modal-footer {
+ padding: @modal-inner-padding;
+ text-align: right;
+ border-top: 1px solid @modal-footer-border-color;
+ &:extend(.clearfix all);
+
+
+ .btn + .btn {
+   margin-bottom: 0;
+   margin-left: 5px;
+ }
+
+ .btn-group .btn + .btn {
+   margin-left: -1px;
+ }
+
+ .btn-block + .btn-block {
+   margin-left: 0;
+ }
+}
+
+
+.modal-scrollbar-measure {
+ position: absolute;
+ top: -9999px;
+ width: 50px;
+ height: 50px;
+ overflow: scroll;
+}
+
+
+@media (min-width: @screen-sm-min) {
+
+ .modal-dialog {
+   width: @modal-md;
+   margin: 30px auto;
+ }
+ .modal-content {
+   .box-shadow(0 5px 15px rgba(0, 0, 0, .5));
+ }
+
+
+ .modal-sm { width: @modal-sm; }
+}
+
+@media (min-width: @screen-md-min) {
+ .modal-lg { width: @modal-lg; }
+}
+
+textarea {
+    text-align: left;
+}
+
+</style>
+
+
+
+
+<style>
+    .loading::after {
+        display: block;
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        transform: translateX(-100%);
+        background: -webkit-gradient(linear, left top, right top, from(transparent), color-stop(rgba(255, 255, 255, 0.2)), to(transparent));
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        /* Adding animation */
+        animation: loading 1s infinite;
+    }
+    /* Loading Animation */
+
+    @keyframes loading {
+        100% {
+            transform: translateX(100%);
+        }
+    }
+
+
+
+    .dancin-bc{
+    background: white !important;
+    height: 100%;
+    width: 100%;
+
+    }
+    .dancing-lao {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+.dancing-lao:after {
+  display: block;
+  width: 150px;
+  height: 2px;
+  margin-top: 10px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  background: rgb(43, 148, 209);
+  content: "";
+  -webkit-animation: 1s border infinite;
+          animation: 1s border infinite;
+  -webkit-animation-timing-function: cubic-bezier(0.92, 0.18, 0.04, 0.92);
+          animation-timing-function: cubic-bezier(0.92, 0.18, 0.04, 0.92);
+}
+.dancing-lao .left-dots {
+  position: absolute;
+  bottom: 20%;
+  left: 20%;
+}
+.dancing-lao .right-dots {
+  position: absolute;
+  bottom: 20%;
+  right: 20%;
+  -webkit-transform: scale(-1, 1);
+          transform: scale(-1, 1);
+}
+.dancing-lao .dot {
+  display: inline-block;
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgb(43, 148, 209);
+  opacity: 0;
+}
+.dancing-lao .dot-1 {
+  -webkit-animation: 1s dot infinite;
+          animation: 1s dot infinite;
+  -webkit-animation-delay: .5s;
+          animation-delay: .5s;
+}
+.dancing-lao .dot-2 {
+  -webkit-animation: 1s dot-2 infinite;
+          animation: 1s dot-2 infinite;
+  -webkit-animation-delay: .5s;
+          animation-delay: .5s;
+}
+.dancing-lao .circle-dot {
+  display: inline-block;
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 2px solid rgb(43, 148, 209);
+  -webkit-animation: 1s cirle-dot infinite;
+          animation: 1s cirle-dot infinite;
+  -webkit-animation-delay: .5s;
+          animation-delay: .5s;
+  opacity: 0;
+}
+.dancing-lao img {
+  display: block;
+  margin: auto;
+  width: 90px;
+  height: 80px;
+  margin-bottom: 20px;
+  -webkit-animation: 1s dance infinite;
+          animation: 1s dance infinite;
+  -webkit-animation-timing-function: cubic-bezier(0.92, 0.18, 0.04, 0.92);
+          animation-timing-function: cubic-bezier(0.92, 0.18, 0.04, 0.92);
+  -webkit-animation-direction: alternate;
+          animation-direction: alternate;
+}
+
+@-webkit-keyframes dance {
+  0% {
+    -webkit-transform: translate3d(-10px, -100px, 0) rotate(-15deg) scaleY(1.1);
+            transform: translate3d(-10px, -100px, 0) rotate(-15deg) scaleY(1.1);
+  }
+  50% {
+    -webkit-transform: translate3d(0, 8px, 0) scaleY(0.85);
+            transform: translate3d(0, 8px, 0) scaleY(0.85);
+  }
+  100% {
+    -webkit-transform: translate3d(10px, -100px, 0) rotate(15deg) scaleY(1.1);
+            transform: translate3d(10px, -100px, 0) rotate(15deg) scaleY(1.1);
+  }
+}
+
+@keyframes dance {
+  0% {
+    -webkit-transform: translate3d(-10px, -100px, 0) rotate(-15deg) scaleY(1.1);
+            transform: translate3d(-10px, -100px, 0) rotate(-15deg) scaleY(1.1);
+  }
+  50% {
+    -webkit-transform: translate3d(0, 8px, 0) scaleY(0.85);
+            transform: translate3d(0, 8px, 0) scaleY(0.85);
+  }
+  100% {
+    -webkit-transform: translate3d(10px, -100px, 0) rotate(15deg) scaleY(1.1);
+            transform: translate3d(10px, -100px, 0) rotate(15deg) scaleY(1.1);
+  }
+}
+@-webkit-keyframes border {
+  0% {
+    -webkit-transform: scaleX(1);
+            transform: scaleX(1);
+    opacity: 0.5;
+  }
+  50% {
+    -webkit-transform: scaleX(0.6);
+            transform: scaleX(0.6);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scaleX(1);
+            transform: scaleX(1);
+    opacity: 0.5;
+  }
+}
+@keyframes border {
+  0% {
+    -webkit-transform: scaleX(1);
+            transform: scaleX(1);
+    opacity: 0.5;
+  }
+  50% {
+    -webkit-transform: scaleX(0.6);
+            transform: scaleX(0.6);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scaleX(1);
+            transform: scaleX(1);
+    opacity: 0.5;
+  }
+}
+@-webkit-keyframes dot {
+  0% {
+    opacity: 0;
+  }
+  1% {
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+  }
+  50% {
+    -webkit-transform: scale(1) translate3d(-50px, -70px, 0);
+            transform: scale(1) translate3d(-50px, -70px, 0);
+    opacity: .8;
+  }
+  100% {
+    -webkit-transform: scale(1) translate3d(-50px, -70px, 0);
+            transform: scale(1) translate3d(-50px, -70px, 0);
+    opacity: 0;
+  }
+}
+@keyframes dot {
+  0% {
+    opacity: 0;
+  }
+  1% {
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+  }
+  50% {
+    -webkit-transform: scale(1) translate3d(-50px, -70px, 0);
+            transform: scale(1) translate3d(-50px, -70px, 0);
+    opacity: .8;
+  }
+  100% {
+    -webkit-transform: scale(1) translate3d(-50px, -70px, 0);
+            transform: scale(1) translate3d(-50px, -70px, 0);
+    opacity: 0;
+  }
+}
+@-webkit-keyframes dot-2 {
+  0% {
+    opacity: 0;
+  }
+  1% {
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+  }
+  70% {
+    -webkit-transform: scale(0.7) translate3d(-50px, -50px, 0);
+            transform: scale(0.7) translate3d(-50px, -50px, 0);
+    opacity: .8;
+  }
+  100% {
+    -webkit-transform: scale(0.7) translate3d(-50px, -50px, 0);
+            transform: scale(0.7) translate3d(-50px, -50px, 0);
+    opacity: 0;
+  }
+}
+@keyframes dot-2 {
+  0% {
+    opacity: 0;
+  }
+  1% {
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+  }
+  70% {
+    -webkit-transform: scale(0.7) translate3d(-50px, -50px, 0);
+            transform: scale(0.7) translate3d(-50px, -50px, 0);
+    opacity: .8;
+  }
+  100% {
+    -webkit-transform: scale(0.7) translate3d(-50px, -50px, 0);
+            transform: scale(0.7) translate3d(-50px, -50px, 0);
+    opacity: 0;
+  }
+}
+@-webkit-keyframes cirle-dot {
+  0% {
+    opacity: 0;
+  }
+  1% {
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+  }
+  80% {
+    -webkit-transform: scale(1) translate3d(-80px, -40px, 0);
+            transform: scale(1) translate3d(-80px, -40px, 0);
+    opacity: .8;
+  }
+  100% {
+    -webkit-transform: scale(1) translate3d(-80px, -40px, 0);
+            transform: scale(1) translate3d(-80px, -40px, 0);
+    opacity: 0;
+  }
+}
+@keyframes cirle-dot {
+  0% {
+    opacity: 0;
+  }
+  1% {
+    -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+  }
+  80% {
+    -webkit-transform: scale(1) translate3d(-80px, -40px, 0);
+            transform: scale(1) translate3d(-80px, -40px, 0);
+    opacity: .8;
+  }
+  100% {
+    -webkit-transform: scale(1) translate3d(-80px, -40px, 0);
+            transform: scale(1) translate3d(-80px, -40px, 0);
+    opacity: 0;
+  }
+}
+
+.cart-container{
+  max-width: 100% !important
+}
+
+</style>
+
+
+{% endblock %} {% block content %}
+
+
+    <nav class="navbar mobile-navbar is-hidden-desktop" aria-label="main navigation">
+        <!-- Brand -->
+        <div class="navbar-brand">
+            <a class="navbar-item2" href="/">
+                <img class="mobile-logo" src="/static/assets/img/favicon.png" alt="">
+            </a>
+
+
+            <div id="mobile-explorer-trigger" class="navbar-item is-icon">
+                <a class="icon-link is-primary">
+                    <i class="mdi mdi-apps"></i>
+                </a>
+            </div>
+
+            <!-- Mobile menu toggler icon -->
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <!-- Navbar mobile menu -->
+        <div class="navbar-menu">
+            <!-- Account -->
+            <div class="navbar-item has-dropdown ">
+                <div class="navbar-link">
+                    <img src="/static/assets/img/man.jpg" data-demo-src="assets/img/avatars/jenna.png" alt="">
+                    <span class="is-heading">Elzubair Mohammed</span>
+                </div>
+
+                <div class="navbar-item">
+                    <div id="global-search" class="control">
+                        <input id="tipue_drop_input" class="input " type="text" placeholder="Search" required>
+                        <span id="clear-search" class="reset-search">
+                            <i data-feather="x"></i>
+                        </span>
+                        <span class="search-icon">
+                            <i data-feather="search"></i>
+                        </span>
+
+
+                    </div>
+
+                </div>
+
+                <!-- Mobile Dropdown -->
+                <div class="navbar-dropdown">
+                    <a href="#" class="navbar-item is-flex is-mobile-icon">
+                        <span><i data-feather="user"></i>Profile</span>
+                    </a>
+                    <a href="#" class="navbar-item is-flex is-mobile-icon">
+                        <span><i data-feather="shopping-cart"></i>Cart</span>
+                        <span class="menu-badge">3</span>
+                    </a>
+                    <a href="#" class="navbar-item is-flex is-mobile-icon">
+                        <span><i data-feather="activity"></i>Feed</span>
+                        <span class="menu-badge">87</span>
+                    </a>
+                    <a href="#" class="navbar-item is-flex is-mobile-icon">
+                        <span><i data-feather="settings"></i>Settings</span>
+                    </a>
+                    <a href="#" class="navbar-item is-flex is-mobile-icon">
+                        <span><i data-feather="hexagon"></i>Logout</span>
+                    </a>
+
+                        <div class="buttons">
+                          <a class="button second-button">
+                            <p>Sign up</p>
+                          </a>
+                          <a class="button primary-button raised quickview-trigger process-button">
+                            <p>Log in</p>
+                          </a>
+                        </div>
+
+
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+
+    <div class="view-wrapper" style="padding-top: 80px;">
+            <div class="shop-wrapper">
+                <div class="cart-container">
+                    <div class="cart-header">
+                        <div class="header-inner">
+                            <div class="categories-header">
+                            </div>
+
+{#                            <div class="header-actions">#}
+{#                                <a href="#" class="button is-fullwidth primary-button is-raised"><p style="color: #fff;">Save for later</p></a>#}
+{##}
+{#                            </div>#}
+                        </div>
+                    </div>
+
+                    <div class="cart-content">
+                        <div class="columns">
+                            <div class="column is-8">
+
+                                <div class="wrapper">
+                                    <div class="categories-header">
+                                        <h2>My orders</h2>  
+                                    </div>
+                                    <div class="notifications">
+                                        {% if cartCnt > 0 %}
+                                    {% if cartList %}
+                                        {% for cart in cartList %}
+                                            <div class="notifications__item cartitem cartitempage"  
+                                            data-id="{{ cart.course_id.id }}" style="  overflow: hidden;">
+                                              <div class="notifications__item__avatar">
+                                                <img src="{% static cart.course_id.cover_img %}" />
+                                              </div>
+
+                                              <div class="notifications__item__content">
+                                                  <p >${{ cart.course_id.price }}</p>
+                                                <span class="notifications__item__title cartitempagename">{{ cart.course_id.name }}</span>
+                                                <span class="notifications__item__message" style="">{{ cart.course_id.description }}</span>
+
+                                              </div>
+                                              <div>
+                                                <div class="notifications__item__option archive js-option">
+
+                                                  <p class="notifications__item__option-i deletefromcart" data-id="{{ cart.course_id.id}}"><i class="fas fa-trash" style="font-size: large;color: rgb(66, 87, 110) "></i></p>
+                                                  <p class="notifications__item__option-i"><i class="fas fa-heart" style="font-size: large;color: red ;"></i></p>
+                                                </div>
+                                              </div>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                        {% else %}
+                                    <div class="store-sections-6" style="display: block;">
+
+
+                                        <img src="{%static 'assets/img/no-cart.svg' %}" style="width: 350px;height: auto;" alt="">
+
+
+                                        <h2 style="margin-top: -40px;color: gray;">Unfortunately, there are no courses yet in your cart</h2>
+
+
+                                        <input style="margin-bottom: 15px;" id="tipue_drop_input" class="input c-input" type="text" placeholder="Search" required>
+
+                                        <h3 style="">
+                                            <a href="index.html" class="button">Search  &nbsp;<span class="fa fa-search"></span></a>
+                                        </h3>
+
+                                    </div>
+                                    {% endif %}
+
+                                    <div class="store-sections-6 cartzeroopen" style="display: none;">
+
+
+                                        <img src="{%static 'assets/img/no-cart.svg' %}" style="width: 350px;height: auto;" alt="">
+
+
+                                        <h2 style="margin-top: -40px;color: gray;">Unfortunately, there are no courses yet in your cart</h2>
+
+
+                                        <input style="margin-bottom: 15px;" id="tipue_drop_input" class="input c-input" type="text" placeholder="Search" required>
+
+                                        <h3 style="">
+                                            <a href="index.html" class="button">Search  &nbsp;<span class="fa fa-search"></span></a>
+                                        </h3>
+
+                                    </div>
+
+                                    </div>
+                                  </div>
+
+                                  <section>
+                                    <div class="store-sections sectionstore">
+                                    <div class="container ">
+                                        <div class="categories-header">
+                                            <h2>Quick Access</h2>
+                                        </div>
+
+                                        <a class="button process-button" href="/" style="background-color: teal;color: white;">
+                                            Continue shopping &nbsp;<span class="fa fa-shopping-cart"></span>
+                                        </a>
+
+                                        <a class="button process-button" href="/showfavlist">
+                                            Go to Fav courses &nbsp;<span class="fa fa-heart"></span>
+                                        </a>
+
+                                    </div>
+                                    </div>
+                                </section>
+
+                            </div>
+                            <div class="column is-4">
+                                <div class="cart-summary">
+                                    <div class="summary-header">
+                                        <h3>Order Summary</h3>
+                                    </div>
+                                    <!--card-->
+                                    <div class="summary-card">
+
+                                        <div class="order-line">
+                                            <span>Total courses</span>
+                                            <b class="carttotalcourses" style="font-weight:500;font-size: 14px">{{ cartCnt }}</b>
+                                        </div>
+
+                                        <div class="order-line">
+                                            <span>Subtotal</span>
+                                            <span class="cartsubtotal">{{ cartTotalSum }}</span>
+                                        </div>
+
+                                        <div class="order-line discountamountparent">
+                                            <span>Discount</span>
+                                            <span class="discountamount">0</span>
+                                        </div>
+
+                                        <div class="order-line">
+                                        <div class="field">
+                                            <div class="control has-validation ">
+                                                <input type="text" class="input " id="promoinput" placeholder="Write your promo code here" style="width: 300px;" />
+
+                                                <div class="error-icon">
+                                                    <i data-feather="x"></i>
+                                                    
+                                                </div>
+
+                                            </div>
+                                            <button class="button primary-button is-raised applypromobutton" style=" margin-top: 10px;"><p style="color: #fff;">Apply Promo Code</p></button>
+
+                                            <button class="button primary-button is-danger cancelpromobutton" style=" margin-top: 10px; display: none;" disabled><p style="color: #fff;">Cancel This Promo Code</p></button>
+
+
+                                        </div>
+                                        </div>
+
+                                        <span class="promoerror" style="color: red;"></span>
+
+                                        <hr>
+                                        <div class="order-line">
+                                            <span class="is-total">Total</span>
+                                            <span class="is-total totalsum">{{ cartTotalSum }}</span>
+                                        </div>
+                                        {% if cartCnt > 0 %} 
+                                        <a href="#" class="button is-fullwidth primary-button is-raised checkoutbutton"><p style="color: #fff;">Checkout</p></a>
+                                        {% else %}
+                                        <a class="button is-fullwidth is-raised checkoutbutton" style="background:#ccc;border:0;outline:0"><p style="color: grey;cursor:not-allowed">Checkout</p></a>
+                                        {% endif %}
+
+                                    </div>
+                                    <!--card-->
+                                    <div class="summary-card">
+                                        <img src="/static/assets/img/icons/questions/help.svg" alt="">
+                                        <h4>Help center</h4>
+                                        <p>Having trouble? Please search our <a href="support.html" class="standard-link">Help Center</a> for a quick
+                                            answer to your problem.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <form method="POST" action="checkout/" id="cartform" style="display: none;">
+              {% csrf_token %}
+          <input type="hidden" id="subtotalmoney" name="subtotalmoney">
+          <input type="hidden" id="discomontmoney" name="discomontmoney">
+          <input type="hidden" id="totalmoney" name="totalmoney">
+
+          <input type="submit" name="cartformsubmit" id="cartformsubmit">
+          
+
+
+
+        </form>
+
+
+        
+
+
+       
+<script>
+
+var userid = "{{ request.user.id }}";
+
+$(document).ready(function(){
+
+
+    $(".deletefromcart").click(function(){
+
+            // console.log("farabi checks:  "+userid);
+
+            var havetodelete = $(this).attr("data-id");
+
+            $("#deletefromcartmodal").addClass("is-active");
+
+            $("#deletefromcartmodal").removeAttr("data-id");
+
+            $("#deletefromcartmodal").attr("data-id",havetodelete);
+
+            
+
+    });
+
+
+    $(".deletecartmodalclose").click(function() {
+ 
+       $("#deletefromcartmodal").removeClass("is-active");
+     
+    });
+
+
+    $(".deletecartconfirm").click(function(){
+
+        var deleteit = $("#deletefromcartmodal").attr("data-id");
+        var url = '/delete_Cart_course_single/';
+        var carttotalcourses = parseInt($("#cartcounterfirst").text());
+
+        
+        $.post(url, {student: userid, course: deleteit}, function (res) {
+            
+            $("#deletefromcartmodal").removeAttr("data-id");
+            $("#deletefromcartmodal").removeClass("is-active");
+            $(".cartitem[data-id='"+deleteit+"']").remove();
+            $(".carttotalcourses").empty();
+            $(".carttotalcourses").append((carttotalcourses-1));
+
+            if($(".cartitem").length==0){
+
+              $(".checkoutbutton").removeClass("primary-button");
+              $(".checkoutbutton").css("background","#ccc");
+              $(".checkoutbutton").css("border","0");
+              $(".checkoutbutton").css("outline","0");
+              $(".checkoutbutton").find("p").css("color","grey");
+              $(".checkoutbutton").css("cursor","not-allowed");
+              $(".checkoutbutton").removeAttr("href");
+
+
+              $(".applypromobutton").removeClass("primary-button");
+              $(".applypromobutton").css("background","#ccc");
+              $(".applypromobutton").css("border","0");
+              $(".applypromobutton").css("outline","0");
+              $(".applypromobutton").find("p").css("color","grey");
+              $(".applypromobutton").css("cursor","not-allowed");
+              $(".applypromobutton").removeAttr("href");
+
+
+
+              
+
+              $(".cartzerovanish").css("display","none");
+              $(".cartzeroopen").css("display","block");
+
+              $(".cartzerostartup").css("display","none");
+              $(".cartzerostartupshow").css("display","block");
+
+              
+
+            }
+
+            var cartsubtotal = res.cartTotalSum;
+
+            $(".cartsubtotal").empty();
+            $(".cartsubtotal").append(cartsubtotal);
+
+
+        }
+        );
+
+
+
+    });
+
+
+    $(".applypromobutton").click(function(){
+
+          var promoinput = $("#promoinput").val();
+
+          if(!promoinput){
+
+            $(".promoerror").empty();
+            $(".promoerror").append("Please enter a valid promo code");
+
+          }
+          else{
+
+            $(".promoerror").empty();
+
+            var url = 'checkdiscountcode/';
+
+
+            $.post(url,{'promoinput':promoinput},function(res){
+
+                  if(res=='failed'){
+                      $(".promoerror").empty();
+                      $(".promoerror").append("Please enter a valid promo code");
+                  }
+                  else{
+                      
+                      var totalsum = parseInt($(".totalsum").text());
+
+                      price_off_percentage = res 
+                      price_off = (totalsum*price_off_percentage)/100;
+
+                      $(".discountamount").empty();
+                      $(".discountamount").append(price_off);  
+                      $("#promoinput").prop('disabled', true);
+
+                      $(".applypromobutton").css("display","none");
+                      $(".applypromobutton").prop("disabled",true);
+
+                      $(".cancelpromobutton").prop("disabled",false);
+                      $(".cancelpromobutton").css("display","block");
+
+                      
+                      $(".totalsum").empty();
+                      $(".totalsum").append((totalsum-price_off));
+
+
+                      
+
+
+                  }
+
+            });
+
+
+          }
+
+
+
+
+
+
+
+
+
+    });
+
+
+    $(".cancelpromobutton").click(function(){
+
+          
+          var current_discount = parseInt($(".discountamount").text());
+
+          $(".discountamount").empty();
+          $(".discountamount").append("0"); 
+          $("#promoinput").prop('disabled', false);
+          $("#promoinput").val('');
+
+          $(".applypromobutton").css("display","block");
+          $(".applypromobutton").prop("disabled",false);
+
+          var totalsum = parseInt($(".totalsum").text());
+          $(".totalsum").empty();
+          $(".totalsum").append((totalsum+current_discount));
+
+
+          $(".cancelpromobutton").css("display","none");
+          $(".cancelpromobutton").prop("disabled",true);
+
+
+
+
+    });
+
+    $(".checkoutbutton").click(function(event){
+
+
+        // $("#searchform").submit();
+
+        event.preventDefault();
+
+        var stm = parseInt($(".cartsubtotal").text())
+        var dam = parseInt($(".discountamount").text())
+        var tot = parseInt($(".totalsum").text())
+
+        $("#subtotalmoney").val(stm);
+        $("#discomontmoney").val(dam);
+        $("#totalmoney").val(tot);
+
+        console.log("form here "+tot);
+
+
+        
+    
+
+        
+        $("#cartformsubmit").click();
+
+
+
+
+
+
+    })
+
+
+    
+
+
+});
+
+function model_open(obj){
+
+    var type = $(obj).attr('data-type');
+    $('#commentId').val($(obj).attr('data-id'));
+    $('#commentDeleteId').val($(obj).attr('data-id'));
+    if(type == 'add'){
+        $('#exampleModal').modal('show');
+        $("#user_comment").val("");
+        $("#user_comment").focus();
+    } else if(type == 'edit'){
+        $('#exampleModal').modal('show');
+        $("#user_comment").val($(obj).attr('data-comment'));
+        $("#user_comment").focus();
+    } else if(type == 'delete'){
+        $('#deleteModal').modal('show');
+    }
+
+}
+
+function save_comment(){
+
+    var course_id = '{{course.id}}'
+    var comment = $("#user_comment").val();
+    var user_id = '{{user_id}}'
+    var comment_id = $('#commentId').val();
+
+    if (comment == 0){
+        swal("Please Add Comment!",{
+        icon: "info",
+        button: "Ok",
+        closeOnClickOutside: false,
+        }).then(function() {
+        });
+    } else{
+        $.ajax({
+            method : "POST",
+            url : "/add_comment/",
+            data : {
+                'comment':comment,
+                'user_id':user_id,
+                'course_id':course_id,
+                'comment_id':comment_id,
+                },
+                success : function(response){
+                if (response == "success"){
+                    swal("Comment Added successfully!", {
+                    icon: "success",
+                    button: "Ok",
+                    closeOnClickOutside: false,
+                    }).then(function() {
+                        location.reload()
+                    });
+                }
+            }
+        });
+    }
+}
+
+function delete_comment(){
+    var id = $('#commentDeleteId').val();
+    $.ajax({
+            method : "POST",
+            url : "/delete_comment/",
+            data : {
+                'id':id,
+                },
+                success : function(response){
+                if (response == "success"){
+                    swal("Comment Deleted succfully!", {
+                    icon: "success",
+                    button: "Ok",
+                    closeOnClickOutside: false,
+                    }).then(function() {
+                        location.reload()
+                    });
+                }
+            }
+        });
+}
+
+function addToCartList(){
+    var course_id = '{{ course.id }}';
+    var user_id = '{{ request.user.id }}';
+    var url = '/student_Cart_courses/';
+    $.post(url,{student:user_id,course:course_id},function (res) {
+    });
+}
+
+</script>
+
+
+
+ {% endblock %} {% block script %}
+<!-- App JS -->
+<script src="{% static 'assets/js/sideb.js' %}"></script>
+<!-- Page and UI related js -->
+<script src="{% static 'assets/js/videos.js' %}"></script>
+<script src="{% static 'assets/js/settings.js' %}"></script>
+{% endblock %}

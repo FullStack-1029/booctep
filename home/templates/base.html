@@ -1,0 +1,349 @@
+{% load static %}
+<!DOCTYPE html>
+{% if lang == "ar/" %}
+<html lang="en" dir="rtl">
+{% else %}
+<html lang="en" dir="ltr">
+{% endif %}
+<style>
+    #loadings {
+       width: 100%;
+       height: 100%;
+       top: 0;
+       left: 0;
+       position: fixed;
+       display: block;
+       opacity: 0.9;
+       background-color: #000;
+
+
+       z-index: 99;
+       text-align: center;
+    }
+
+    #loading-image {
+      position: absolute;
+      top: 27%;
+      left: 40%;
+      z-index: 100;
+    }
+
+</style>
+<head>
+	<!-- head -->
+    {% include "layout/head/head.html" %}
+    {% block head %}
+    {%  endblock %}
+</head>
+
+<!------------------------Fire Store------------------------>
+	
+	<script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-app.js"></script>
+
+	<!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+	<script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-analytics.js"></script>
+
+	<!-- Add Firebase products that you want to use -->
+	<script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-auth.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-firestore.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-storage.js"></script>
+
+
+
+
+
+<body>
+    <!-- Pageloader -->
+    <!-- <div class="pageloader"></div>
+    <div class="infraloader is-active"></div>
+    <div class="app-overlay"></div> -->
+
+    <div class="screen hidden">
+        <div id="loadings">
+                <div class="dancin-bc">
+                    <div class="dancing-lao">
+                        <div class="left-dots">
+                              <div class="dot dot-1"></div>
+                              <div class="dot dot-2"></div>
+                              <div class="circle-dot"></div>
+                        </div>
+                        <div class="right-dots">
+                              <div class="dot dot-1"></div>
+                              <div class="dot dot-2"></div>
+                              <div class="circle-dot"></div>
+                        </div>
+
+                        <img src="{% static 'assets/img/favicon.png' %}" class="cls-1" alt="">
+
+                    </div>
+                </div>
+        </div>
+
+    </div>
+
+
+    
+
+    <input type="hidden" id="hd_csrf" value="{{ csrf_token }}">
+
+    {% if request.path == '/become' %}
+        {% include "layout/header-2.html" %}
+    {% else %}
+        {% include "layout/header.html" %}
+    {% endif %}
+    <!-- end Header navbar -->
+
+    
+    <!-- MAIN WRAPPER -CONTENT -->
+    {% block content %}
+    {% endblock %}
+    <!-- END MAIN WRAPPER -CONTENT -->
+
+    <!-- DIALOGS -->
+    {% include "layout/dialogs.html" %}
+    <!-- END DIALOGS -->
+
+    <!-- FOOTER -->
+    {% include "layout/footer.html" %}
+    <!-- END FOOTER -->
+
+    {% include "layout/scripts/scripts.html" %}
+
+
+
+    
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+
+
+            user_id = localStorage.getItem('user_id');
+            password = localStorage.getItem('password');
+            if(user_id != null && password != null){
+                $('#login_email').val(user_id);
+                $('#login_password').val(password);
+                $('#remember').prop("checked",true)
+            }
+
+            $('#language').val('{{lang}}')
+            console.log(localStorage.getItem('search_value'))
+            var inp=localStorage.getItem('search_value')
+            $("#tipue_drop_input").val(inp)
+            if (inp == ""){}
+            else{
+                console.log("inp",inp)
+
+            }
+			var ur = localStorage.getItem("ur");
+			var cur=window.location.toString().split('/')
+			$('#loadings').fadeOut(3000);
+
+
+        });
+        
+        $.ajaxSetup({
+            headers: { 'X-CSRFToken': $("#hd_csrf").val(), }
+        });
+
+        function login() {
+            console.log("logging in");
+            $("#login_div_error").html("");
+            if ($("#login_email").val() == "") {
+                $("#login_div_error").html("Please enter the valid email");
+                return false
+            } else if ($("#login_password").val() == "") {
+                $("#login_div_error").html("Please enter the password");
+                return false
+            }
+
+            // Ajax start
+            var action = "/login/";
+            $.ajax({
+                url: action,
+                type: 'POST',
+                dataType: 'json',
+                // headers: {'X-CSRFToken': $("#hd_csrf").val(),},
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                data: {
+                    email: $("#login_email").val(),
+                    password: $("#login_password").val(),
+                    remember: $('#remember').is(":checked")
+                },
+
+                beforeSend: function () {
+                    console.log("Beforesend")
+                },
+                success: function (data) {
+                    console.log(data)
+                    if (data.msg == "success") {
+						console.log("success")
+                        if($('#remember').is(":checked") == true){
+                            localStorage.setItem("user_id",$("#login_email").val());
+                            localStorage.setItem("password",$("#login_password").val());
+                        }
+                        window.location.href = "/{{lang}}";
+                    } else {
+                        $("#login_div_error").html("Please enter the correct email and password.");
+                        return false
+                    }
+                    return false
+                },
+                error: function (err) {
+                    return false
+                }
+            })
+            // Ajax end
+            return false
+        }
+
+        var lang = "{{ lang }}"
+        
+        let head = document.getElementsByTagName('HEAD')[0];
+
+        // Create new link Element 
+        let link = document.createElement('link');
+	
+        // set the attributes for link element  
+        link.rel = 'stylesheet';
+
+        link.type = 'text/css';
+
+        link.href = "{%static 'assets/css/dark.css' %}";
+
+        if( lang == "ar/" ) {
+            link.href = "{%static 'ar/assets/css/dark.css' %}";
+        }        
+
+        $('.toggler').on('click', function () {
+            if(localStorage.getItem('mode') == 'light') {
+                localStorage.setItem('mode', 'dark');
+                
+				console.log(localStorage.getItem('mode'))
+            } else {
+                localStorage.setItem('mode', 'light');
+                <!-- localStorage.setItem('mode', JSON.stringify('light')); -->
+				console.log(localStorage.getItem('mode'))
+            }
+            color_mode();
+        });
+        function color_mode()
+        {   
+
+            if (localStorage.getItem('mode') == 'dark') {
+                $("body").addClass('body_bg');
+                $(".button-become-a-teacher").removeClass('is-light');
+                $(".is-cart").addClass('is-dark-cart');
+                $(".second-button").addClass('signup-button-is-dark');
+                $(".primary-button").addClass('login-button-is-dark');
+                $(".shop-header").addClass('shop-header-is-dark');
+                $(".is-combo").addClass('is-combo-dark');
+                $(".product-card").addClass('product-card-dark');
+                $(".categories-bg").addClass('categories-dark-bg');
+                $(".card-terms").addClass('card-terms-dark');
+                $(".categories").addClass('categories-dark');
+                $(".aboutus").addClass('aboutus-dark');
+                $(".categories-header").addClass('categories-dark-header');
+                $(".category-box").addClass('category-dark-box');
+                $(".product-quickview").addClass('product-quickview-dark');
+                $(".card").addClass('card-dark');
+                $(".Loginmodal-img").addClass('Loginmodal-img-dark');
+                $(".user-meta-span").addClass('user-meta-span-dark');
+                $(".footer-column").addClass('footer-column-dark');
+                $(".hero-homepage").addClass('dark-homepage');
+                $(".footer").addClass('dark-footer');
+                $(".mode_images").attr('src', "/static/{{ lang }}assets/img/logo/dark-logo.png");
+                $(".primary__title").attr('style', 'color: #1a1c20;font-weight: 500;font-size: large');
+                $(".secondary__title").attr('style', 'color: #222831;');
+                $(".fa-users").attr('style', 'color: #e2e2e4;');
+                $(".fa-video").attr('style', 'color: #e2e2e4;');
+                $(".footer-columns:first-child").attr('style', 'border-bottom: 1px solid #222831;');
+                head.appendChild(link);
+
+            } else {                
+                $("body").removeClass('body_bg');
+                $("body").css('background', 'white');
+                
+                
+                $(".button-become-a-teacher").addClass('is-light');
+                $(".is-cart").removeClass('is-dark-cart');
+                $(".second-button").removeClass('signup-button-is-dark');
+                $(".primary-button").removeClass('login-button-is-dark');
+                $(".shop-header").removeClass('shop-header-is-dark');
+                $(".is-combo").removeClass('is-combo-dark');
+                $(".product-card").removeClass('product-card-dark');
+                $(".categories-bg").removeClass('categories-dark-bg');
+                $(".card-terms").removeClass('card-terms-dark');
+                $(".aboutus").removeClass('aboutus-dark');
+                $(".categories-header").removeClass('categories-dark-header');
+                $(".category-box").removeClass('category-dark-box');
+                $(".product-quickview").removeClass('product-quickview-dark');
+                $(".card").removeClass('card-dark');
+                $(".Loginmodal-img").removeClass('Loginmodal-img-dark');
+                $(".user-meta-span").removeClass('user-meta-span-dark');
+                $(".footer-column").removeClass('footer-column-dark');
+                $(".hero-homepage").removeClass('dark-homepage');
+                $(".footer").removeClass('dark-footer');
+                $(".mode_images").attr('src', "/static/{{ lang }}assets/img/logo/booctep-tran.png");
+                $(".primary__title").attr('style', 'color: #fff;font-weight: 500;font-size: large');
+                $(".secondary__title").attr('style', '');
+                $(".fa-users").attr('style', '');
+                $(".fa-video").attr('style', '');
+                $(".footer-columns:first-child").attr('style', 'border-bottom: 1px solid rgb(226, 226, 226);');
+                head.removeChild(link);
+            }
+        }
+
+		$('#directionSwitch').change(function(){
+		console.log('hi')
+		})
+		<!-- search engine -->
+		
+    </script>
+    <script>
+        window.onbeforeunload = function() {
+            location = "ar";
+        };
+		<!-- console.log(window.location.toString().split('/')[4]) -->
+		<!-- console.log(window.location.toString()) -->
+		$('#language').val('{{lang}}')
+		var l=$('#language').val()
+		// console.log(l)
+		<!-- localStorage.setItem("ur", window.location.toString().split('/')[4]); -->
+		var ur = localStorage.getItem("ur");
+		console.log("checkthisout "+ur)
+		// console.log(window.location.toString().split('/'))
+		// console.log($('#ar_page').attr('href'))
+		// console.log($('#en_page').attr('href'))
+		var cur=window.location.toString().split('/')
+		if (l=="ar/"){
+            console.log("hi",cur)
+            $('#ar_page').attr("href",cur[0]+"//"+cur[1]+"/"+cur[2]+"/"+cur[3]+"/"+ur);
+		}
+		else{
+		$('#en_page').attr("href",cur[0]+"//"+cur[1]+"/"+cur[2]+"/"+cur[3]+"/"+ur);
+		}
+		
+		// console.log($('#ar_page').attr('href'))
+		// console.log($('#en_page').attr('href'))
+		window.onload = onPageLoad();
+
+		function onPageLoad(){
+			color_mode();
+            
+		  if (localStorage.getItem('mode') == 'dark') {
+                localStorage.setItem('mode', 'dark');
+                $( "#toggle_check").prop('checked', true);
+            }
+			
+			else{
+    			localStorage.setItem('mode', 'light');
+    			$( "#toggle_check").prop('checked', false);
+			}
+		}
+	
+     </script>
+    {% block script %}
+    {%  endblock %}
+</body>
+
+</html>

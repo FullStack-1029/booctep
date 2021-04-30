@@ -1,0 +1,1676 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+{% if lang == "ar/" %}
+<html lang="en" dir="rtl">
+{% else %}
+<html lang="en" dir="ltr">
+{% endif %}
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Student -
+        {% block title %}
+        {% endblock %}
+    </title>
+
+    <link rel="shortcut icon" href="{%static 'assets/img/favicon.png' %}">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Prevent the demo from appearing in search engines -->
+    <meta name="robots" content="noindex">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CRoboto:400,500%7CExo+2:600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
+
+    <!-- Perfect Scrollbar -->
+    <link type="text/css" href="/static/{{lang}}student/assets/vendor/perfect-scrollbar.css" rel="stylesheet">
+
+    <!-- Fix Footer CSS -->
+    <link type="text/css" href="/static/{{lang}}student/assets/vendor/fix-footer.css" rel="stylesheet">
+
+    <!-- Material Design Icons -->
+    <link type="text/css" href="/static/{{lang}}student/assets/css/material-icons.css" rel="stylesheet">
+
+
+    <!-- Font Awesome Icons -->
+    <link type="text/css" href="/static/{{lang}}student/assets/css/fontawesome.css" rel="stylesheet">
+
+
+    <!-- Preloader -->
+    <link type="text/css" href="/static/{{lang}}student/assets/css/preloader.css" rel="stylesheet">
+
+
+    <!-- App CSS -->
+    <link type="text/css" href="/static/{{lang}}student/assets/css/app.css" rel="stylesheet">
+
+
+    <!-- Sweet Alert -->
+    <!-- <link rel="stylesheet" href="/static/{{lang}}student/assets/css/sweetalert.css"> -->
+
+
+    <!-- Toastr -->
+    <link type="text/css" href="/static/{{lang}}student/assets/vendor/toastr.min.css" rel="stylesheet">
+    <link type="text/css" href="/static/{{lang}}student/assets/css/toastr.css" rel="stylesheet">
+
+
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-app.js"></script>
+
+	<!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+	<script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-analytics.js"></script>
+
+	<!-- Add Firebase products that you want to use -->
+	<script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-auth.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-firestore.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-storage.js"></script>
+	<script src="{% static 'firebase_init.js' %}"></script>
+
+
+    <script type="text/javascript">
+
+       function sorthistory(){
+
+            var sort_value = $("#historysort").val();
+
+            if(sort_value==1){
+
+                $('.purchaselist .purchaseentity').sort(function(a, b) {
+                    return $(b).data('sort') - $(a).data('sort');
+                  }).appendTo('.purchaselist');
+
+            }
+
+            if(sort_value==2){
+
+                $('.purchaselist .purchaseentity').sort(function(a, b) {
+                    return $(a).data('sort') - $(b).data('sort');
+                  }).appendTo('.purchaselist');
+
+            }
+
+            if(sort_value==3){
+
+                $('.purchaselist .purchaseentity').sort(function(a, b) {
+                    return $(b).data('sort') - $(a).data('sort');
+                  }).appendTo('.purchaselist');
+
+            }
+
+
+            
+
+        }
+        
+
+    </script>
+
+    <style type="text/css">
+        
+
+        .pagination li{
+            width: 45px;
+            height: 45px;
+            border: 1px solid black;
+            font-size: 30px;
+            border-radius: 50%;
+            margin-left: 5px;
+
+
+        }
+
+        .nocourseavailable{
+            text-align: center;
+            font-size: 30px;
+            font-weight: bolder;
+        }
+
+       /* .animated-toggle .toggler{
+                position: relative;
+            display: block;
+            height: 31px;
+            width: 53px;
+            border: 2px solid #c29f01;
+            border-radius: 100px;
+            -webkit-transition: all .3s;
+            transition: all .3s;
+            cursor: pointer;
+        }*/
+    
+    </style>
+
+</head>
+
+<!--    <div class="preploader">-->
+<!--        <div id="loadings">-->
+<!--    <div class="dancin-bc">-->
+<!--            <div class="dancing-lao">-->
+<!--        <div class="left-dots">-->
+<!--          <div class="dot dot-1"></div>-->
+<!--          <div class="dot dot-2"></div>-->
+<!--          <div class="circle-dot"></div>-->
+<!--        </div>-->
+<!--        <div class="right-dots">-->
+<!--          <div class="dot dot-1"></div>-->
+<!--          <div class="dot dot-2"></div>-->
+<!--          <div class="circle-dot"></div>-->
+<!--        </div>-->
+
+<!--        <img src="{% static 'assets/img/favicon.png' %}" class="cls-1" alt="">-->
+
+<!--      </div></div>-->
+<!--</div>-->
+<!--    </div>-->
+
+<body class="layout-mini layout-mini" style="background: #f5f5f5 !important;height:100vh !important;overflow: scroll !important;">
+    <input type="hidden" id="hd_csrf" value="{{ csrf_token }}">
+
+        <!-- Header Navbar -->
+
+    <div class="screen hidden">
+            <div id="loadings">
+    <div class="dancin-bc">
+            <div class="dancing-lao">
+        <div class="left-dots">
+          <div class="dot dot-1"></div>
+          <div class="dot dot-2"></div>
+          <div class="circle-dot"></div>
+        </div>
+        <div class="right-dots">
+          <div class="dot dot-1"></div>
+          <div class="dot dot-2"></div>
+          <div class="circle-dot"></div>
+        </div>
+
+        <img src="{% static 'assets/img/favicon.png' %}" class="cls-1" alt="">
+
+      </div>
+    </div>
+</div>
+
+    </div>
+
+    <div class="mdk-drawer-layout js-mdk-drawer-layout" data-push data-responsive-width="992px">
+        <div class="mdk-drawer-layout__content page-content">
+
+            <!-- Header -->
+
+            {% block headercontent %}
+            {% endblock %}
+
+            {% block content %}
+            {% endblock %}
+
+        </div>
+        <!-- // END drawer-layout__content -->
+        {% include "./layout/left-sidebar.html" %}
+    </div>
+    <!-- // END drawer-layout -->
+    <!-- jQuery -->
+    <script src="/static/{{lang}}student/assets/vendor/jquery.min.js"></script>
+
+    <!-- Bootstrap -->
+    <script src="/static/{{lang}}student/assets/vendor/popper.min.js"></script>
+    <script src="/static/{{lang}}student/assets/vendor/bootstrap.min.js"></script>
+
+    <!-- Perfect Scrollbar -->
+    <script src="/static/{{lang}}student/assets/vendor/perfect-scrollbar.min.js"></script>
+
+    <!-- DOM Factory -->
+    <script src="/static/{{lang}}student/assets/vendor/dom-factory.js"></script>
+
+    <!-- MDK -->
+    <script src="/static/{{lang}}student/assets/vendor/material-design-kit.js"></script>
+
+
+    <!-- App JS -->
+    <script src="/static/{{lang}}student/assets/js/app.js"></script>
+    <!-- Global Settings -->
+
+
+
+    <!-- Sidebar Mini JS -->
+    <script src="/static/{{lang}}student/assets/js/sidebar-mini.js"></script>
+
+
+
+
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRFToken': $("#hd_csrf").val(),
+            }
+        });
+        (function() {
+            'use strict';
+
+            // ENABLE sidebar menu tabs
+            $('.js-sidebar-mini-tabs [data-toggle="tab"]').on('click', function(e) {
+                e.preventDefault()
+                $(this).tab('show')
+            })
+
+            $('.js-sidebar-mini-tabs').on('show.bs.tab', function(e) {
+                $('.js-sidebar-mini-tabs > .active').removeClass('active')
+                $(e.target).parent().addClass('active')
+            })
+        })()
+    </script>
+
+
+
+    <script>
+        $(document).ready(function() {
+            var color = localStorage.getItem('mode');
+            if(color=="light"){
+                $(".getmodename").append("dark");
+            }
+            else{
+                $(".getmodename").append("light");
+            }
+            console.log(color);
+            color_mode();
+			console.log("{{lang}}");
+        });
+
+        let head = document.getElementsByTagName('HEAD')[0];
+
+            // Create new link Element
+        let link = document.createElement('link');
+
+        // set the attributes for link element
+        link.rel = 'stylesheet';
+
+        link.type = 'text/css';
+
+        link.href = "/static/{{lang}}student/assets/css/dark.css";
+
+        $('.toggler').on('click', function () {
+            if(localStorage.getItem('mode') == 'light') {
+                localStorage.setItem('mode', 'dark');
+                $(".getmodename").empty();
+                $(".getmodename").append("light");
+               
+            } else {
+                localStorage.setItem('mode', 'light');
+                $(".getmodename").empty();
+                $(".getmodename").append("dark");
+                
+            }
+            color_mode();
+        });
+
+        function color_mode()
+        {
+            if (localStorage.getItem('mode') == 'dark') {
+                head.appendChild(link);
+
+            } else {
+                head.removeChild(link);
+            }
+        }
+
+		function check_video(id){
+
+            $.ajax({
+                method : "POST",
+                url : "/video_check/",
+                data : {
+                'id':id,
+                },
+                success : function(response){
+                console.log(response)
+                if (response['msg'] == "success"){
+                    window.location ="/video/playground/"+response['id'];
+
+                    }
+
+
+                else if (response['msg'] == "error"){
+
+                swal("Course Video Not Found!", {
+                    icon: "info",
+                    button: "Ok",
+                    closeOnClickOutside: false,
+                    }).then(function() {
+
+                    });
+
+                }
+
+            }
+        });
+
+		}
+
+		async function student_info(cname){
+
+	$(".bg-light").removeClass("bg-light");
+	$(cname).addClass("bg-light");
+
+	var student_id = $(cname).attr("data-student-id");
+	var course_id = $(cname).attr("data-course-id");
+	var course_name = $(cname).attr("data-course-name");
+	var student_name = $(cname).attr("data-student-name");
+	var student_img = $(cname).attr("data-student-img");
+	var teacher_id = $("#teacher_id").val()
+
+	$('#name_student').text(student_name)
+	$('#name_course').text(course_name)
+
+	$(".avatar.avatar-online.avatar-sm").find("img").attr("src","../../../static"+student_img)
+
+	$('#student_id').val(student_id)
+	$('#course_id').val(course_id)
+	$('#course_name').val(course_name)
+	$('#student_img').val(student_img)
+	$('#student_name').val(student_name)
+
+	$('#send_button').attr('disabled', false);
+	$('#text_message').attr('disabled', false);
+
+    messages_list = ""
+    $('#msg_div').html("");
+    console.log("aaaaaa"+db);
+
+    const ref_1 = await db.collection("ChatMessages").where('sender_id', '==', student_id).where('receiver_id', '==', teacher_id).where('course_id', '==', course_id).get();
+
+    const ref_2 = await db.collection("ChatMessages").where('sender_id', '==', teacher_id).where('receiver_id', '==', student_id).where('course_id', '==', course_id).get();
+
+    console.log("test1=>"+ref_1);
+    console.log("test2=>"+ref_2);
+
+	if (ref_1.empty){
+		messages_list = ""
+		db.collection("ChatMessages").where('sender_id', '==', teacher_id).where('receiver_id' , '==',  student_id).where('course_id' , '==', course_id)
+		.onSnapshot(function(querySnapshot) {
+            includeMetadataChanges: true;
+            messages_list +='<ul class="d-flex flex-column list-unstyled" id="messages">'
+            querySnapshot.forEach(function(doc) {
+                doc.data()['message'].forEach(function(messages){
+                    console.log(messages)
+
+                    if( messages['sender_id'] == teacher_id ){
+
+                        console.log("1")
+
+                        messages_list += ' <li class="message teacher d-inline-flex" >'
+
+                        //messages_list += '<div class="message__aside">'
+                            //messages_list += '<a href="mini-profile.html" class="avatar avatar-sm">'
+                            //messages_list += '<img alt="people" class="avatar-img rounded-circle">'
+                            //messages_list += '</a>'
+                        //messages_list += '</div>'
+
+                        messages_list += '<div class="message__body card">'
+
+                        messages_list += '<div class="card-body">'
+                        messages_list += '<div class="d-flex align-items-center">'
+                            messages_list += '<div class="flex mr-3">'
+                            messages_list += '<a class="text-body"><strong>'+doc.data()['sender_name']+'</strong></a>'
+                            messages_list += '</div>'
+                            messages_list += '<div>'
+                            messages_list += '<small class="text-50">'+messages['date']+" "+messages['time'].replace(/:\d+ (\w\w)$/,' $1')+'</small>'
+                            messages_list += '</div>'
+                        messages_list += '</div>'
+
+                        messages_list +=  '<span class="text-70">'+messages['message']+'</span>'
+
+
+                        if(messages['file_url']){
+
+
+                        messages_list +=  '<a href  = '+messages['file_url']+' target="_blank" class="media align-items-center mt-2 text-decoration-0 px-3">'
+
+                        messages_list +=  '<span class="avatar mr-12pt">'
+
+                            messages_list +=  '<span class="avatar-title rounded-circle">'
+                            messages_list +=  '<i class="material-icons font-size-24pt">attach_file</i>'
+                            messages_list +=  '</span>'
+                        messages_list +=  '</span>'
+
+                        messages_list +=  '<span class="media-body" style="line-height: 1.5">'
+                            messages_list +=  '<span class="text-primary">draft.sketch</span><br>'
+                            messages_list +=  '<span class="text-50"></span>'
+                        messages_list +=  ' </span>'
+
+                        messages_list +=  '</a>'
+
+
+                        }
+
+
+                        messages_list +=  '</div>'
+                        messages_list +=  '</div>'
+                        messages_list +=  '</li>'
+
+                    }
+
+                    else if ( messages['sender_id'] == student_id ) {
+
+                            console.log("2")
+
+                            messages_list += '<li class="message d-inline-flex">'
+
+                            //messages_list += '<div class="message__aside">'
+                                //messages_list += '<a href="mini-profile.html" class="avatar avatar-sm">'
+                                //messages_list += '<img alt="people" class="avatar-img rounded-circle">'
+                                //messages_list += '</a>'
+                            //messages_list += '</div>'
+
+                            messages_list += '<div class="message__body card">'
+
+                            messages_list += '<div class="card-body">'
+                            messages_list += '<div class="d-flex align-items-center">'
+                                messages_list += '<div class="flex mr-3">'
+                                messages_list += '<a class="text-body"><strong>'+doc.data()['receiver_name']+'</strong></a>'
+
+                                messages_list += '</div>'
+                                messages_list += '<div>'
+                                messages_list += '<small class="text-50">'+messages['date']+" "+messages['time'].replace(/:\d+ (\w\w)$/,' $1')+'</small>'
+                                messages_list += '</div>'
+                            messages_list += '</div>'
+
+                            messages_list +=  '<span class="text-70">'+messages['message']+'</span>'
+
+
+
+                            if(messages['file_url']){
+
+                            messages_list +=  '<a href  = '+messages['file_url']+' target="_blank" class="media align-items-center mt-2 text-decoration-0 px-3">'
+
+                            messages_list +=  '<span class="avatar mr-12pt">'
+
+                                messages_list +=  '<span class="avatar-title rounded-circle">'
+                                messages_list +=  '<i class="material-icons font-size-24pt">attach_file</i>'
+                                messages_list +=  '</span>'
+                            messages_list +=  '</span>'
+
+                            messages_list +=  '<span class="media-body" style="line-height: 1.5">'
+                                messages_list +=  '<span class="text-primary">draft.sketch</span><br>'
+                                messages_list +=  '<span class="text-50"></span>'
+                            messages_list +=  ' </span>'
+
+                            messages_list +=  '</a>'
+
+                            }
+
+
+                            messages_list +=  '</div>'
+                            messages_list +=  '</div>'
+                            messages_list +=  '</li>'
+
+
+
+                        }
+                });
+			});
+
+			messages_list +="</ul>"
+			$('#msg_div').html("");
+			$('#msg_div').html(messages_list);
+			messages_list = ""
+
+			var height = $("#msg_div").height()+200;
+			$(".ps--active-y").scrollTop(height);
+
+		});
+	}
+
+	else{
+		messages_list = ""
+		db.collection("ChatMessages").where('sender_id', '==', student_id).where('receiver_id' , '==',  teacher_id).where('course_id' , '==', course_id)
+		.onSnapshot(function(querySnapshot) {
+            includeMetadataChanges: true;
+            messages_list +='<ul class="d-flex flex-column list-unstyled" id="messages">'
+            querySnapshot.forEach(function(doc) {
+            doc.data()['message'].forEach(function(messages){
+            console.log(messages)
+
+            if( messages['sender_id'] == teacher_id ){
+
+                messages_list += ' <li class="message teacher d-inline-flex" >'
+
+                //messages_list += '<div class="message__aside">'
+                    //messages_list += '<a href="mini-profile.html" class="avatar avatar-sm">'
+                    //messages_list += '<img alt="people" class="avatar-img rounded-circle">'
+                    //messages_list += '</a>'
+                //messages_list += '</div>'
+
+                messages_list += '<div class="message__body card">'
+
+                messages_list += '<div class="card-body">'
+                messages_list += '<div class="d-flex align-items-center">'
+                messages_list += '<div class="flex mr-3">'
+                messages_list += '<a class="text-body"><strong>'+doc.data()['receiver_name']+'</strong></a>'
+                messages_list += '</div>'
+                messages_list += '<div>'
+                messages_list += '<small class="text-50">'+messages['date']+" "+messages['time'].replace(/:\d+ (\w\w)$/,' $1')+'</small>'
+                messages_list += '</div>'
+                messages_list += '</div>'
+
+                messages_list +=  '<span class="text-70">'+messages['message']+'</span>'
+
+
+                if(messages['file_url']){
+                    messages_list +=  '<a href  = '+messages['file_url']+' target="_blank" class="media align-items-center mt-2 text-decoration-0 px-3">'
+
+                    messages_list +=  '<span class="avatar mr-12pt">'
+
+                    messages_list +=  '<span class="avatar-title rounded-circle">'
+                    messages_list +=  '<i class="material-icons font-size-24pt">attach_file</i>'
+                    messages_list +=  '</span>'
+                    messages_list +=  '</span>'
+
+                    messages_list +=  '<span class="media-body" style="line-height: 1.5">'
+                    messages_list +=  '<span class="text-primary">draft.sketch</span><br>'
+                    messages_list +=  '<span class="text-50"></span>'
+                    messages_list +=  ' </span>'
+
+                    messages_list +=  '</a>'
+
+                }
+                messages_list +=  '</div>'
+                messages_list +=  '</div>'
+                messages_list +=  '</li>'
+
+            }
+
+            else if ( messages['sender_id'] == student_id ) {
+
+                console.log("4")
+
+                messages_list += '<li class="message d-inline-flex">'
+
+                //messages_list += '<div class="message__aside">'
+                    //messages_list += '<a href="mini-profile.html" class="avatar avatar-sm">'
+                    //messages_list += '<img alt="people" class="avatar-img rounded-circle">'
+                    //messages_list += '</a>'
+                //messages_list += '</div>'
+
+                messages_list += '<div class="message__body card">'
+
+                messages_list += '<div class="card-body">'
+                messages_list += '<div class="d-flex align-items-center">'
+                    messages_list += '<div class="flex mr-3">'
+                    messages_list += '<a class="text-body"><strong>'+doc.data()['sender_name']+'</strong></a>'
+
+                    messages_list += '</div>'
+                    messages_list += '<div>'
+                    messages_list += '<small class="text-50">'+messages['date']+" "+messages['time'].replace(/:\d+ (\w\w)$/,' $1')+'</small>'
+                    messages_list += '</div>'
+                messages_list += '</div>'
+
+                messages_list +=  '<span class="text-70">'+messages['message']+'</span>'
+
+
+                if(messages['file_url']){
+
+
+                messages_list +=  '<a href  = '+messages['file_url']+' target="_blank" class="media align-items-center mt-2 text-decoration-0 px-3">'
+
+                messages_list +=  '<span class="avatar mr-12pt">'
+
+                    messages_list +=  '<span class="avatar-title rounded-circle">'
+                    messages_list +=  '<i class="material-icons font-size-24pt">attach_file</i>'
+                    messages_list +=  '</span>'
+                messages_list +=  '</span>'
+
+                messages_list +=  '<span class="media-body" style="line-height: 1.5">'
+                    messages_list +=  '<span class="text-primary">draft.sketch</span><br>'
+                    messages_list +=  '<span class="text-50"></span>'
+                messages_list +=  ' </span>'
+
+                messages_list +=  '</a>'
+
+
+                }
+
+                messages_list +=  '</div>'
+                messages_list +=  '</div>'
+                messages_list +=  '</li>'
+
+            }
+
+            });
+
+
+        });
+
+        messages_list +="</ul>"
+        $('#msg_div').html("");
+        $('#msg_div').html(messages_list);
+        messages_list = ""
+
+        var height = $("#msg_div").height()+200;
+        $(".ps--active-y").scrollTop(height);
+
+    });
+
+	}
+}
+
+        let storageRef_student_1 = firebase.storage().ref('files')
+        async function massage_teacher_to_student(){
+
+            var student_id = $("#student_id").val()
+            var course_id = $("#course_id").val()
+            var course_name = $("#course_name").val()
+            var student_name = $("#student_name").val()
+            var message = $("#text_message").val()
+            var teacher_name = "{{user_name}}"
+            var teacher_id = $("#teacher_id").val()
+
+            var file = document.getElementById("customFile").files[0]
+
+            if (file == null){
+
+                if (message == ""){
+
+                    $("#text_message").focus();
+
+                    }
+
+                else{
+
+                        var sender_seen = 0
+                        var reciver_seen = 0
+
+                        var reciver_profile = ""
+                        var key = ""
+
+                        var file_type = "text"
+
+                        var today = new Date();
+                        var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+                        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                        var dateTime = date+' '+time;
+
+
+                        var message_date = new Date().toLocaleDateString('en-GB');
+                        var message_time = new Date().toLocaleTimeString();
+
+                        var chat_messages1 = db.collection("ChatMessages").where('sender_id', '==', teacher_id).where('receiver_id', '==', student_id).where('course_id', '==', course_id)
+
+                        var chat_messages2 = db.collection("ChatMessages").where('sender_id', '==', student_id).where('receiver_id', '==', teacher_id).where('course_id', '==', course_id)
+
+
+                        message_data = {
+
+                                    date : message_date,
+
+                                    file_type :"text",
+                                    key : "",
+
+                                    message : message,
+                                    course_id : course_id,
+
+                                    file_url : "",
+
+                                    sender_id : teacher_id,
+                                    time : message_time,
+
+                                }
+
+                        let chat_messages1_obj = await chat_messages1.get();
+
+                        let chat_messages2_obj = await chat_messages2.get();
+
+
+                        if (chat_messages1_obj.empty && chat_messages2_obj.empty ) {
+
+                                db.collection("ChatMessages").add({
+
+                                date_time : dateTime,
+
+                                message : [message_data],
+                                course_id : course_id,
+
+                                receiver_name : student_name,
+                                receiver_id : student_id,
+
+                                receiver_profile : "",
+                                receiver_seen : 1,
+
+                                sender_name : teacher_name,
+                                sender_id : teacher_id,
+
+                                sender_profile :"" ,
+                                sender_seen : 0,
+
+                                })
+                                .then(function(docRef) {
+                                    console.log("Document written with ID: ", docRef);
+                                })
+                                .catch(function(error) {
+                                    console.error("Error adding document: ", error);
+                                });
+
+                            }
+
+
+
+                        else{
+                            const increment = firebase.firestore.FieldValue.increment(1);
+                            var doc_id = "";
+
+
+                            const ref_1 = await db.collection("ChatMessages").where('sender_id', '==', teacher_id).where('receiver_id', '==', student_id).where('course_id', '==', course_id).get()
+
+                            const ref_2 = await db.collection("ChatMessages").where('sender_id', '==', student_id).where('receiver_id', '==',teacher_id).where('course_id', '==', course_id).get()
+
+                            if (ref_1.empty) {
+
+                            const docRefId = ref_2.docs[0].id;
+
+                            db.collection("ChatMessages").doc(docRefId).update({
+                                message : firebase.firestore.FieldValue.arrayUnion(message_data),
+                                sender_seen : increment
+                            })
+
+                            }
+
+                        else{
+
+                            const docRefId = ref_1.docs[0].id;
+
+                            db.collection("ChatMessages").doc(docRefId).update({
+                                message : firebase.firestore.FieldValue.arrayUnion(message_data),
+                                receiver_seen : increment
+
+                            })
+                        }
+                        }
+
+                        $('#text_message').val("");
+                        $('#'+course_id+'_teacher_side_div').click();
+
+                }
+
+
+            }
+
+            else{
+
+                $('#loadings').show();
+
+                let firstFile = document.getElementById("customFile").files[0]
+
+                let selected_file_name = file.name
+
+                console.log(firstFile)
+
+                var file_type = selected_file_name.replace(/^.*\./, '');
+
+                console.log(file_type)
+
+                let uploadTask;
+
+                var path_downloadURL = ""
+
+                if(file_type == "application/pdf"){
+
+                    $('#loadings').show();
+                    var metadata = {
+                    contentType: 'application/pdf'
+                    };
+                    uploadTask = storageRef_student_1.child('pdf'+Math.random()+'.pdf').put(firstFile, metadata)
+                    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+
+                    function progress(snapshot) {
+                            $('#loadings').show();
+                            var percentage = snapshot.bytesTransferred / snapshot.totalBytes * 100;
+                            console.log("percentage uploading file: " + percentage);
+                        },
+                        function error(err) {
+                            $('#loadings').show();
+                            console.log(err);
+                        },
+                        function complete() {
+
+                            uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+
+
+                                send_message_with_attachemt_1(downloadURL,message,teacher_id,student_id,course_id,teacher_name,student_name)
+
+
+
+                            })
+
+                        }
+
+                    )
+
+                    }
+                else{
+                    $('#loadings').show();
+                    uploadTask = storageRef_student_1.child('image'+Math.random()+'.jpg').put(firstFile)
+                    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+
+                        function progress(snapshot) {
+                            $('#loadings').show();
+                            var percentage = snapshot.bytesTransferred / snapshot.totalBytes * 100;
+                            console.log("percentage uploading file: " + percentage);
+                        },
+                        function error(err) {
+                            $('#loadings').show();
+                            console.log(err);
+                        },
+                        function complete() {
+
+                            uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+                                console.log("Finished uploading file: " + downloadURL);
+                                send_message_with_attachemt_1(downloadURL,message,teacher_id,student_id,course_id,teacher_name,student_name)
+                            })
+
+                        }
+
+                    )
+                }
+
+            }
+        }
+
+        async function send_message_with_attachemt_1(downloadURL,message,teacher_id,student_id,course_id,teacher_name,student_name){
+            if (message == ""){
+
+                    $("#text_message").focus();
+
+                    }
+            else{
+                    var sender_seen = 0
+                    var reciver_seen = 0
+
+                    var reciver_profile = ""
+                    var key = ""
+
+                    var file_type = "text"
+
+                    var today = new Date();
+                    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+                    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                    var dateTime = date+' '+time;
+
+
+                    var message_date = new Date().toLocaleDateString('en-GB');
+                    var message_time = new Date().toLocaleTimeString();
+
+                    var chat_messages1 = db.collection("ChatMessages").where('sender_id', '==', teacher_id).where('receiver_id', '==', student_id).where('course_id', '==', course_id)
+
+                    var chat_messages2 = db.collection("ChatMessages").where('sender_id', '==', student_id).where('receiver_id', '==', teacher_id).where('course_id', '==', course_id)
+
+
+                    message_data = {
+
+                                date : message_date,
+
+                                file_type :"text",
+                                key : "",
+
+                                message : message,
+                                course_id : course_id,
+
+                                file_url : downloadURL,
+
+                                sender_id : teacher_id,
+                                time : message_time,
+
+                            }
+
+                    let chat_messages1_obj = await chat_messages1.get();
+
+                    let chat_messages2_obj = await chat_messages2.get();
+
+
+                    if (chat_messages1_obj.empty && chat_messages2_obj.empty ) {
+                        db.collection("ChatMessages").add({
+
+                        date_time : dateTime,
+
+                        message : [message_data],
+                        course_id : course_id,
+
+                        receiver_name : student_name,
+                        receiver_id : student_id,
+
+                        receiver_profile : "",
+                        receiver_seen : 1,
+
+                        sender_name : teacher_name,
+                        sender_id : teacher_id,
+
+                        sender_profile :"" ,
+                        sender_seen : 0,
+
+                        })
+                        .then(function(docRef) {
+                            console.log("Document written with ID: ", docRef);
+                        })
+                        .catch(function(error) {
+                            console.error("Error adding document: ", error);
+                        });
+
+                    }
+                    else{
+                        const increment = firebase.firestore.FieldValue.increment(1);
+                        var doc_id = "";
+
+                        const ref_1 = await db.collection("ChatMessages").where('sender_id', '==', teacher_id).where('receiver_id', '==', student_id).where('course_id', '==', course_id).get()
+
+                        const ref_2 = await db.collection("ChatMessages").where('sender_id', '==', student_id).where('receiver_id', '==',teacher_id).where('course_id', '==', course_id).get()
+
+                        if (ref_1.empty) {
+
+                        const docRefId = ref_2.docs[0].id;
+
+                        db.collection("ChatMessages").doc(docRefId).update({
+                            message : firebase.firestore.FieldValue.arrayUnion(message_data),
+                            sender_seen : increment
+                        })
+
+                        }
+
+                    else{
+
+                        const docRefId = ref_1.docs[0].id;
+
+                        db.collection("ChatMessages").doc(docRefId).update({
+                            message : firebase.firestore.FieldValue.arrayUnion(message_data),
+                            receiver_seen : increment
+
+                        })
+                    }
+                    }
+                    $('#text_message').val("");
+                    $('#customFile').val("");
+                    $('#loadings').hide();
+                    $('#'+course_id+'_teacher_side_div').click();
+
+                }
+        }
+
+        {#<!---------------------------------------Student Side------------------------------------------>#}
+
+        async function teacher_info(cname){
+
+            $(".bg-light").removeClass("bg-light");
+            $(cname).addClass("bg-light");
+
+            var teacher_id = $(cname).attr("data-teacher-id");
+            var course_id = $(cname).attr("data-course-id");
+            var course_name = $(cname).attr("data-course-name");
+            var teacher_name = $(cname).attr("data-teacher-name");
+            var teacher_img = $(cname).attr("data-teacher-img");
+
+            var student_id = $("#student_id").val()
+
+            $('#name_teacher').text(teacher_name)
+            $('#name_course').text(course_name)
+            $(".avatar.avatar-online.avatar-sm").find("img").attr("src","../../../static"+teacher_img)
+
+            $('#teacher_id').val(teacher_id)
+            $('#course_id').val(course_id)
+            $('#course_name').val(course_name)
+            $('#teacher_img').val(teacher_img)
+            $('#teacher_name').val(teacher_name)
+
+            $('#send_button').attr('disabled', false);
+            $('#text_message').attr('disabled', false);
+
+
+
+            messages_list = ""
+            $('#student_msg_div').html("");
+
+            const ref_1 = await db.collection("ChatMessages").where('sender_id', '==', student_id).where('receiver_id', '==',teacher_id).where('course_id', '==', course_id).get();
+
+            const ref_2 = await db.collection("ChatMessages").where('sender_id', '==', teacher_id).where('receiver_id', '==',student_id).where('course_id', '==', course_id).get();
+
+            if (ref_1.empty){
+                messages_list = ""
+                db.collection("ChatMessages").where('sender_id', '==',teacher_id).where('receiver_id' , '==',  student_id).where('course_id' , '==', course_id)
+                .onSnapshot(function(querySnapshot) {
+                        includeMetadataChanges: true;
+                        messages_list +='<ul class="d-flex flex-column list-unstyled" id="messages">'
+                        querySnapshot.forEach(function(doc) {
+                        doc.data()['message'].forEach(function(messages){
+                        console.log(messages)
+
+                        if( messages['sender_id'] == teacher_id ){
+
+                            messages_list += ' <li class="message teacher d-inline-flex" >'
+
+                            //messages_list += '<div class="message__aside">'
+                                //messages_list += '<a href="mini-profile.html" class="avatar avatar-sm">'
+                                //messages_list += '<img alt="people" class="avatar-img rounded-circle">'
+                                //messages_list += '</a>'
+                            //messages_list += '</div>'
+
+                            messages_list += '<div class="message__body card">'
+
+                            messages_list += '<div class="card-body">'
+                            messages_list += '<div class="d-flex align-items-center">'
+                                messages_list += '<div class="flex mr-3">'
+                                messages_list += '<a class="text-body"><strong>'+doc.data()['sender_name']+'</strong></a>'
+                                messages_list += '</div>'
+                                messages_list += '<div>'
+                                messages_list += '<small class="text-50">'+messages['date']+" "+messages['time'].replace(/:\d+ (\w\w)$/,' $1')+'</small>'
+                                messages_list += '</div>'
+                            messages_list += '</div>'
+
+                            messages_list +=  '<span class="text-70">'+messages['message']+'</span>'
+
+                            if(messages['file_url']){
+
+
+                            messages_list +=  '<a href  = '+messages['file_url']+' target="_blank" class="media align-items-center mt-2 text-decoration-0 px-3">'
+
+                            messages_list +=  '<span class="avatar mr-12pt">'
+
+                                messages_list +=  '<span class="avatar-title rounded-circle">'
+                                messages_list +=  '<i class="material-icons font-size-24pt">attach_file</i>'
+                                messages_list +=  '</span>'
+                            messages_list +=  '</span>'
+
+                            messages_list +=  '<span class="media-body" style="line-height: 1.5">'
+                                messages_list +=  '<span class="text-primary">draft.sketch</span><br>'
+                                messages_list +=  '<span class="text-50"></span>'
+                            messages_list +=  ' </span>'
+
+                            messages_list +=  '</a>'
+
+
+                            }
+
+
+                            messages_list +=  '</div>'
+                            messages_list +=  '</div>'
+                            messages_list +=  '</li>'
+
+                        }
+
+                        else if ( messages['sender_id'] == student_id ) {
+
+                            messages_list += '<li class="message d-inline-flex">'
+
+                            //messages_list += '<div class="message__aside">'
+                                //messages_list += '<a href="mini-profile.html" class="avatar avatar-sm">'
+                                //messages_list += '<img alt="people" class="avatar-img rounded-circle">'
+                                //messages_list += '</a>'
+                            //messages_list += '</div>'
+
+                            messages_list += '<div class="message__body card">'
+
+                            messages_list += '<div class="card-body">'
+                            messages_list += '<div class="d-flex align-items-center">'
+                                messages_list += '<div class="flex mr-3">'
+                                messages_list += '<a class="text-body"><strong>'+doc.data()['receiver_name']+'</strong></a>'
+
+                                messages_list += '</div>'
+                                messages_list += '<div>'
+                                messages_list += '<small class="text-50">'+messages['date']+" "+messages['time'].replace(/:\d+ (\w\w)$/,' $1')+'</small>'
+                                messages_list += '</div>'
+                            messages_list += '</div>'
+
+                            messages_list +=  '<span class="text-70">'+messages['message']+'</span>'
+
+
+                            if(messages['file_url']){
+
+
+                            messages_list +=  '<a href  = '+messages['file_url']+' target="_blank" class="media align-items-center mt-2 text-decoration-0 px-3">'
+
+                            messages_list +=  '<span class="avatar mr-12pt">'
+
+                                messages_list +=  '<span class="avatar-title rounded-circle">'
+                                messages_list +=  '<i class="material-icons font-size-24pt">attach_file</i>'
+                                messages_list +=  '</span>'
+                            messages_list +=  '</span>'
+
+                            messages_list +=  '<span class="media-body" style="line-height: 1.5">'
+                                messages_list +=  '<span class="text-primary">draft.sketch</span><br>'
+                                messages_list +=  '<span class="text-50"></span>'
+                            messages_list +=  ' </span>'
+
+                            messages_list +=  '</a>'
+
+                            }
+
+                            messages_list +=  '</div>'
+                            messages_list +=  '</div>'
+                            messages_list +=  '</li>'
+
+                        }
+
+                        });
+                    });
+
+                    messages_list +="</ul>"
+                    $('#student_msg_div').html("");
+                    $('#student_msg_div').html(messages_list);
+                    messages_list = ""
+
+                    var height = $("#student_msg_div").height()+200;
+                    $(".ps--active-y").scrollTop(height);
+                    });
+
+                }
+
+            else{
+
+                messages_list = ""
+                db.collection("ChatMessages").where('sender_id', '==',student_id).where('receiver_id' , '==',  teacher_id).where('course_id' , '==', course_id)
+                .onSnapshot(function(querySnapshot) {
+                        includeMetadataChanges: true;
+                        messages_list +='<ul class="d-flex flex-column list-unstyled" id="messages">'
+                        querySnapshot.forEach(function(doc) {
+                        doc.data()['message'].forEach(function(messages){
+                        console.log(messages)
+
+                        if( messages['sender_id'] == teacher_id ){
+
+
+                            messages_list += ' <li class="message teacher d-inline-flex" >'
+
+                            //messages_list += '<div class="message__aside">'
+                                //messages_list += '<a href="mini-profile.html" class="avatar avatar-sm">'
+                                //messages_list += '<img alt="people" class="avatar-img rounded-circle">'
+                                //messages_list += '</a>'
+                            //messages_list += '</div>'
+
+                            messages_list += '<div class="message__body card">'
+
+                            messages_list += '<div class="card-body">'
+                            messages_list += '<div class="d-flex align-items-center">'
+                                messages_list += '<div class="flex mr-3">'
+                                messages_list += '<a class="text-body"><strong>'+doc.data()['receiver_name']+'</strong></a>'
+                                messages_list += '</div>'
+                                messages_list += '<div>'
+                                messages_list += '<small class="text-50">'+messages['date']+" "+messages['time'].replace(/:\d+ (\w\w)$/,' $1')+'</small>'
+                                messages_list += '</div>'
+                            messages_list += '</div>'
+
+                            messages_list +=  '<span class="text-70">'+messages['message']+'</span>'
+
+                            if(messages['file_url']){
+
+                            messages_list +=  '<a href  = '+messages['file_url']+' target="_blank" class="media align-items-center mt-2 text-decoration-0 px-3">'
+
+                            messages_list +=  '<span class="avatar mr-12pt">'
+
+                                messages_list +=  '<span class="avatar-title rounded-circle">'
+                                messages_list +=  '<i class="material-icons font-size-24pt">attach_file</i>'
+                                messages_list +=  '</span>'
+                            messages_list +=  '</span>'
+
+                            messages_list +=  '<span class="media-body" style="line-height: 1.5">'
+                                messages_list +=  '<span class="text-primary">draft.sketch</span><br>'
+                                messages_list +=  '<span class="text-50"></span>'
+                            messages_list +=  ' </span>'
+
+                            messages_list +=  '</a>'
+
+
+                            }
+
+
+                            messages_list +=  '</div>'
+                            messages_list +=  '</div>'
+                            messages_list +=  '</li>'
+
+
+                        }
+
+                        else if ( messages['sender_id'] == student_id ) {
+
+
+                            messages_list += '<li class="message d-inline-flex">'
+
+                            //messages_list += '<div class="message__aside">'
+                                //messages_list += '<a class="avatar avatar-sm">'
+                                //messages_list += '<img alt="people" class="avatar-img rounded-circle">'
+                                //messages_list += '</a>'
+                            //messages_list += '</div>'
+
+                            messages_list += '<div class="message__body card">'
+
+                            messages_list += '<div class="card-body">'
+                            messages_list += '<div class="d-flex align-items-center">'
+                                messages_list += '<div class="flex mr-3">'
+                                messages_list += '<a class="text-body"><strong>'+doc.data()['sender_name']+'</strong></a>'
+
+                                messages_list += '</div>'
+                                messages_list += '<div>'
+                                messages_list += '<small class="text-50">'+messages['date']+" "+messages['time'].replace(/:\d+ (\w\w)$/,' $1')+'</small>'
+                                messages_list += '</div>'
+                            messages_list += '</div>'
+
+                            messages_list +=  '<span class="text-70">'+messages['message']+'</span>'
+
+
+
+
+                            if(messages['file_url']){
+
+
+                            messages_list +=  '<a href  = '+messages['file_url']+' target="_blank" class="media align-items-center mt-2 text-decoration-0 px-3">'
+
+                            <!-- messages_list += '<a class="media align-items-center mt-2 text-decoration-0 px-3">' -->
+                            messages_list +=  '<span class="avatar mr-12pt">'
+
+                                messages_list +=  '<span class="avatar-title rounded-circle">'
+                                messages_list +=  '<i class="material-icons font-size-24pt">attach_file</i>'
+                                messages_list +=  '</span>'
+                            messages_list +=  '</span>'
+
+                            messages_list +=  '<span class="media-body" style="line-height: 1.5">'
+                                messages_list +=  '<span class="text-primary">draft.sketch</span><br>'
+                                messages_list +=  '<span class="text-50"></span>'
+                            messages_list +=  ' </span>'
+
+                            messages_list +=  '</a>'
+
+                            }
+
+                            messages_list +=  '</div>'
+                            messages_list +=  '</div>'
+                            messages_list +=  '</li>'
+
+
+                        }
+
+
+                        });
+
+                    });
+
+                    messages_list +="</ul>"
+                    $('#student_msg_div').html("");
+                    $('#student_msg_div').html(messages_list);
+                    messages_list = ""
+
+                    var height = $("#student_msg_div").height()+200;
+                    $(".ps--active-y").scrollTop(height);
+
+                    });
+
+            }
+        }
+
+
+        let storageRef_student = firebase.storage().ref('files')
+        async function massage_student_to_teacher(){
+
+            var file = document.getElementById("customFile_2").files[0]
+
+            var teacher_id = $("#teacher_id").val()
+            var course_id = $("#course_id").val()
+            var course_name = $("#course_name").val()
+            var teacher_name = $("#teacher_name").val()
+            var student_id = $("#student_id").val()
+            var message = $("#text_message").val()
+            var student_name = "{{user_name}}"
+
+            if (file == null){
+                if (message == ""){
+
+                    $("#text_message").focus();
+
+                    }
+
+                else{
+
+
+                    var sender_seen = 0
+                    var reciver_seen = 0
+
+                    var reciver_profile = ""
+                    var key = ""
+
+                    var file_type = "text"
+
+                    var today = new Date();
+                    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+                    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                    var dateTime = date+' '+time;
+
+
+                    var message_date = new Date().toLocaleDateString('en-GB');
+                    var message_time = new Date().toLocaleTimeString();
+
+
+                    var chat_messages1 = db.collection("ChatMessages").where('sender_id', '==',teacher_id).where('receiver_id', '==',student_id).where('course_id', '==', course_id)
+
+                    var chat_messages2 = db.collection("ChatMessages").where('sender_id', '==',student_id).where('receiver_id', '==',teacher_id).where('course_id', '==', course_id)
+
+
+                    message_data = {
+
+                                date : message_date,
+
+                                file_type :"text",
+                                key : "",
+
+                                message : message,
+                                course_id : course_id,
+
+                                file_url : "",
+
+                                sender_id : student_id,
+                                time : message_time,
+
+                            }
+
+                    let chat_messages1_obj = await chat_messages1.get();
+
+                    let chat_messages2_obj = await chat_messages2.get();
+
+
+                    if (chat_messages1_obj.empty && chat_messages2_obj.empty ) {
+
+                            db.collection("ChatMessages").add({
+
+                            date_time : dateTime,
+
+                            message : [message_data],
+                            course_id : course_id,
+
+                            receiver_name : teacher_name,
+                            receiver_id : teacher_id,
+
+                            receiver_profile : "",
+                            receiver_seen : 1,
+
+                            sender_name : student_name,
+                            sender_id : student_id,
+
+                            sender_profile :"" ,
+                            sender_seen : 0,
+
+                            })
+                            .then(function(docRef) {
+                                console.log("Document written with ID: ", docRef);
+                            })
+                            .catch(function(error) {
+                                console.error("Error adding document: ", error);
+                            });
+
+                        }
+
+
+                    else{
+                        const increment = firebase.firestore.FieldValue.increment(1);
+                        var doc_id = "";
+
+
+                        const ref_1 = await db.collection("ChatMessages").where('sender_id', '==',teacher_id).where('receiver_id', '==',student_id).where('course_id', '==',course_id).get();
+
+                        const ref_2 = await db.collection("ChatMessages").where('sender_id', '==', student_id).where('receiver_id', '==', teacher_id).where('course_id', '==', course_id).get();
+
+                        if (ref_1.empty) {
+
+                        const docRefId = ref_2.docs[0].id;
+
+                        db.collection("ChatMessages").doc(docRefId).update({
+                            message : firebase.firestore.FieldValue.arrayUnion(message_data),
+                            receiver_seen : increment
+                        })
+
+                        }
+
+                        else{
+
+                        const docRefId = ref_1.docs[0].id;
+
+                        db.collection("ChatMessages").doc(docRefId).update({
+                            message : firebase.firestore.FieldValue.arrayUnion(message_data),
+                            sender_seen : increment
+                        })
+
+
+                        }
+
+                        }
+
+                        $('#text_message').val("");
+
+                        $('#'+course_id+'_student_side_div').click();
+
+
+
+
+                }
+
+            }
+
+            else{
+
+                $('#loadings').show();
+
+                let firstFile = document.getElementById("customFile_2").files[0]
+
+                let selected_file_name = file.name
+
+                console.log(firstFile)
+
+                var file_type = selected_file_name.replace(/^.*\./, '');
+
+                console.log(file_type)
+
+                let uploadTask;
+
+                var path_downloadURL = ""
+
+                if(file_type == "application/pdf"){
+
+                    $('#loadings').show();
+                    var metadata = {
+                    contentType: 'application/pdf'
+                    };
+                    uploadTask = storageRef_student.child('pdf'+Math.random()+'.pdf').put(firstFile, metadata)
+                    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+
+                    function progress(snapshot) {
+                            $('#loadings').show();
+                            var percentage = snapshot.bytesTransferred / snapshot.totalBytes * 100;
+                            console.log("percentage uploading file: " + percentage);
+                        },
+                        function error(err) {
+                            $('#loadings').show();
+                            console.log(err);
+                        },
+                        function complete() {
+
+                            uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+
+
+                                send_message_with_attachemt(downloadURL,message,teacher_id,student_id,course_id,teacher_name,student_name)
+
+
+                            })
+
+                        }
+
+                    )
+
+                    }
+                else{
+
+                    $('#loadings').show();
+                    uploadTask = storageRef_student.child('image'+Math.random()+'.jpg').put(firstFile)
+                    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+
+                        function progress(snapshot) {
+                            $('#loadings').show();
+                            var percentage = snapshot.bytesTransferred / snapshot.totalBytes * 100;
+                            console.log("percentage uploading file: " + percentage);
+                        },
+                        function error(err) {
+                            $('#loadings').show();
+                            console.log(err);
+                        },
+                        function complete() {
+
+                            uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+                                console.log("Finished uploading file: " + downloadURL);
+
+                                send_message_with_attachemt(downloadURL,message,teacher_id,student_id,course_id,teacher_name,student_name)
+
+                            })
+
+
+
+                        }
+
+                    )
+                }
+
+
+            }
+
+        }
+
+        async function send_message_with_attachemt(downloadURL,message,teacher_id,student_id,course_id,teacher_name,student_name){
+
+                if (message == ""){
+
+                    $("#text_message").focus();
+
+                    }
+
+                else{
+
+                    var sender_seen = 0
+                    var reciver_seen = 0
+
+                    var reciver_profile = ""
+                    var key = ""
+
+                    var file_type = "text"
+
+                    var today = new Date();
+                    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+                    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                    var dateTime = date+' '+time;
+
+
+                    var message_date = new Date().toLocaleDateString('en-GB');
+                    var message_time = new Date().toLocaleTimeString();
+
+
+                    var chat_messages1 = db.collection("ChatMessages").where('sender_id', '==',teacher_id).where('receiver_id', '==',student_id).where('course_id', '==', course_id)
+
+                    var chat_messages2 = db.collection("ChatMessages").where('sender_id', '==',student_id).where('receiver_id', '==',teacher_id).where('course_id', '==', course_id)
+
+
+                    message_data = {
+
+                                date : message_date,
+
+                                file_type :"text",
+                                key : "",
+
+                                message : message,
+                                course_id : course_id,
+
+                                file_url : downloadURL,
+
+                                sender_id : student_id,
+                                time : message_time,
+
+                            }
+
+                    let chat_messages1_obj = await chat_messages1.get();
+
+                    let chat_messages2_obj = await chat_messages2.get();
+
+
+                    if (chat_messages1_obj.empty && chat_messages2_obj.empty ) {
+
+                            db.collection("ChatMessages").add({
+
+                            date_time : dateTime,
+
+                            message : [message_data],
+                            course_id : course_id,
+
+                            receiver_name : teacher_name,
+                            receiver_id : teacher_id,
+
+                            receiver_profile : "",
+                            receiver_seen : 1,
+
+                            sender_name : student_name,
+                            sender_id : student_id,
+
+                            sender_profile :"" ,
+                            sender_seen : 0,
+
+                            })
+                            .then(function(docRef) {
+                                console.log("Document written with ID: ", docRef);
+                            })
+                            .catch(function(error) {
+                                console.error("Error adding document: ", error);
+                            });
+
+                        }
+
+
+                    else{
+                        const increment = firebase.firestore.FieldValue.increment(1);
+                        var doc_id = "";
+
+                        const ref_1 = await db.collection("ChatMessages").where('sender_id', '==',teacher_id).where('receiver_id', '==',student_id).where('course_id', '==',course_id).get();
+
+                        const ref_2 = await db.collection("ChatMessages").where('sender_id', '==', student_id).where('receiver_id', '==', teacher_id).where('course_id', '==', course_id).get();
+
+                        if (ref_1.empty) {
+
+                        const docRefId = ref_2.docs[0].id;
+
+                        db.collection("ChatMessages").doc(docRefId).update({
+                            message : firebase.firestore.FieldValue.arrayUnion(message_data),
+                            receiver_seen : increment
+                        })
+
+                        }
+
+                        else{
+
+                        const docRefId = ref_1.docs[0].id;
+
+                        db.collection("ChatMessages").doc(docRefId).update({
+                            message : firebase.firestore.FieldValue.arrayUnion(message_data),
+                            sender_seen : increment
+                        })
+
+
+                        }
+
+                        }
+
+                        $('#'+course_id+'_student_side_div').click();
+                        $('#text_message').val("");
+                        $('#customFile_2').val("");
+                        $('#loadings').hide();
+
+                        var height = $(".ps__thumb-y").height()+200;
+                        $(".ps__thumb-y").scrollTop(height);
+
+                    }
+
+        }
+
+    </script>
+
+    {% block script %}
+    {% endblock %}
+
+
+</body>
+
+</html>
